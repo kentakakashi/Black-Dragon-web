@@ -1,4 +1,5 @@
-import {getSessionUser,hasGuildRole} from "./_shared/discord-auth.mjs";
+import {getSessionUser} from "./_shared/discord-auth.mjs";
+import {hasWebsitePermission} from "./_shared/staff-access.mjs";
 import {initializeApp,getApps,cert} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 let firestore;
@@ -9,7 +10,7 @@ export default async req=>{
   if(req.method!=="GET")return json({error:"Method not allowed."},405);
   const user=getSessionUser(req);
   if(!user)return json({error:"Sign in with Discord first."},401);
-  if(!await hasGuildRole(user,"ADMIN_DASHBOARD_ROLE_IDS"))return json({error:"Staff audit access required."},403);
+  if(!await hasWebsitePermission(user,"audit.view","ADMIN_DASHBOARD_ROLE_IDS"))return json({error:"Staff audit access required."},403);
   try{
     const snapshot=await db().collection("webAuditLogs").orderBy("createdAt","desc").limit(200).get();
     const entries=snapshot.docs.map(doc=>{
