@@ -26,7 +26,7 @@ export function SiteLayout() {
         <a className="nav-join" href={invite || "/join"} target={invite ? "_blank" : undefined} rel="noreferrer" onClick={() => setOpen(false)}>JOIN THE CLAN <ArrowRight size={15} /></a>
       </nav>
     </header>
-    <div className="route-stage"><Outlet /></div>
+    <div className="route-stage" key={location.pathname}><Outlet /></div>
     <footer className="footer"><Link className="brand footer-brand" to="/"><span className="brand-mark"><span>BD</span></span><span className="brand-name">BLACK <b>DRAGONS</b><small>STRENGTH · LOYALTY · LEGACY</small></span></Link><span className="footer-copy">© {new Date().getFullYear()} BLACK DRAGONS [BD]. ALL RIGHTS RESERVED.</span><Link to="/join" className="back-top">JOIN THE LEGACY ↗</Link></footer>
   </div>;
 }
