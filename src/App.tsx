@@ -9,6 +9,7 @@ import { AnnouncementsPage, NewsPage, RulesPage, MembersPage, StaffPage, HallOfF
 import { AccountPage } from "./pages/AccountPage";
 import { MemberProfilePage } from "./pages/MemberProfilePage";
 import { ApplicationsPage, ApplicationReviewPage } from "./pages/ApplicationsPage";
+import { TryoutsPage } from "./pages/TryoutsPage";
 
 function App() {
   return <Routes>
@@ -19,6 +20,7 @@ function App() {
       <Route path="leaderboard" element={<LeaderboardPage />} />
       <Route path="join" element={<JoinPage />} />
       <Route path="applications" element={<ApplicationsPage />} />
+      <Route path="tryouts" element={<TryoutsPage />} />
       <Route path="admin/applications" element={<ApplicationReviewPage />} />
       <Route path="account" element={<AccountPage />} />
       <Route path="announcements" element={<AnnouncementsPage />} />
