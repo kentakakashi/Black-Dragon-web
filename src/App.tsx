@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowDown, ArrowRight, ChevronRight, Crown, Discord, ExternalLink, Flame, Menu, Shield, Swords, Trophy, X, Zap } from "lucide-react";
+import { ArrowDown, ArrowRight, ChevronRight, Crown, Flame, Menu, Shield, Swords, Trophy, X, Zap } from "lucide-react";
 
 const ranks = [
   { name: "Z", kills: "50,000+", tone: "gold", note: "LEGENDARY" },
