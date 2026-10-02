@@ -4,6 +4,7 @@ import { ArrowRight, BadgeCheck, LogIn, LogOut, ShieldCheck, UserRound, Wifi } f
 import { GlareHover } from "../components/GlareHover";
 import { ScrollReveal } from "../components/ScrollReveal";
 import "./AccountPage.css";
+import { RobloxLinkPanel } from "./RobloxLinkPanel";
 
 type AccountUser = { id:string; username:string; globalName:string|null; avatar:string|null; roles:string[]; };
 type SessionState = "loading"|"signed-out"|"signed-in"|"setup"|"error";
@@ -78,6 +79,7 @@ export function AccountPage() {
           </div>
         </GlareHover>
       </ScrollReveal>
+      {state === "signed-in" && <RobloxLinkPanel />}
       <div className="account-side">
         <div className="section-kicker">02 / WHAT COMES NEXT</div>
         <h2>YOUR JOURNEY.<br/><em>YOUR RECORD.</em></h2>
