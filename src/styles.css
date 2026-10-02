@@ -32,3 +32,10 @@
 @media(max-width:800px){.hero-art{right:-5%;width:60vw;opacity:.86}}
 @media(max-width:620px){.hero-art{width:94vw;right:-34%;top:47%;opacity:.48}.hero-dragon{width:138%;height:138%;inset:-19%}.dragon-emblem{width:39%;opacity:.62}.hero-content{z-index:3}.hero:after{opacity:.28}.rb-reveal{filter:none;transform:translateY(15px)}}
 @media(prefers-reduced-motion:reduce){.hero-dragon,.hero:after,.leader-ring,.hero-title h1,.hero-copy,.hero-actions,.hero-foot{animation:none!important}.rb-reveal{opacity:1;transform:none;filter:none;transition:none}}
+
+
+/* React Bits-inspired Shiny Text — CSS-only sheen, no animation loop */
+.hero-shine{color:var(--gold)}
+.rb-shiny-text{display:inline-block;color:transparent;background:linear-gradient(110deg,#c18d50 0%,#e2b56e 34%,#fff1cf 49%,#e2b56e 62%,#a86b3f 100%);background-size:220% 100%;background-position:100% 50%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rb-shine var(--shine-speed,5s) ease-in-out infinite}
+@keyframes rb-shine{0%,12%{background-position:100% 50%}72%,100%{background-position:-120% 50%}}
+@media(prefers-reduced-motion:reduce){.rb-shiny-text{animation:none;background-position:50% 50%}}

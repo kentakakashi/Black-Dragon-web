@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ScrollReveal } from "./components/ScrollReveal";
+import { ShinyText } from "./components/ShinyText";
 import { ArrowDown, ArrowRight, ChevronRight, Crown, Flame, Menu, Shield, Swords, Trophy, X, Zap } from "lucide-react";
 
 const ranks = [
@@ -63,7 +64,7 @@ function App() {
           <div className="hero-grid" />
           <div className="hero-content">
             <div className="eyebrow"><span /> A LEGACY WRITTEN IN BATTLE</div>
-            <ScrollReveal className="hero-title"><h1>BUILT IN<br /><span>SHADOWS.</span><br />KNOWN BY <i>ALL.</i></h1></ScrollReveal>
+            <ScrollReveal className="hero-title"><h1>BUILT IN<br /><span className="hero-shine"><ShinyText text="SHADOWS." /></span><br />KNOWN BY <i>ALL.</i></h1></ScrollReveal>
             <p className="hero-copy">Not just a clan. A name earned through skill, loyalty, and the will to rise. This is <strong>BLACK DRAGONS.</strong></p>
             <div className="hero-actions">
               <a className="button button-primary" href={discordInvite || "#join"} target={discordInvite ? "_blank" : undefined} rel="noreferrer">ENTER THE COMMUNITY <ArrowRight size={17} /></a>

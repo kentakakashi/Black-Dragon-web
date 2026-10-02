@@ -41,3 +41,6 @@ The next phase adds Netlify Functions for Discord OAuth/session handling and a p
 The hero dragon is an original lightweight SVG illustration stored locally at `public/dragon-hero.svg`; it is not a hot-linked stock image. Its CSS treatment uses slow transforms and layered gradients instead of a continuously rendered 3D scene.
 
 The reveal treatment is a small IntersectionObserver-based React component inspired by the motion patterns in [React Bits](https://reactbits.dev/get-started/index). The site uses transform/opacity transitions, unobserves revealed elements, and disables motion for visitors who request reduced motion. See the [React Bits component index](https://reactbits.dev/get-started/index) and [Scroll Reveal collection](https://reactbits.dev/c/animations) for the upstream inspiration.
+
+
+A CSS-only **Shiny Text** treatment is also used for the hero wordmark, adapted from the React Bits Shiny Text concept. It uses a background-position animation rather than a JavaScript animation loop. React Bits source and component references: [Shiny Text](https://reactbits.dev/text-animations/shiny-text), [Scroll Reveal](https://reactbits.dev/text-animations/scroll-reveal), [GitHub source](https://github.com/DavidHDev/react-bits).
