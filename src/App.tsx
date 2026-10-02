@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ScrollReveal } from "./components/ScrollReveal";
 import { ArrowDown, ArrowRight, ChevronRight, Crown, Flame, Menu, Shield, Swords, Trophy, X, Zap } from "lucide-react";
 
 const ranks = [
@@ -33,6 +34,15 @@ function App() {
   }, []);
   const discordInvite = import.meta.env.VITE_DISCORD_INVITE_URL || "";
   const closeMenu = () => setMenuOpen(false);
+  useEffect(() => {
+    const nodes = document.querySelectorAll<HTMLElement>(".feature-card, .rank-card, .leader-panel, .join-section .section-kicker, .join-section h2, .join-section > p");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add("rb-visible"); observer.unobserve(entry.target); }
+    }), { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
+    nodes.forEach((node) => { node.classList.add("rb-reveal"); observer.observe(node); });
+    return () => observer.disconnect();
+  }, []);
   return (
     <div className="site-shell">
       <div className="topline"><span className="pulse-dot" /> THE OFFICIAL HOME OF BLACK DRAGONS <span className="topline-right">EST. BD COMMUNITY</span></div>
@@ -53,7 +63,7 @@ function App() {
           <div className="hero-grid" />
           <div className="hero-content">
             <div className="eyebrow"><span /> A LEGACY WRITTEN IN BATTLE</div>
-            <h1>BUILT IN<br /><span>SHADOWS.</span><br />KNOWN BY <i>ALL.</i></h1>
+            <ScrollReveal className="hero-title"><h1>BUILT IN<br /><span>SHADOWS.</span><br />KNOWN BY <i>ALL.</i></h1></ScrollReveal>
             <p className="hero-copy">Not just a clan. A name earned through skill, loyalty, and the will to rise. This is <strong>BLACK DRAGONS.</strong></p>
             <div className="hero-actions">
               <a className="button button-primary" href={discordInvite || "#join"} target={discordInvite ? "_blank" : undefined} rel="noreferrer">ENTER THE COMMUNITY <ArrowRight size={17} /></a>
@@ -63,6 +73,7 @@ function App() {
           </div>
           <div className="hero-art" aria-hidden="true">
             <div className="art-orbit orbit-one" /><div className="art-orbit orbit-two" />
+            <img className="hero-dragon" src="/dragon-hero.svg" alt="" fetchPriority="high" />
             <div className="dragon-emblem"><div className="emblem-inner"><span className="emblem-bd">BD</span><span className="emblem-line" /><span className="emblem-caption">BLACK DRAGONS</span></div></div>
             <div className="art-vertical">BLACK DRAGONS · ESTABLISHED IN UNITY</div>
             <div className="art-index">01 <span>/</span> 04</div>

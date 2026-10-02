@@ -34,3 +34,10 @@ The next phase adds Netlify Functions for Discord OAuth/session handling and a p
 - `src/styles.css` — responsive visual system
 - `public/dragon-mark.svg` — site mark
 - `netlify.toml` — Netlify build and routing configuration
+
+
+## Visual direction and assets
+
+The hero dragon is an original lightweight SVG illustration stored locally at `public/dragon-hero.svg`; it is not a hot-linked stock image. Its CSS treatment uses slow transforms and layered gradients instead of a continuously rendered 3D scene.
+
+The reveal treatment is a small IntersectionObserver-based React component inspired by the motion patterns in [React Bits](https://reactbits.dev/get-started/index). The site uses transform/opacity transitions, unobserves revealed elements, and disables motion for visitors who request reduced motion. See the [React Bits component index](https://reactbits.dev/get-started/index) and [Scroll Reveal collection](https://reactbits.dev/c/animations) for the upstream inspiration.

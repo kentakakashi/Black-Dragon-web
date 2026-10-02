@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" fill="none">
+<defs>
+ <linearGradient id="scale" x1="210" y1="100" x2="790" y2="790" gradientUnits="userSpaceOnUse"><stop stop-color="#F2D39B"/><stop offset=".34" stop-color="#C78A51"/><stop offset=".72" stop-color="#9D3930"/><stop offset="1" stop-color="#35191B"/></linearGradient>
+ <linearGradient id="wing" x1="210" y1="170" x2="790" y2="680" gradientUnits="userSpaceOnUse"><stop stop-color="#D8A967" stop-opacity=".9"/><stop offset=".55" stop-color="#8E3832" stop-opacity=".86"/><stop offset="1" stop-color="#241419" stop-opacity=".96"/></linearGradient>
+ <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="13"/></filter>
+</defs>
+<g opacity=".28" filter="url(#glow)" fill="#C04C37"><path d="M495 405C394 282 283 150 101 94c89 139 117 273 82 404 101-69 184-85 278-54 59 20 93 64 121 123 40-98 107-151 211-168 64-11 122-4 185 25-72-144-195-256-365-335 16 114-23 220-118 316Z"/></g>
+<g stroke="#211416" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+<!-- far wing -->
+<path fill="url(#wing)" d="M514 423C433 267 322 155 115 75c70 123 97 238 78 344 65-62 125-91 190-92-35 50-49 104-40 160 52-53 105-79 159-76l12 112Z"/>
+<path d="M193 419 115 75M193 419c42-80 107-130 183-172M193 419c74-45 143-55 190-32M343 487c-5-72 8-126 40-168" stroke="#E6B878" stroke-opacity=".72" stroke-width="5"/>
+<!-- near wing -->
+<path fill="url(#wing)" d="M535 435C615 248 732 138 910 100c-62 122-81 234-53 335-67-52-129-73-192-67 40 48 59 100 55 157-58-46-111-64-164-53l-21 111Z"/>
+<path d="M857 435 910 100M857 435c-52-74-111-113-192-134M857 435c-76-34-146-34-190-5M713 525c-2-71-22-123-60-160" stroke="#E6B878" stroke-opacity=".72" stroke-width="5"/>
+<!-- long dragon body -->
+<path fill="url(#scale)" d="M493 339c-57 34-98 88-111 155-11 57 8 104 52 138 44 33 111 33 158-2 43-32 61-81 49-133-10-47-44-86-90-113 42 7 81 26 113 56-7-79-65-135-171-101Z"/>
+<path fill="url(#scale)" d="M482 604c-22 67-76 117-157 153-69 31-118 56-150 102 89-13 161-25 221-56 79-41 131-98 151-175Z"/>
+<path fill="url(#scale)" d="M521 614c38 57 91 95 161 116 57 17 103 41 135 80-81 4-153-8-215-40-70-37-119-87-146-151Z"/>
+<!-- neck and head -->
+<path fill="url(#scale)" d="M474 407c-32-84-20-161 38-231 30-36 67-64 113-85-10 43-6 76 12 100 21 28 61 39 119 34-26 30-57 48-94 54 24 14 52 20 85 17-43 40-92 58-147 52-43 58-77 113-102 165Z"/>
+<path fill="#1B1115" d="M620 111c21-43 54-74 99-92-12 31-14 59-4 83-28-2-59 1-95 9Z"/>
+<path fill="#1B1115" d="M685 267c40-17 76-22 109-15-25 24-53 39-85 43Z"/>
+<path d="M655 218c25-13 49-17 73-12" stroke="#F5D5A0" stroke-width="7"/>
+<path d="M733 294c-19 17-42 27-70 30" stroke="#E9B66F" stroke-width="6"/>
+<!-- horns -->
+<path fill="#E6C28A" d="M570 151c-34-65-41-113-20-145 4 53 26 85 66 96ZM623 130c-10-61 1-104 36-130-17 52-13 87 11 112Z"/>
+<!-- claws -->
+<path fill="#C18A5B" d="m374 549-66 31 24 30 60-23ZM624 551l64 25-20 34-59-20Z"/>
+<!-- tail spines -->
+<path fill="#D5A66B" d="m185 849-27 39 52-22ZM244 821l-12 43 41-31ZM301 789l2 42 31-38ZM688 742l23 39 8-48ZM747 773l36 31-14-49Z"/>
+</g>
+<g fill="#F2C77F"><circle cx="705" cy="234" r="7"/><circle cx="710" cy="234" r="2.5" fill="#241419"/></g>
+<path d="M457 448c29 30 43 66 41 108M550 450c-18 29-23 63-14 101" stroke="#F0C58B" stroke-opacity=".52" stroke-width="6" stroke-linecap="round"/>
+</svg>
