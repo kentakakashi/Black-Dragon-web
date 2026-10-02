@@ -1,5 +1,5 @@
 import {useEffect,useMemo,useState} from "react";
-import {ShieldCheck,Plus,Save,Trash2,UserPlus,RefreshCw,LockKeyhole} from "lucide-react";
+import {ShieldCheck,Save,Trash2,UserPlus,RefreshCw,LockKeyhole} from "lucide-react";
 import "./StaffRolesPage.css";
 
 type Role={id:string;name:string;description:string;permissions:string[];active?:boolean};
