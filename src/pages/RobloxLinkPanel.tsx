@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BadgeCheck, Check, Copy, ExternalLink, Gamepad2, X } from "lucide-react";
 import { GlareHover } from "../components/GlareHover";
 import { ScrollReveal } from "../components/ScrollReveal";
+import { MemberProgressionPanel } from "./MemberProgressionPanel";
 
 type Data={linked:boolean;roblox:{id:string;username:string}|null;pending:{id:string;username:string;code:string;expiresAt:number}|null;player:{rank:string;kills:number}|null};
 export function RobloxLinkPanel(){
@@ -33,5 +34,6 @@ export function RobloxLinkPanel(){
         {data?.player?<div className="account-player-stats"><div className="account-stat"><span>CURRENT RANK</span><strong>{data.player.rank}</strong></div><div className="account-stat"><span>VERIFIED KILLS</span><strong>{data.player.kills.toLocaleString("en-US")}</strong></div><p>Read directly from the existing bot database. These values cannot be edited from the website.</p></div>:<p className="account-link-flow">Your verified player record will appear here when one exists and Firebase is connected.</p>}
       </div>
     </GlareHover>
+    <MemberProgressionPanel />
   </div></ScrollReveal>;
 }
