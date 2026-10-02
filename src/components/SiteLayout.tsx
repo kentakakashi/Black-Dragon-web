@@ -13,7 +13,7 @@ const groups: MenuGroup[] = [
   ]},
   { number: "02", title: "MY ACCOUNT", subtitle: "YOUR PERSONAL RECORD", items: [
     { label: "My Profile", to: "/account", live: true }, { label: "Roblox Link", to: "/account", live: true },
-    { label: "My Statistics", to: "/account", live: true }, { label: "My Applications", live: false }, { label: "Account Settings", to: "/account", live: true },
+    { label: "My Statistics", to: "/account", live: true }, { label: "My Applications", to: "/applications", live: true }, { label: "Account Settings", to: "/account", live: true },
   ]},
   { number: "03", title: "COMPETITION", subtitle: "EARN YOUR INSIGNIA", items: [
     { label: "Ranks", to: "/ranks", live: true }, { label: "Leaderboard", to: "/leaderboard", live: true },
@@ -21,7 +21,7 @@ const groups: MenuGroup[] = [
   ]},
   { number: "04", title: "COMMUNITY", subtitle: "THE PEOPLE BEHIND BD", items: [
     { label: "Members", to: "/members", live: true }, { label: "Staff Team", to: "/staff", live: true },
-    { label: "Applications", live: false }, { label: "Discord Server", external: true, live: true },
+    { label: "Applications", to: "/applications", live: true }, { label: "Discord Server", external: true, live: true },
   ]},
 ];
 
