@@ -5,6 +5,7 @@ import { ClanPage } from "./pages/ClanPage";
 import { RanksPage } from "./pages/RanksPage";
 import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { JoinPage } from "./pages/JoinPage";
+import { AnnouncementsPage, NewsPage, RulesPage, MembersPage, StaffPage, HallOfFamePage } from "./pages/PublicPages";
 
 function App() {
   return <Routes>
@@ -14,6 +15,12 @@ function App() {
       <Route path="ranks" element={<RanksPage />} />
       <Route path="leaderboard" element={<LeaderboardPage />} />
       <Route path="join" element={<JoinPage />} />
+      <Route path="announcements" element={<AnnouncementsPage />} />
+      <Route path="news" element={<NewsPage />} />
+      <Route path="rules" element={<RulesPage />} />
+      <Route path="members" element={<MembersPage />} />
+      <Route path="staff" element={<StaffPage />} />
+      <Route path="hall-of-fame" element={<HallOfFamePage />} />
       <Route path="*" element={<HomePage />} />
     </Route>
   </Routes>;
