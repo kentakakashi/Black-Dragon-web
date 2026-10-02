@@ -11,6 +11,7 @@ import { MemberProfilePage } from "./pages/MemberProfilePage";
 import { ApplicationsPage, ApplicationReviewPage } from "./pages/ApplicationsPage";
 import { TryoutsPage } from "./pages/TryoutsPage";
 import { EventsPage, EventManagementPage } from "./pages/EventsPage";
+import { ContentManagementPage } from "./pages/ContentManagementPage";
 
 function App() {
   return <Routes>
@@ -24,6 +25,7 @@ function App() {
       <Route path="tryouts" element={<TryoutsPage />} />
       <Route path="events" element={<EventsPage />} />
       <Route path="admin/events" element={<EventManagementPage />} />
+      <Route path="admin/content" element={<ContentManagementPage />} />
       <Route path="admin/applications" element={<ApplicationReviewPage />} />
       <Route path="account" element={<AccountPage />} />
       <Route path="announcements" element={<AnnouncementsPage />} />

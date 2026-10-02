@@ -26,3 +26,7 @@ Set the server-side Netlify variable `APPLICATION_REVIEW_ROLE_IDS` to a comma-se
 
 ## Events and scheduling
 Public events are listed at `/events`. Members register using their Discord session and a verified Roblox link. Event records are stored in Firestore `webEvents`; attendee records are private subcollection documents at `webEvents/{eventId}/registrations/{discordId}`. Staff tools are at `/admin/events` and use the server-side `EVENT_MANAGE_ROLE_IDS` variable (falling back to `APPLICATION_REVIEW_ROLE_IDS`) to authorize creation, publication, registration controls, cancellation/completion and attendance updates. Actions are written to `webAuditLogs`. Existing bot `tryouts/server` data and canonical `players` records are read-only to this feature.
+
+
+## Editorial and Hall of Fame
+The public News page reads published records from `webNews`; the Hall of Fame reads staff-inducted records from `webAchievements`. Staff can create news drafts/published stories and induct members at `/admin/content`. Configure the server-side `CONTENT_MANAGE_ROLE_IDS` variable (or reuse `APPLICATION_REVIEW_ROLE_IDS`) with trusted Discord role IDs. Content changes are audited in `webAuditLogs`. These editorial records never modify canonical player kills or ranks.
