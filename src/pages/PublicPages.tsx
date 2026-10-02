@@ -5,6 +5,7 @@ import { GlareHover } from "../components/GlareHover";
 import { ParticleField } from "../components/ParticleField";
 import { ScrollReveal } from "../components/ScrollReveal";
 import "./EditorialPages.css";
+import "./StaffDirectory.css";
 
 const invite = import.meta.env.VITE_DISCORD_INVITE_URL || "https://discord.gg/7C2uT3YX6E";
 
