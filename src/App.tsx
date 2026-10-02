@@ -6,6 +6,7 @@ import { RanksPage } from "./pages/RanksPage";
 import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { JoinPage } from "./pages/JoinPage";
 import { AnnouncementsPage, NewsPage, RulesPage, MembersPage, StaffPage, HallOfFamePage } from "./pages/PublicPages";
+import { AccountPage } from "./pages/AccountPage";
 
 function App() {
   return <Routes>
@@ -15,6 +16,7 @@ function App() {
       <Route path="ranks" element={<RanksPage />} />
       <Route path="leaderboard" element={<LeaderboardPage />} />
       <Route path="join" element={<JoinPage />} />
+      <Route path="account" element={<AccountPage />} />
       <Route path="announcements" element={<AnnouncementsPage />} />
       <Route path="news" element={<NewsPage />} />
       <Route path="rules" element={<RulesPage />} />

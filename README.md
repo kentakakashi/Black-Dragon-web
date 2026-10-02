@@ -14,42 +14,53 @@ A cinematic, responsive clan headquarters built with React, TypeScript and Vite 
 
 Import this repository into Netlify. The included `netlify.toml` sets the build command to `npm run build` and publish directory to `dist`.
 
-The official Discord invite is built into the public site as a fallback. Optionally set `VITE_DISCORD_INVITE_URL` in Netlify to override it.
-
 ## Current implementation
 
 - Responsive cinematic homepage, clan introduction, rank guide and leaderboard preview.
-- Full-screen categorized navigation with Discover, My Account, Competition and Community groups.
-- Planned member-only destinations are clearly marked as coming soon until authentication and their pages are implemented.
-- Staff administration is shown as a locked destination; actual access control must be implemented and verified server-side before staff tools are enabled.
-- First-entry cinematic intro with a skip control; it runs once per browser session.
-- Route entrance transitions and reduced-motion fallbacks.
-- Public Discord invite connected to the navigation and Join page.
-- Public leaderboard remains dependent on the secure Firebase/Netlify integration and is not represented as live until configured.
-- Public announcements, news, rules, members, staff and Hall of Fame routes are now present.
-- The member directory uses a separate server-side endpoint that exposes only Roblox username, rank and verified kill count; Discord IDs are not returned to the browser.
+- Full-screen categorized navigation and first-entry intro with reduced-motion support.
+- Public announcements, news, rules, member directory, staff and Hall of Fame routes.
+- Discord account gateway with OAuth start/callback, signed HTTP-only session cookies, and server-side guild-membership validation.
+- The account gateway does not yet claim Roblox ownership verification. That is a separate next phase.
+- Public member and leaderboard endpoints expose approved fields only. Firebase Admin remains server-side.
+- Staff permissions must be checked server-side on every privileged operation; hiding a link is not access control.
+
+## Discord OAuth setup
+
+Create a Discord application and add this exact redirect URI in its OAuth2 settings:
+
+`https://YOUR-SITE-DOMAIN/.netlify/functions/discord-oauth-callback`
+
+Add the following **server-side** variables in Netlify Site configuration → Environment variables:
+
+- `DISCORD_CLIENT_ID`
+- `DISCORD_CLIENT_SECRET`
+- `DISCORD_REDIRECT_URI` (must exactly match the registered URI)
+- `DISCORD_GUILD_ID`
+- `DISCORD_BOT_TOKEN` (the bot must be in the guild and able to read guild members)
+- `SESSION_SECRET` (random secret, at least 32 characters)
+- `SITE_URL` (the canonical HTTPS website origin)
+
+Never put secrets in `VITE_*` variables, GitHub files, or chat messages. The callback checks the user's membership using the bot API before issuing a seven-day signed, HttpOnly, Secure, SameSite=Lax session cookie. The browser receives only the Discord identity and role IDs needed for later server-side authorization. This is the first authentication milestone; staff role enforcement on admin endpoints and Roblox ownership verification are not enabled yet.
 
 ## Visual direction and assets
 
-The homepage dragon artwork is an AI-generated fantasy illustration by AUDIOREZOUT, published on Pixabay and offered under the Pixabay Content License. See [the original image page](https://pixabay.com/illustrations/dragon-red-eyes-fire-epic-game-8384505/). The original creator permits use in media projects and prohibits reselling or claiming ownership of the artwork. The previous Unsplash reptile photograph was removed.
+The homepage dragon artwork is an AI-generated fantasy illustration by AUDIOREZOUT, published on Pixabay and offered under the Pixabay Content License. See [the original image page](https://pixabay.com/illustrations/dragon-red-eyes-fire-epic-game-8384505/).
 
-The site uses React Bits components including GlareHover (official TS/CSS implementation), alongside the existing SpotlightCard, TiltedCard, ShinyText, scroll reveal and particle treatments. React Bits is the open-source component source: https://www.reactbits.dev/get-started/index and https://github.com/DavidHDev/react-bits. Effects are adapted to the BD palette and kept lightweight; no always-on 3D renderer is used.
+The site uses React Bits components including GlareHover, alongside SpotlightCard, TiltedCard, ShinyText, scroll reveal and particle treatments. React Bits: https://www.reactbits.dev/get-started/index and https://github.com/DavidHDev/react-bits. Effects are adapted to the BD palette and kept lightweight.
 
-## Security and planned integrations
+## Data and security
 
-- Discord OAuth and secure server-side sessions are not yet enabled.
+- The Discord identity session is signed server-side and stored in an HttpOnly cookie.
 - Roblox account ownership verification is not yet implemented.
-- Staff role checks and admin operations must be enforced server-side.
-- Never place a Discord client secret, bot token, Firebase service-account key, or session secret in a `VITE_*` variable or browser code.
-- Keep Firestore rules restrictive. The public leaderboard should expose only approved fields through Firebase Admin on Netlify Functions.
-- Before connecting rank-changing tools, confirm the bot's canonical Firestore player document shape and reuse the bot's verified records as the source of truth.
+- Staff role checks and admin operations must be enforced server-side before being enabled.
+- Keep Firestore rules restrictive. Firebase Admin is used only by Netlify Functions.
+- The bot's `players` collection is the canonical source for verified player records; its loader reconstructs `rankUsers` from these documents. The website must read only this verified source and never create a competing kill/rank database.
 
 ## Project structure
 
 - `src/App.tsx` — route definitions
 - `src/components/SiteLayout.tsx` — shared header, categorized menu and footer
-- `src/components/IntroLoader.tsx` — first-entry intro
 - `src/pages/` — public page routes
+- `netlify/functions/` — server-side API and authentication endpoints
 - `src/styles.css` — responsive visual system and motion
-- `public/dragon-mark.svg` — site mark
 - `netlify.toml` — Netlify build and routing configuration

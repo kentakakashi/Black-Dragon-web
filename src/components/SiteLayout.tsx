@@ -12,8 +12,8 @@ const groups: MenuGroup[] = [
     { label: "Announcements", to: "/announcements", live: true }, { label: "News & Stories", to: "/news", live: true }, { label: "Rules", to: "/rules", live: true },
   ]},
   { number: "02", title: "MY ACCOUNT", subtitle: "YOUR PERSONAL RECORD", items: [
-    { label: "My Profile", live: false }, { label: "Roblox Link", live: false },
-    { label: "My Statistics", live: false }, { label: "My Applications", live: false }, { label: "Account Settings", live: false },
+    { label: "My Profile", to: "/account", live: true }, { label: "Roblox Link", to: "/account", live: true },
+    { label: "My Statistics", to: "/account", live: true }, { label: "My Applications", live: false }, { label: "Account Settings", to: "/account", live: true },
   ]},
   { number: "03", title: "COMPETITION", subtitle: "EARN YOUR INSIGNIA", items: [
     { label: "Ranks", to: "/ranks", live: true }, { label: "Leaderboard", to: "/leaderboard", live: true },
