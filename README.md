@@ -38,3 +38,7 @@ The public Announcements page reads published notices from `webAnnouncements`. S
 The public Staff page retrieves live guild members and their current role names from Discord. Configure `STAFF_ROLE_IDS` as a comma-separated list of the role IDs that should appear on the public roster. The endpoint returns display names, usernames, avatars and matching role names only.
 
 Member profiles show public Hall of Fame recognitions from `webAchievements` and rank progression from canonical `rankHistory`. Rank-history reasons and reviewer identities are not exposed publicly. Canonical bot `players`, `rankHistory` and `tryouts/server` records remain read-only to the website.
+
+
+## Staff command centre
+The unified staff overview is available at `/admin`. Its live summary endpoint checks the current Discord guild roles on every request using `ADMIN_DASHBOARD_ROLE_IDS` (comma-separated role IDs). Configure this variable with the trusted staff roles allowed to see application, event, draft and audit-summary counts. The endpoint returns aggregate counts and a limited, sanitised audit trail only; it does not expose applicant answers, registration identities, or private player data. Individual management endpoints continue to enforce their own role checks.

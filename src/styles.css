@@ -300,3 +300,30 @@ a.menu-link:hover{padding-left:7px;color:var(--gold);border-color:#d7a65d45}
 .home-hall-spotlight strong{font-size:11px;color:#f1e9dd}
 @media(max-width:620px){.home-live-heading,.home-feed-heading,.home-events-heading{align-items:flex-start;flex-direction:column}.home-live-status{margin-top:3px}.home-stats-grid{grid-template-columns:1fr;gap:9px}.home-stat-card{min-height:135px}.home-feed-grid,.home-events-grid{grid-template-columns:1fr}.home-feed-card,.home-event-card{min-height:190px}.home-events-heading{margin-top:55px}.home-live-links{gap:10px 22px}}
 @media(prefers-reduced-motion:reduce){.home-feed-card{transition:none}.home-feed-card:hover{transform:none}}
+
+/* STAFF COMMAND CENTRE */
+.admin-dashboard-heading,.admin-tools-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:28px}
+.admin-dashboard-heading h2,.admin-tools-heading h2{font:900 clamp(45px,6vw,68px)/.88 "Barlow Condensed",sans-serif;margin:15px 0 0}
+.admin-dashboard-heading h2 em,.admin-tools-heading h2 em,.admin-activity h3 em{font-style:normal;color:var(--gold)}
+.admin-refresh{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.admin-live-status{display:flex;align-items:center;gap:9px;color:#d4ad73;font-size:8px;letter-spacing:1.2px;margin:15px 0}
+.admin-live-status span{width:6px;height:6px;border-radius:50%;background:#b6c77c;box-shadow:0 0 10px #b6c77c}
+.admin-metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.admin-metric-card{padding:19px;background:linear-gradient(145deg,#17171c,#101116);border:1px solid #ffffff14}
+.admin-metric-card>div{display:flex;align-items:center;gap:9px;color:var(--gold)}
+.admin-metric-card>div span{font-size:7px;letter-spacing:1px;color:#89838a}
+.admin-metric-card>strong{display:block;font:900 clamp(34px,4vw,48px)/1 "Barlow Condensed",sans-serif;color:#f2e9dc;margin:22px 0 8px}
+.admin-metric-card>small{font-size:8px;letter-spacing:.8px;color:#a59da0}
+.admin-access-state{padding:30px;border:1px solid #765a3d;background:#111115;color:var(--gold);text-align:center;margin:20px 0}
+.admin-access-state h3{font:900 28px "Barlow Condensed";color:#eee4d7;margin:14px 0 8px}
+.admin-access-state p{max-width:470px;margin:0 auto 16px;color:#a59da0;font-size:10px;line-height:1.8}
+.admin-activity{margin:48px 0;padding:27px;background:#101116;border:1px solid #ffffff14}
+.admin-activity h3{font:900 37px/.9 "Barlow Condensed";margin:12px 0 22px}
+.admin-activity article{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #ffffff12;color:var(--gold)}
+.admin-activity article span{font-size:9px;letter-spacing:.8px;color:#e5d9ca;flex:1}
+.admin-activity article time{font-size:8px;color:#8b8580}
+.admin-activity>p{font-size:10px;color:#969096}
+.admin-tools-heading{display:block;margin-top:56px}
+.admin-tool-grid{margin-top:25px}
+@media(max-width:760px){.admin-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.admin-dashboard-heading{align-items:flex-start;flex-direction:column}.admin-metrics-grid{grid-template-columns:1fr 1fr}.admin-metric-card{padding:14px}.admin-activity{padding:19px 14px}.admin-activity article{align-items:flex-start;flex-wrap:wrap}.admin-activity article time{width:100%;padding-left:27px}}
