@@ -1,4 +1,4 @@
-import { Crown, Flame, Target } from "lucide-react";
+import { Crown, Flame, Target, Zap } from "lucide-react";
 import { ranks } from "../data/ranks";
 import { ParticleField } from "../components/ParticleField";
 import { ScrollReveal } from "../components/ScrollReveal";
