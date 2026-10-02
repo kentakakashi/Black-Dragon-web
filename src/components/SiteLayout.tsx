@@ -9,7 +9,7 @@ type MenuGroup = { number: string; title: string; subtitle: string; items: MenuI
 const groups: MenuGroup[] = [
   { number: "01", title: "DISCOVER", subtitle: "ENTER THE WORLD OF BD", items: [
     { label: "Home", to: "/", live: true }, { label: "The Clan", to: "/clan", live: true },
-    { label: "Announcements", live: false }, { label: "News & Stories", live: false }, { label: "Rules", live: false },
+    { label: "Announcements", to: "/announcements", live: true }, { label: "News & Stories", to: "/news", live: true }, { label: "Rules", to: "/rules", live: true },
   ]},
   { number: "02", title: "MY ACCOUNT", subtitle: "YOUR PERSONAL RECORD", items: [
     { label: "My Profile", live: false }, { label: "Roblox Link", live: false },
@@ -17,10 +17,10 @@ const groups: MenuGroup[] = [
   ]},
   { number: "03", title: "COMPETITION", subtitle: "EARN YOUR INSIGNIA", items: [
     { label: "Ranks", to: "/ranks", live: true }, { label: "Leaderboard", to: "/leaderboard", live: true },
-    { label: "Tryouts", live: false }, { label: "Events", live: false }, { label: "Hall of Fame", live: false },
+    { label: "Tryouts", live: false }, { label: "Events", live: false }, { label: "Hall of Fame", to: "/hall-of-fame", live: true },
   ]},
   { number: "04", title: "COMMUNITY", subtitle: "THE PEOPLE BEHIND BD", items: [
-    { label: "Members", live: false }, { label: "Staff Team", live: false },
+    { label: "Members", to: "/members", live: true }, { label: "Staff Team", to: "/staff", live: true },
     { label: "Applications", live: false }, { label: "Discord Server", external: true, live: true },
   ]},
 ];
