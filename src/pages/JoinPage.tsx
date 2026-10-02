@@ -1,6 +1,6 @@
 import { ArrowUpRight, CheckCircle2, MessageCircle, ShieldCheck, Swords } from "lucide-react";
 import { ParticleField } from "../components/ParticleField";
-const invite = import.meta.env.VITE_DISCORD_INVITE_URL || "";
+const invite = import.meta.env.VITE_DISCORD_INVITE_URL || "https://discord.gg/7C2uT3YX6E";
 export function JoinPage() {
   return <main className="inner-page"><section className="page-hero join-page-hero"><ParticleField/><div className="section-kicker">YOUR STORY STARTS HERE</div><h1>RISE WITH<br/><em>THE DRAGONS.</em></h1><p>Bring your skill. Bring your discipline. Find your place in BLACK DRAGONS [BD].</p><div className="page-hero-mark"><ShieldCheck size={55}/><span>STRENGTH · LOYALTY · LEGACY</span></div></section>
     <section className="section-pad join-content"><div className="section-kicker">01 / ENTER THE COMMUNITY</div><h2>TAKE THE<br/><em>FIRST STEP.</em></h2><p className="join-lead">Our Discord is the home base for the community. Connect with members, follow announcements, and find out how to get involved.</p>
