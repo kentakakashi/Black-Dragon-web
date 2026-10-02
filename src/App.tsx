@@ -10,6 +10,7 @@ import { AccountPage } from "./pages/AccountPage";
 import { MemberProfilePage } from "./pages/MemberProfilePage";
 import { ApplicationsPage, ApplicationReviewPage } from "./pages/ApplicationsPage";
 import { TryoutsPage } from "./pages/TryoutsPage";
+import { EventsPage, EventManagementPage } from "./pages/EventsPage";
 
 function App() {
   return <Routes>
@@ -21,6 +22,8 @@ function App() {
       <Route path="join" element={<JoinPage />} />
       <Route path="applications" element={<ApplicationsPage />} />
       <Route path="tryouts" element={<TryoutsPage />} />
+      <Route path="events" element={<EventsPage />} />
+      <Route path="admin/events" element={<EventManagementPage />} />
       <Route path="admin/applications" element={<ApplicationReviewPage />} />
       <Route path="account" element={<AccountPage />} />
       <Route path="announcements" element={<AnnouncementsPage />} />

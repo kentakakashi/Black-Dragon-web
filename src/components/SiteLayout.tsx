@@ -17,7 +17,7 @@ const groups: MenuGroup[] = [
   ]},
   { number: "03", title: "COMPETITION", subtitle: "EARN YOUR INSIGNIA", items: [
     { label: "Ranks", to: "/ranks", live: true }, { label: "Leaderboard", to: "/leaderboard", live: true },
-    { label: "Tryouts", to: "/tryouts", live: true }, { label: "Events", live: false }, { label: "Hall of Fame", to: "/hall-of-fame", live: true },
+    { label: "Tryouts", to: "/tryouts", live: true }, { label: "Events", to: "/events", live: true }, { label: "Hall of Fame", to: "/hall-of-fame", live: true },
   ]},
   { number: "04", title: "COMMUNITY", subtitle: "THE PEOPLE BEHIND BD", items: [
     { label: "Members", to: "/members", live: true }, { label: "Staff Team", to: "/staff", live: true },
