@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowRight, ChevronRight, Crown, Flame, Shield, Swords, Trophy, Zap } from "lucide-react";
+import { ArrowDown, ArrowRight, ChevronRight, Crown, Flame, Shield, Swords, Trophy } from "lucide-react";
 import { ScrollReveal } from "../components/ScrollReveal";
 import { ShinyText } from "../components/ShinyText";
 import { ParticleField } from "../components/ParticleField";
