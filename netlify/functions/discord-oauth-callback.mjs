@@ -1,22 +1,22 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 
 const cookie = (request,name) => {
   const raw = request.headers.get("cookie") || "";
   const part = raw.split(";").map(x=>x.trim()).find(x=>x.startsWith(name+"="));
   return part ? decodeURIComponent(part.slice(name.length+1)) : "";
 };
+const expiredState = "bd_oauth_state=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0";
 const redirect = (url,cookieValue) => new Response(null,{status:302,headers:{
   Location:url,
   "Set-Cookie":cookieValue,
   "Cache-Control":"no-store"
 }});
-const stateCookie = "bd_oauth_state=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0";
-const fail = code => redirect(process.env.SITE_URL+"/account?auth="+code,stateCookie);
+const fail = code => redirect(process.env.SITE_URL.replace(/\/$/,"")+"/account?auth="+code,expiredState);
 
 export default async (request) => {
-  const site = process.env.SITE_URL;
   const required = ["DISCORD_CLIENT_ID","DISCORD_CLIENT_SECRET","DISCORD_REDIRECT_URI","DISCORD_GUILD_ID","DISCORD_BOT_TOKEN","SESSION_SECRET","SITE_URL"];
-  if (required.some(key=>!process.env[key])) return new Response("Discord sign-in is not configured.",{status:503});
+  if (required.some(key=>!process.env[key]) || process.env.SESSION_SECRET.length<32) return new Response("Discord sign-in is not configured.",{status:503});
+  const site = process.env.SITE_URL.replace(/\/$/,"");
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
@@ -56,14 +56,15 @@ export default async (request) => {
       username:String(discordUser.username || "").slice(0,32),
       globalName:typeof discordUser.global_name==="string" ? discordUser.global_name.slice(0,64) : null,
       avatar:typeof discordUser.avatar==="string" ? discordUser.avatar : null,
-      roles:Array.isArray(member.roles) ? member.roles.map(String).slice(0,100) : [],
+      roles:Array.isArray(member.roles) ? member.roles.map(String).slice(0,40) : [],
       iat:now,
       exp:now+60*60*24*7
     };
     const encoded = Buffer.from(JSON.stringify(payload)).toString("base64url");
     const signature = createHmac("sha256",process.env.SESSION_SECRET).update(encoded).digest("base64url");
     const session = encoded+"."+signature;
-    return redirect(site+"/account?connected=1",stateCookie.replace("bd_oauth_state=","bd_session="+encodeURIComponent(session)+"; Max-Age="+(60*60*24*7)+";"));
+    const sessionCookie = "bd_session="+encodeURIComponent(session)+"; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age="+(60*60*24*7);
+    return redirect(site+"/account?connected=1",sessionCookie);
   } catch (error) {
     console.error("Discord OAuth callback failed:",error);
     return fail("callback");

@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-const json = (body,status=200) => new Response(JSON.stringify(body),{
-  status,headers:{"Content-Type":"application/json","Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}
+const json = (body,status=200,extraHeaders={}) => new Response(JSON.stringify(body),{
+  status,headers:{"Content-Type":"application/json","Cache-Control":"no-store","X-Content-Type-Options":"nosniff",...extraHeaders}
 });
 const clearCookie = "bd_session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0";
 function getCookie(request,name) {
@@ -27,13 +27,13 @@ function readSession(request) {
     username:String(payload.username||"").slice(0,32),
     globalName:typeof payload.globalName==="string"?payload.globalName.slice(0,64):null,
     avatar:typeof payload.avatar==="string"?payload.avatar:null,
-    roles:Array.isArray(payload.roles)?payload.roles.map(String).slice(0,100):[]
+    roles:Array.isArray(payload.roles)?payload.roles.map(String).slice(0,40):[]
   };
 }
 export default async (request) => {
-  if(request.method==="POST") return json({ok:true},200).headers ? new Response(JSON.stringify({ok:true}),{status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store","Set-Cookie":clearCookie}}) : json({ok:true});
-  if(request.method!=="GET") return json({error:"Method not allowed."},405);
-  if(!process.env.SESSION_SECRET) return json({error:"Account sessions are not configured."},503);
+  if(request.method==="POST") return json({ok:true},200,{"Set-Cookie":clearCookie});
+  if(request.method!=="GET") return json({error:"Method not allowed."},405,{Allow:"GET, POST"});
+  if(!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length<32) return json({error:"Account sessions are not configured."},503);
   try {
     const user=readSession(request);
     return json({user});

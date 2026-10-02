@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, BadgeCheck, LogIn, LogOut, ShieldCheck, UserRound, Wifi } from "lucide-react";
 import { GlareHover } from "../components/GlareHover";
 import { ScrollReveal } from "../components/ScrollReveal";
-import { ShinyText } from "../components/ShinyText";
 import "./AccountPage.css";
 
 type AccountUser = { id:string; username:string; globalName:string|null; avatar:string|null; roles:string[]; };
@@ -58,7 +57,6 @@ export function AccountPage() {
       <p>One identity. Your verified record. Everything you've earned with BLACK DRAGONS, in one place.</p>
       <div className="account-hero-stamp"><ShieldCheck size={43}/><span>SECURE MEMBER<br/>ACCESS</span></div>
     </section>
-
     <section className="account-content">
       <ScrollReveal>
         <GlareHover width="100%" height="100%" background="#111115" borderRadius="5px" borderColor="#5b432d" glareColor="#d7a65d" glareOpacity={0.18} glareSize={190} className="account-gateway">
