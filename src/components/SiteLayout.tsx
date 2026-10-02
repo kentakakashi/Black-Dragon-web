@@ -4,7 +4,9 @@ import { ArrowUpRight, ChevronRight, LockKeyhole, Menu, X } from "lucide-react";
 import { IntroLoader } from "./IntroLoader";
 
 const invite = import.meta.env.VITE_DISCORD_INVITE_URL || "https://discord.gg/7C2uT3YX6E";
-const groups = [
+type MenuItem = { label: string; live: boolean; to?: string; external?: boolean };
+type MenuGroup = { number: string; title: string; subtitle: string; items: MenuItem[] };
+const groups: MenuGroup[] = [
   { number: "01", title: "DISCOVER", subtitle: "ENTER THE WORLD OF BD", items: [
     { label: "Home", to: "/", live: true }, { label: "The Clan", to: "/clan", live: true },
     { label: "Announcements", live: false }, { label: "News & Stories", live: false }, { label: "Rules", live: false },
