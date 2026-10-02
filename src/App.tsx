@@ -13,6 +13,8 @@ import { TryoutsPage } from "./pages/TryoutsPage";
 import { EventsPage, EventManagementPage } from "./pages/EventsPage";
 import { ContentManagementPage } from "./pages/ContentManagementPage";
 import { StatisticsPage } from "./pages/StatisticsPage";
+import { NewsArticlePage } from "./pages/NewsArticlePage";
+import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 
 function App() {
   return <Routes>
@@ -26,12 +28,14 @@ function App() {
       <Route path="applications" element={<ApplicationsPage />} />
       <Route path="tryouts" element={<TryoutsPage />} />
       <Route path="events" element={<EventsPage />} />
+      <Route path="admin" element={<AdminDashboardPage />} />
       <Route path="admin/events" element={<EventManagementPage />} />
       <Route path="admin/content" element={<ContentManagementPage />} />
       <Route path="admin/applications" element={<ApplicationReviewPage />} />
       <Route path="account" element={<AccountPage />} />
       <Route path="announcements" element={<AnnouncementsPage />} />
       <Route path="news" element={<NewsPage />} />
+      <Route path="news/:id" element={<NewsArticlePage />} />
       <Route path="rules" element={<RulesPage />} />
       <Route path="members" element={<MembersPage />} />
       <Route path="members/:discordId" element={<MemberProfilePage />} />
