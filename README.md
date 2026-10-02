@@ -16,3 +16,9 @@ The bot's `utils/database.js` loads Firestore `players` documents into `rankUser
 
 ## React Bits
 The site uses actual React Bits implementations adapted to the BD visual system, including GlareHover. https://www.reactbits.dev/get-started/index
+
+
+## Applications and recruitment
+The public recruitment portal is available at `/applications`. Applicants must sign in through Discord and can submit clan membership, tryout staff, or other recruitment applications. Submissions are stored in Firestore `webApplications`, tied to the applicant's Discord ID. Applicants can view status and staff feedback from the portal. The private review workspace is `/admin/applications`.
+
+Set the server-side Netlify variable `APPLICATION_REVIEW_ROLE_IDS` to a comma-separated list of Discord role IDs permitted to review applications. Review permissions are checked in the Netlify Function against roles in the signed Discord session; hiding the route in the UI is not the security boundary. Review decisions are recorded in `webAuditLogs`. Keep Firestore client rules deny-all; only Firebase Admin functions access these collections.

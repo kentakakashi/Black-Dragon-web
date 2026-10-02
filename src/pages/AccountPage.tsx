@@ -87,6 +87,7 @@ export function AccountPage() {
         <div className="account-feature"><span>02</span><div><strong>PLAYER PROFILE</strong><p>Your verified rank, kills, achievements and membership details.</p></div></div>
         <div className="account-feature"><span>03</span><div><strong>PROGRESSION TIMELINE</strong><p>Track rank changes, milestones, events and recognition over time.</p></div></div>
         <div className="account-feature"><span>04</span><div><strong>APPLICATIONS</strong><p>Submit applications and follow their review status from your account.</p></div></div>
+        <Link className="text-link" to="/applications">OPEN RECRUITMENT PORTAL <ArrowRight size={15}/></Link>
         <Link className="text-link" to="/ranks">EXPLORE THE RANK SYSTEM <ArrowRight size={15}/></Link>
       </div>
     </section>
