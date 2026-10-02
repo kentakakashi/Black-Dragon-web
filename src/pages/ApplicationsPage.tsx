@@ -1,6 +1,6 @@
 import {useEffect,useState} from "react";
 import {Link} from "react-router-dom";
-import {ArrowRight,ClipboardList,Clock3,FileText,Send,ShieldCheck} from "lucide-react";
+import {ArrowRight,ClipboardList,FileText,Send,ShieldCheck} from "lucide-react";
 import {GlareHover} from "../components/GlareHover";
 import {ScrollReveal} from "../components/ScrollReveal";
 import "./ApplicationsPage.css";
