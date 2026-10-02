@@ -327,3 +327,24 @@ a.menu-link:hover{padding-left:7px;color:var(--gold);border-color:#d7a65d45}
 .admin-tool-grid{margin-top:25px}
 @media(max-width:760px){.admin-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.admin-dashboard-heading{align-items:flex-start;flex-direction:column}.admin-metrics-grid{grid-template-columns:1fr 1fr}.admin-metric-card{padding:14px}.admin-activity{padding:19px 14px}.admin-activity article{align-items:flex-start;flex-wrap:wrap}.admin-activity article time{width:100%;padding-left:27px}}
+
+
+/* Live integration diagnostics and Discord-first leaderboard identities */
+.admin-connections{margin:42px 0 54px;padding:28px;border:1px solid rgba(193,151,91,.28);background:linear-gradient(145deg,rgba(28,20,18,.92),rgba(12,12,15,.96))}
+.admin-connections>h3{font-family:var(--font-display,Georgia,serif);font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.05;margin:10px 0 24px}
+.admin-connection-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.admin-connection-grid article{position:relative;display:flex;flex-direction:column;gap:8px;min-height:132px;padding:18px 18px 18px 30px;border:1px solid rgba(193,151,91,.2);background:rgba(255,255,255,.025)}
+.admin-connection-grid article strong{font-size:.78rem;letter-spacing:.1em;color:#e8d3b1}
+.admin-connection-grid article small{font-size:.76rem;line-height:1.5;color:#aaa}
+.connection-dot{position:absolute;left:13px;top:23px;width:7px;height:7px;border-radius:50%;background:#69c98a;box-shadow:0 0 10px rgba(105,201,138,.6)}
+.connection-off{background:#d18a55;box-shadow:0 0 10px rgba(209,138,85,.45)}
+.admin-connection-note{margin:16px 0 0;color:#999;font-size:.78rem;line-height:1.6}
+.leader-player-cell{display:flex;align-items:center;gap:12px;min-width:0}
+.leader-player-cell>img,.leader-avatar-fallback{width:38px;height:38px;flex:0 0 38px;border-radius:50%;object-fit:cover;border:1px solid rgba(205,157,91,.5)}
+.leader-avatar-fallback{display:grid;place-items:center;background:#241416;color:#d5ad75;font-size:.7rem;font-weight:800}
+.leader-player-identity{display:flex;flex-direction:column;gap:3px;min-width:0}
+.leader-player-identity>a,.leader-player-identity>strong{color:#f0e6d7;font-size:.88rem;font-weight:700;text-decoration:none;overflow:hidden;text-overflow:ellipsis}
+.leader-player-identity>a:hover{color:#e4b878}
+.leader-player-identity small{color:#9c9a99;font-size:.7rem;overflow:hidden;text-overflow:ellipsis}
+.leader-player-identity .leader-roblox-name{color:#c28d5c;font-size:.62rem;letter-spacing:.04em}
+@media(max-width:640px){.admin-connections{padding:18px;margin:30px 0}.admin-connection-grid{grid-template-columns:1fr}.admin-connection-grid article{min-height:108px}.leader-player-cell{gap:8px}.leader-player-cell>img,.leader-avatar-fallback{width:32px;height:32px;flex-basis:32px}.leader-player-identity>a,.leader-player-identity>strong{font-size:.78rem}.leader-player-identity small{font-size:.64rem}}

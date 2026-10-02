@@ -42,3 +42,11 @@ Member profiles show public Hall of Fame recognitions from `webAchievements` and
 
 ## Staff command centre
 The unified staff overview is available at `/admin`. Its live summary endpoint checks the current Discord guild roles on every request using `ADMIN_DASHBOARD_ROLE_IDS` (comma-separated role IDs). Configure this variable with the trusted staff roles allowed to see application, event, draft and audit-summary counts. The endpoint returns aggregate counts and a limited, sanitised audit trail only; it does not expose applicant answers, registration identities, or private player data. Individual management endpoints continue to enforce their own role checks.
+
+
+## Live database, bot and Discord connection
+The website and the BLACK DRAGONS bot use the same Firebase project: `black-dragons-251cd`. The bot's canonical collections are `players`, `rankHistory` and `tryouts/server`. The website reads those records through Firebase Admin in Netlify Functions. It does not write to those bot-owned collections. Website-only records remain in collections prefixed with `web`.
+
+For the website, set `FIREBASE_SERVICE_ACCOUNT_JSON` in Netlify to the complete JSON service-account key created for the **same Firebase project used by the bot**. The JSON must include `project_id`, `client_email` and `private_key`. The bot currently uses the equivalent split settings `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL` and `FIREBASE_PRIVATE_KEY`; do not paste credentials into this repository or a public VITE variable. Keep Firestore client rules deny-all.
+
+The Discord OAuth application must use the exact callback URL `https://YOUR-SITE-DOMAIN/.netlify/functions/discord-oauth-callback`. The Discord bot must be in the same guild configured by `DISCORD_GUILD_ID`, with permission to read guild members and roles for the roster and live staff checks. Set role-ID variables in Netlify, not in source code. The staff command centre now reports Firebase record counts, Discord bot API reachability, OAuth configuration presence and the bot's canonical tryout state without exposing secrets.
