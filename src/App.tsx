@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowRight, ChevronRight, Crown, Flame, Menu, Shield, Swords, Trophy, X, Zap } from "lucide-react";
 
 const ranks = [
@@ -21,6 +21,16 @@ const features = [
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [leaderboard, setLeaderboard] = useState<Array<{discordId:string;robloxUsername?:string;kills:number;rank:string}>>([]);
+  const [leaderboardState, setLeaderboardState] = useState<"loading"|"ready"|"setup"|"error">("loading");
+  useEffect(() => {
+    let active = true;
+    fetch("/.netlify/functions/leaderboard")
+      .then(async (response) => { if (response.status === 503) throw new Error("setup"); if (!response.ok) throw new Error("request"); return response.json(); })
+      .then((data: {players?: Array<{discordId:string;robloxUsername?:string;kills:number;rank:string}>}) => { if (!active) return; setLeaderboard(data.players || []); setLeaderboardState("ready"); })
+      .catch((error: Error) => { if (!active) return; setLeaderboardState(error.message === "setup" ? "setup" : "error"); });
+    return () => { active = false; };
+  }, []);
   const discordInvite = import.meta.env.VITE_DISCORD_INVITE_URL || "";
   const closeMenu = () => setMenuOpen(false);
   return (
@@ -75,7 +85,9 @@ function App() {
         </section>
 
         <section className="leader-section section-pad" id="leaderboard">
-          <div className="leader-panel"><div className="leader-graphic"><div className="leader-ring"><Trophy size={54}/></div><span className="leader-stamp">BD / RANKINGS</span></div><div className="leader-copy"><div className="section-kicker">03 / THE HALL OF FAME</div><h2>LET THE<br /><em>NUMBERS TALK.</em></h2><p>The public leaderboard will showcase verified player records, kill counts, and current ranks. Live rankings are being connected to the clan's Firebase records.</p><div className="leader-status"><span className="status-dot" /> LIVE DATA CONNECTION — PENDING SETUP</div><button className="button button-outline" disabled>LEADERBOARD COMING SOON <ArrowRight size={16}/></button></div></div>
+          <div className="leader-panel"><div className="leader-graphic"><div className="leader-ring"><Trophy size={54}/></div><span className="leader-stamp">BD / RANKINGS</span></div><div className="leader-copy"><div className="section-kicker">03 / THE HALL OF FAME</div><h2>LET THE<br /><em>NUMBERS TALK.</em></h2><p>The public leaderboard will showcase verified player records, kill counts, and current ranks. Live rankings are being connected to the clan's Firebase records.</p><div className="leader-status"><span className="status-dot" /> {leaderboardState === "ready" ? "FIREBASE DATA CONNECTED" : leaderboardState === "loading" ? "CONNECTING TO PLAYER RECORDS" : leaderboardState === "setup" ? "FIREBASE SETUP REQUIRED" : "LEADERBOARD TEMPORARILY UNAVAILABLE"}</div>
+{leaderboardState === "ready" && leaderboard.length > 0 ? <div className="leader-list">{leaderboard.slice(0,5).map((player,index)=><div className="leader-row" key={player.discordId}><span className="leader-place">{String(index+1).padStart(2,"0")}</span><span className="leader-player">{player.robloxUsername || "BD Member"}<small>{player.rank} RANK</small></span><strong>{player.kills.toLocaleString("en-US")} <small>KILLS</small></strong></div>)}</div> : <p className="leader-empty">{leaderboardState === "loading" ? "Fetching verified player records…" : leaderboardState === "setup" ? "The secure Firebase connection needs its Netlify service-account setting before player records can appear." : "Player rankings could not be loaded. Please check back shortly."}</p>}
+{leaderboardState === "ready" && leaderboard.length === 0 ? <p className="leader-empty">No verified player records are available yet.</p> : null}</div></div>
         </section>
 
         <section className="join-section section-pad" id="join"><div className="join-glow" /><div className="section-kicker">04 / YOUR STORY STARTS HERE</div><h2>WILL YOU<br /><em>RISE WITH US?</em></h2><p>The name is waiting. Make it mean something.</p>{discordInvite ? <a className="button button-primary" href={discordInvite} target="_blank" rel="noreferrer">JOIN BLACK DRAGONS <ArrowRight size={17}/></a> : <div className="setup-note">Discord invite link will appear here once configured.</div>}</section>
