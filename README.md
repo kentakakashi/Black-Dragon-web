@@ -26,12 +26,14 @@ The official Discord invite is built into the public site as a fallback. Optiona
 - Route entrance transitions and reduced-motion fallbacks.
 - Public Discord invite connected to the navigation and Join page.
 - Public leaderboard remains dependent on the secure Firebase/Netlify integration and is not represented as live until configured.
+- Public announcements, news, rules, members, staff and Hall of Fame routes are now present.
+- The member directory uses a separate server-side endpoint that exposes only Roblox username, rank and verified kill count; Discord IDs are not returned to the browser.
 
 ## Visual direction and assets
 
-The homepage dragon uses a photograph by Peter Burdon, published on Unsplash and marked free to use under the Unsplash License. See [the original image page](https://unsplash.com/photos/a-close-up-of-a-dragons-head-on-a-black-background-HtzFlog4pnc). The old local SVG dragon remains in the repository as a legacy asset but is no longer the main hero artwork.
+The homepage dragon artwork is an AI-generated fantasy illustration by AUDIOREZOUT, published on Pixabay and offered under the Pixabay Content License. See [the original image page](https://pixabay.com/illustrations/dragon-red-eyes-fire-epic-game-8384505/). The original creator permits use in media projects and prohibits reselling or claiming ownership of the artwork. The previous Unsplash reptile photograph was removed.
 
-The site uses lightweight React Bits-inspired patterns: IntersectionObserver scroll reveals, CSS-only shiny text, pointer-based spotlight and tilt cards, ember particles, a staggered menu reveal and reusable route transitions. The goal is to preserve the cinematic feel without a heavy continuous 3D renderer.
+The site uses React Bits components including GlareHover (official TS/CSS implementation), alongside the existing SpotlightCard, TiltedCard, ShinyText, scroll reveal and particle treatments. React Bits is the open-source component source: https://www.reactbits.dev/get-started/index and https://github.com/DavidHDev/react-bits. Effects are adapted to the BD palette and kept lightweight; no always-on 3D renderer is used.
 
 ## Security and planned integrations
 
