@@ -10,9 +10,10 @@ export default async req=>{
   if(req.method!=="GET")return json({error:"Method not allowed."},405);
   const user=getSessionUser(req);
   if(!user)return json({error:"Sign in with Discord first."},401);
+  const store=db();
   if(!await hasWebsitePermission(user,"audit.view","ADMIN_DASHBOARD_ROLE_IDS"))return json({error:"Staff audit access required."},403);
   try{
-    const snapshot=await db().collection("webAuditLogs").orderBy("createdAt","desc").limit(200).get();
+    const snapshot=await store.collection("webAuditLogs").orderBy("createdAt","desc").limit(200).get();
     const entries=snapshot.docs.map(doc=>{
       const item=doc.data()||{};
       return {
