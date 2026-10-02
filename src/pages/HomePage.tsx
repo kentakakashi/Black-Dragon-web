@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowRight, ArrowUpRight, CalendarDays, ChevronRight, Crown, Flame, Shield, Swords, Trophy, Users, BookOpen } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, CalendarDays, ChevronRight, Crown, Flame, Shield, Swords, Trophy, Users } from "lucide-react"
 import { ScrollReveal } from "../components/ScrollReveal";
 import { ShinyText } from "../components/ShinyText";
 import { ParticleField } from "../components/ParticleField";
