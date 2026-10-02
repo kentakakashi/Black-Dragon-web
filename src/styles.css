@@ -210,3 +210,7 @@ a.menu-link:hover{padding-left:7px;color:var(--gold);border-color:#d7a65d45}
 @media(prefers-reduced-motion:reduce){.menu-backdrop,.mega-menu,.menu-toggle-icon,.route-stage,.route-stage:before,.menu-group,.menu-dragon-ring,.bd-intro,.intro-emblem,.intro-overline,.intro-wordmark,.intro-motto,.intro-progress span,.intro-status{animation:none!important;transition:none!important}.menu-dragon-ring{transform:none}.intro-progress span{width:100%;transform:none;animation:none}}
 
 @media(max-width:800px){.mega-menu{grid-template-columns:180px minmax(0,1fr)}.mega-menu-content{min-width:0;padding:28px 20px 20px}.menu-groups{gap:20px 14px}.menu-aside-bottom{display:block}.menu-aside-bottom>a{margin-top:16px}}
+
+/* Keep the BD insignia as a secondary signature, not over the dragon's face. */
+.hero-art .dragon-emblem{position:absolute;right:7%;bottom:9%;width:25%;opacity:.72}
+@media(max-width:620px){.hero-art .dragon-emblem{right:11%;bottom:8%;width:31%;opacity:.68}}
