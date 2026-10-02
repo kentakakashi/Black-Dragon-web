@@ -1,11 +1,12 @@
-import {getSessionUser,hasGuildRole} from "./_shared/discord-auth.mjs";
+import {getSessionUser} from "./_shared/discord-auth.mjs";
+import {hasWebsitePermission} from "./_shared/staff-access.mjs";
 import {initializeApp,getApps,cert} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 let firestore;function db(){if(firestore)return firestore;const raw=process.env.FIREBASE_SERVICE_ACCOUNT_JSON;if(!raw)throw new Error("Firebase is not configured.");const sa=JSON.parse(raw);if(sa.private_key)sa.private_key=sa.private_key.replace(/\\n/g,"\n");if(!getApps().length)initializeApp({credential:cert(sa)});firestore=getFirestore();return firestore;}
 const json=(d,s=200)=>new Response(JSON.stringify(d),{status:s,headers:{"Content-Type":"application/json","Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
 const clean=(v,n)=>String(v||"").trim().replace(/[\u0000-\u001f\u007f]/g,"").slice(0,n);
 const validDate=v=>typeof v==="number"&&Number.isFinite(v)&&v>Date.now()-3600000&&v<Date.now()+366*86400000;
-async function canManage(u){return hasGuildRole(u,"EVENT_MANAGE_ROLE_IDS","APPLICATION_REVIEW_ROLE_IDS");}
+async function canManage(u){return hasWebsitePermission(u,"events.manage","EVENT_MANAGE_ROLE_IDS","APPLICATION_REVIEW_ROLE_IDS");}
 function safeEvent(d,id){return{id,title:clean(d.title,100),category:clean(d.category,32),description:clean(d.description,1800),location:clean(d.location,140),startsAt:Number(d.startsAt)||0,endsAt:Number(d.endsAt)||0,status:clean(d.status,20),capacity:Math.max(0,Number(d.capacity)||0),registrationOpen:d.registrationOpen!==false,createdAt:Number(d.createdAt)||0};}
 export default async req=>{try{const store=db(),col=store.collection("webEvents");if(req.method==="GET"){const u=getSessionUser(req);const snap=await col.orderBy("startsAt","asc").limit(100).get();const events=[];for(const doc of snap.docs){const e=safeEvent(doc.data(),doc.id);if(e.status==="cancelled"&&!await canManage(u))continue;let registration=null;if(u){const reg=await doc.ref.collection("registrations").doc(u.id).get();if(reg.exists)registration={status:clean(reg.data().status,20)||"registered",registeredAt:Number(reg.data().registeredAt)||0};}events.push({...e,registration});}return json({events,signedIn:!!u,canManage:await canManage(u)});}
 const u=getSessionUser(req);if(!u)return json({error:"Sign in with Discord to continue."},401);
