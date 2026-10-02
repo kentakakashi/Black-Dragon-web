@@ -7,6 +7,7 @@ import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { JoinPage } from "./pages/JoinPage";
 import { AnnouncementsPage, NewsPage, RulesPage, MembersPage, StaffPage, HallOfFamePage } from "./pages/PublicPages";
 import { AccountPage } from "./pages/AccountPage";
+import { MemberProfilePage } from "./pages/MemberProfilePage";
 
 function App() {
   return <Routes>
@@ -21,6 +22,7 @@ function App() {
       <Route path="news" element={<NewsPage />} />
       <Route path="rules" element={<RulesPage />} />
       <Route path="members" element={<MembersPage />} />
+      <Route path="members/:discordId" element={<MemberProfilePage />} />
       <Route path="staff" element={<StaffPage />} />
       <Route path="hall-of-fame" element={<HallOfFamePage />} />
       <Route path="*" element={<HomePage />} />

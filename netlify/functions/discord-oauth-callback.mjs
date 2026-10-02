@@ -1,4 +1,6 @@
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
 const cookie = (request,name) => {
   const raw = request.headers.get("cookie") || "";
@@ -14,7 +16,7 @@ const redirect = (url,cookieValue) => new Response(null,{status:302,headers:{
 const fail = code => redirect(process.env.SITE_URL.replace(/\/$/,"")+"/account?auth="+code,expiredState);
 
 export default async (request) => {
-  const required = ["DISCORD_CLIENT_ID","DISCORD_CLIENT_SECRET","DISCORD_REDIRECT_URI","DISCORD_GUILD_ID","DISCORD_BOT_TOKEN","SESSION_SECRET","SITE_URL"];
+  const required = ["DISCORD_CLIENT_ID","DISCORD_CLIENT_SECRET","DISCORD_REDIRECT_URI","DISCORD_GUILD_ID","DISCORD_BOT_TOKEN","SESSION_SECRET","SITE_URL","FIREBASE_SERVICE_ACCOUNT_JSON"];
   if (required.some(key=>!process.env[key]) || process.env.SESSION_SECRET.length<32) return new Response("Discord sign-in is not configured.",{status:503});
   const site = process.env.SITE_URL.replace(/\/$/,"");
   const url = new URL(request.url);
@@ -50,6 +52,16 @@ export default async (request) => {
     if (memberResponse.status===404) return fail("not_member");
     if (!memberResponse.ok) return fail("membership");
     const member = await memberResponse.json();
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+    if (serviceAccount.private_key) serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g,"\n");
+    if (!getApps().length) initializeApp({ credential: cert(serviceAccount) });
+    await getFirestore().collection("webProfiles").doc(String(discordUser.id)).set({
+      discordId:String(discordUser.id),
+      discordUsername:String(discordUser.username || "").slice(0,32),
+      discordGlobalName:typeof discordUser.global_name==="string" ? discordUser.global_name.slice(0,64) : null,
+      discordAvatar:typeof discordUser.avatar==="string" ? discordUser.avatar : null,
+      discordProfileUpdatedAt:Date.now()
+    },{merge:true});
     const now = Math.floor(Date.now()/1000);
     const payload = {
       id:String(discordUser.id),

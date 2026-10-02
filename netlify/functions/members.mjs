@@ -1,47 +1,6 @@
-import { initializeApp, getApps, cert } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-
+import {initializeApp,getApps,cert} from "firebase-admin/app";
+import {getFirestore} from "firebase-admin/firestore";
 let firestore;
-function getDatabase() {
-  if (firestore) return firestore;
-  const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-  if (!raw) throw new Error("FIREBASE_SERVICE_ACCOUNT_JSON is not configured");
-  const serviceAccount = JSON.parse(raw);
-  if (serviceAccount.private_key) serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
-  if (!getApps().length) initializeApp({ credential: cert(serviceAccount) });
-  firestore = getFirestore();
-  return firestore;
-}
-
-export default async () => {
-  if (!process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
-    return new Response(JSON.stringify({ error: "Member directory is not configured yet." }), {
-      status: 503, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }
-    });
-  }
-  try {
-    const snapshot = await getDatabase().collection("players").get();
-    const members = snapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        robloxUsername: typeof data.robloxUsername === "string" ? data.robloxUsername.trim().slice(0, 32) : "",
-        kills: Math.max(0, Number(data.kills) || 0),
-        rank: String(data.rank || "E").toUpperCase()
-      };
-    }).filter(member => member.robloxUsername)
-      .sort((a,b) => b.kills - a.kills)
-      .slice(0, 200);
-    return new Response(JSON.stringify({ count: members.length, members, updatedAt: new Date().toISOString() }), {
-      status: 200, headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, max-age=60, stale-while-revalidate=120",
-        "X-Content-Type-Options": "nosniff"
-      }
-    });
-  } catch (error) {
-    console.error("Member directory function failed:", error);
-    return new Response(JSON.stringify({ error: "Unable to load the member directory." }), {
-      status: 500, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }
-    });
-  }
-};
+function db(){if(firestore)return firestore;const raw=process.env.FIREBASE_SERVICE_ACCOUNT_JSON;if(!raw)throw new Error("Firebase is not configured.");const sa=JSON.parse(raw);if(sa.private_key)sa.private_key=sa.private_key.replace(/\\n/g,"\n");if(!getApps().length)initializeApp({credential:cert(sa)});firestore=getFirestore();return firestore;}
+const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json","Cache-Control":"public, max-age=60, stale-while-revalidate=120","X-Content-Type-Options":"nosniff"}});
+export default async()=>{try{const store=db(),snap=await store.collection("players").get(),refs=snap.docs.map(d=>store.collection("webProfiles").doc(d.id)),profiles=refs.length?await store.getAll(...refs):[];const members=snap.docs.map((doc,i)=>{const p=doc.data()||{},w=profiles[i]?.exists?profiles[i].data():{};if(!w.discordUsername)return null;const id=doc.id,avatar=w.discordAvatar? "https://cdn.discordapp.com/avatars/"+id+"/"+w.discordAvatar+".png?size=128":null;return{discordId:id,discordUsername:String(w.discordUsername).slice(0,32),displayName:String(w.discordGlobalName||w.discordUsername).slice(0,64),avatar,robloxUsername:String(w.robloxUsername||p.robloxUsername||"").slice(0,32)||null,kills:Math.max(0,Number(p.kills)||0),rank:String(p.rank||"E").toUpperCase()};}).filter(Boolean).sort((a,b)=>b.kills-a.kills).slice(0,200);return json({count:members.length,members,updatedAt:new Date().toISOString()});}catch(e){console.error("Member directory failed:",e);return json({error:"Unable to load the member directory."},500);}};
