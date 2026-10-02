@@ -17,6 +17,7 @@ import { NewsArticlePage } from "./pages/NewsArticlePage";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AnnouncementManagementPage } from "./pages/AnnouncementManagementPage";
 import { AuditLogPage } from "./pages/AuditLogPage";
+import { StaffRolesPage } from "./pages/StaffRolesPage";
 
 function App() {
   return <Routes>
@@ -32,6 +33,7 @@ function App() {
       <Route path="events" element={<EventsPage />} />
       <Route path="admin" element={<AdminDashboardPage />} />
       <Route path="admin/audit" element={<AuditLogPage />} />
+      <Route path="admin/roles" element={<StaffRolesPage />} />
       <Route path="admin/announcements" element={<AnnouncementManagementPage />} />
       <Route path="admin/events" element={<EventManagementPage />} />
       <Route path="admin/content" element={<ContentManagementPage />} />
