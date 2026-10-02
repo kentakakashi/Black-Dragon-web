@@ -3,7 +3,7 @@ import { BadgeCheck, Check, Copy, ExternalLink, Gamepad2, X } from "lucide-react
 import { GlareHover } from "../components/GlareHover";
 import { ScrollReveal } from "../components/ScrollReveal";
 
-type Data={linked:boolean;roblox:{id:string;username:string}|null;pending:{username:string;code:string;expiresAt:number}|null;player:{rank:string;kills:number}|null};
+type Data={linked:boolean;roblox:{id:string;username:string}|null;pending:{id:string;username:string;code:string;expiresAt:number}|null;player:{rank:string;kills:number}|null};
 export function RobloxLinkPanel(){
   const [data,setData]=useState<Data|null>(null);
   const [username,setUsername]=useState("");
