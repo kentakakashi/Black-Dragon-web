@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Bell, BookOpen, CalendarDays, CheckCircle2, ChevronRight, Crown, FileText, Flame, Medal, MessageCircle, Search, Shield, ShieldCheck, Sparkles, Swords, Trophy, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bell, BookOpen, CheckCircle2, Crown, Flame, Medal, Search, Shield, ShieldCheck, Swords, Trophy, Users } from "lucide-react";
 import { GlareHover } from "../components/GlareHover";
 import { ParticleField } from "../components/ParticleField";
 import { ScrollReveal } from "../components/ScrollReveal";
-import { ShinyText } from "../components/ShinyText";
 
 const invite = import.meta.env.VITE_DISCORD_INVITE_URL || "https://discord.gg/7C2uT3YX6E";
 
