@@ -7,26 +7,38 @@ export function IntroLoader() {
   const [visible, setVisible] = useState(() => {
     try { return !sessionStorage.getItem(KEY); } catch { return false; }
   });
+  const [ready, setReady] = useState(() => document.readyState === "complete");
+  const [minimumElapsed, setMinimumElapsed] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
     if (!visible) return;
-    const finish = () => {
-      setLeaving(true);
-      try { sessionStorage.setItem(KEY, "1"); } catch { /* session storage may be unavailable */ }
-      window.setTimeout(() => setVisible(false), 650);
+    const markReady = () => setReady(true);
+    window.addEventListener("load", markReady);
+    const minimumTimer = window.setTimeout(() => setMinimumElapsed(true), 1350);
+    const safetyTimer = window.setTimeout(markReady, 5000);
+    return () => {
+      window.removeEventListener("load", markReady);
+      window.clearTimeout(minimumTimer);
+      window.clearTimeout(safetyTimer);
     };
-    const timer = window.setTimeout(finish, 1900);
-    return () => window.clearTimeout(timer);
   }, [visible]);
 
-  if (!visible) return null;
+  useEffect(() => {
+    if (!visible || !ready || !minimumElapsed || leaving) return;
+    setLeaving(true);
+    try { sessionStorage.setItem(KEY, "1"); } catch { /* session storage may be unavailable */ }
+    const timer = window.setTimeout(() => setVisible(false), 650);
+    return () => window.clearTimeout(timer);
+  }, [visible, ready, minimumElapsed, leaving]);
+
   const skip = () => {
     setLeaving(true);
     try { sessionStorage.setItem(KEY, "1"); } catch { /* session storage may be unavailable */ }
     window.setTimeout(() => setVisible(false), 350);
   };
 
+  if (!visible) return null;
   return <div className={leaving ? "bd-intro is-leaving" : "bd-intro"} role="status" aria-label="Entering BLACK DRAGONS">
     <div className="intro-grain"/><div className="intro-vignette"/>
     <div className="intro-content">
@@ -34,11 +46,9 @@ export function IntroLoader() {
       <div className="intro-overline">THE LEGACY AWAKENS</div>
       <div className="intro-wordmark">BLACK <em>DRAGONS</em></div>
       <div className="intro-motto"><Shield size={12}/> STRENGTH · LOYALTY · LEGACY</div>
-      <div className="intro-progress"><span/></div>
-      <div className="intro-status">PREPARING THE REALM</div>
+      <div className="intro-progress" aria-label={ready ? "Finishing introduction" : "Loading website"}><span/></div>
+      <div className="intro-status">{ready ? "THE GATES ARE OPENING" : "PREPARING THE REALM"}</div>
     </div>
-    <button className="intro-skip" onClick={skip}>SKIP INTRO <ChevronRightFallback/></button>
+    <button className="intro-skip" onClick={skip}>SKIP INTRO <span aria-hidden="true">↗</span></button>
   </div>;
 }
-
-function ChevronRightFallback() { return <span aria-hidden="true">↗</span>; }
