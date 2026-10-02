@@ -12,6 +12,7 @@ import { ApplicationsPage, ApplicationReviewPage } from "./pages/ApplicationsPag
 import { TryoutsPage } from "./pages/TryoutsPage";
 import { EventsPage, EventManagementPage } from "./pages/EventsPage";
 import { ContentManagementPage } from "./pages/ContentManagementPage";
+import { StatisticsPage } from "./pages/StatisticsPage";
 
 function App() {
   return <Routes>
@@ -20,6 +21,7 @@ function App() {
       <Route path="clan" element={<ClanPage />} />
       <Route path="ranks" element={<RanksPage />} />
       <Route path="leaderboard" element={<LeaderboardPage />} />
+      <Route path="statistics" element={<StatisticsPage />} />
       <Route path="join" element={<JoinPage />} />
       <Route path="applications" element={<ApplicationsPage />} />
       <Route path="tryouts" element={<TryoutsPage />} />

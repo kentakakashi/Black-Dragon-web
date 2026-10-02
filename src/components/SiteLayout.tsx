@@ -16,7 +16,7 @@ const groups: MenuGroup[] = [
     { label: "My Statistics", to: "/account", live: true }, { label: "My Applications", to: "/applications", live: true }, { label: "Account Settings", to: "/account", live: true },
   ]},
   { number: "03", title: "COMPETITION", subtitle: "EARN YOUR INSIGNIA", items: [
-    { label: "Ranks", to: "/ranks", live: true }, { label: "Leaderboard", to: "/leaderboard", live: true },
+    { label: "Ranks", to: "/ranks", live: true }, { label: "Leaderboard", to: "/leaderboard", live: true }, { label: "Public Statistics", to: "/statistics", live: true },
     { label: "Tryouts", to: "/tryouts", live: true }, { label: "Events", to: "/events", live: true }, { label: "Hall of Fame", to: "/hall-of-fame", live: true },
   ]},
   { number: "04", title: "COMMUNITY", subtitle: "THE PEOPLE BEHIND BD", items: [
