@@ -19,7 +19,7 @@ const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status,
   headers: {
     "Content-Type": "application/json",
-    "Cache-Control": "public, max-age=60, stale-while-revalidate=120",
+    "Cache-Control": "no-store",
     "X-Content-Type-Options": "nosniff"
   }
 });
@@ -115,9 +115,23 @@ export default async () => {
         player.displayName || discordUsername
       ).slice(0, 64);
 
-      const avatarUrl = profile.discordAvatar
-        ? "https://cdn.discordapp.com/avatars/" + id + "/" + profile.discordAvatar + ".png?size=128"
-        : avatar(discord, id);
+      // Live Discord data wins over the stored snapshot.
+      const avatarUrl = discord.id
+        ? avatar(discord, id)
+        : profile.discordAvatar
+          ? "https://cdn.discordapp.com/avatars/" + id + "/" + profile.discordAvatar + ".png?size=128"
+          : avatar(discord, id);
+
+      // Keep only Discord identity fields fresh; game data remains bot-owned.
+      if (discord.id) {
+        store.collection("webProfiles").doc(id).set({
+          discordId: id,
+          discordUsername: String(discord.username || profile.discordUsername || "").slice(0, 32),
+          discordGlobalName: typeof discord.global_name === "string" ? discord.global_name.slice(0, 64) : null,
+          discordAvatar: typeof discord.avatar === "string" ? discord.avatar : null,
+          discordProfileSyncedAt: Date.now()
+        }, { merge: true }).catch(error => console.error("Discord profile snapshot update failed:", error));
+      }
 
       return {
         discordId: id,
