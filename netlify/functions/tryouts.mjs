@@ -29,7 +29,7 @@ async function enrichTryout(t,store){
  const people={};
  for(let i=0;i<ids.length;i++){
   const id=ids[i],profile=profileSnaps[i]?.exists?profileSnaps[i].data()||{}:{},player=playerSnaps[i]?.exists?playerSnaps[i].data()||{}:{};
-  const name=String(profile.discordGlobalName||profile.discordUsername||player.discordGlobalName||player.discordUsername||"").trim();
+  const name=String(profile.discordGlobalName||profile.displayName||profile.discordUsername||player.discordGlobalName||player.discordUsername||player.username||"").trim();
   people[id]={name,avatar:profile.discordAvatar?avatarUrl(id,profile.discordAvatar):null};
  }
  const needsLookup=ids.filter(id=>!people[id].name||!people[id].avatar);
