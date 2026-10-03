@@ -393,3 +393,65 @@ a.menu-link:hover{padding-left:7px;color:var(--gold);border-color:#d7a65d45}
 @media(prefers-reduced-motion:reduce){.monarch-card{transition:none}.monarch-card:hover{transform:none}}
 
 .menu-auth-link{margin:22px 0 8px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12)}.menu-auth-link .menu-link{color:#d7b77e}
+
+/* NAVIGATION REFINEMENT — one coherent gateway instead of a split desktop panel */
+.mega-menu{display:block;overflow-y:auto;overflow-x:hidden;grid-template-columns:1fr;background:radial-gradient(ellipse at 12% 8%,#4a20201c,transparent 38%),radial-gradient(ellipse at 90% 85%,#9a6a3010,transparent 36%),#090a0e}
+.mega-menu-aside{display:none}
+.mega-menu-content{width:100%;max-width:1320px;min-height:100dvh;margin:0 auto;padding:clamp(25px,4.5vw,58px) clamp(22px,7vw,100px) 24px}
+.menu-groups{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(22px,3.8vw,42px) clamp(22px,5vw,70px);padding:clamp(25px,4vw,42px) 0;flex:0 0 auto}
+.menu-group{padding:18px 20px 12px;border:1px solid #ffffff12;background:linear-gradient(145deg,#141318b8,#0c0d11b8);box-shadow:inset 0 1px #ffffff05}
+.menu-group-heading{margin-bottom:15px}
+.menu-group-heading h3{font-size:18px}
+.menu-group-links{padding-left:27px}
+.menu-link{min-height:40px;font-size:12px}
+.menu-admin-lock{flex-wrap:wrap;margin-top:12px;padding:17px 19px;gap:10px 13px}
+.menu-admin-lock>div:nth-child(2){min-width:170px}
+.menu-admin-link{display:inline-flex;align-items:center;gap:7px;padding:10px 12px;border:1px solid #a77d493d;color:#d6bd99;font-size:8px;letter-spacing:.8px;white-space:nowrap;transition:background .2s,border-color .2s}
+.menu-admin-link:hover{background:#d7a65d12;border-color:#d7a65d88}
+.menu-close{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #ffffff24;background:#111217;color:#c9bca9;font-size:8px;font-weight:800;letter-spacing:1.2px;cursor:pointer;transition:.2s}
+.menu-close:hover{border-color:#d7a65d;color:var(--gold)}
+.mega-menu-heading{align-items:center}
+.menu-scroll-note{display:none}
+.mega-menu-footer{padding-top:22px;margin-top:14px;border-top:1px solid #ffffff12}
+@media(max-width:620px){
+ .mega-menu-content{padding:25px 6% 20px;min-height:100dvh}
+ .mega-menu-heading{align-items:flex-start}
+ .mega-menu-heading h2{font-size:42px}
+ .menu-groups{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:20px 0}
+ .menu-group{padding:13px 11px 8px}
+ .menu-group-heading{gap:7px;margin-bottom:9px}
+ .menu-group-heading>span{font-size:10px}
+ .menu-group-heading h3{font-size:12px;letter-spacing:.8px}
+ .menu-group-heading small{font-size:5px;letter-spacing:.3px}
+ .menu-group-links{padding-left:15px}
+ .menu-link{font-size:9px;min-height:33px}
+ .menu-admin-lock{padding:12px;gap:8px}
+ .menu-admin-link{font-size:7px;padding:8px}
+ .menu-close{font-size:7px;padding:8px}
+}
+@media(max-width:390px){.menu-groups{grid-template-columns:1fr}.menu-group{padding:14px 15px}.menu-group-heading h3{font-size:14px}.menu-link{font-size:10px}}
+/* ACCOUNT DESKTOP GRID — progression spans the full content width */
+.account-content{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
+.account-content> .section-pad{grid-column:1 / -1;width:100%;max-width:none!important;margin:0!important;padding:0!important}
+.account-content .member-progression{width:100%;max-width:none;margin-top:0}
+.account-side{min-width:0}
+@media(max-width:1050px){.account-content{gap:4%;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:800px){.account-content{grid-template-columns:minmax(0,1fr)}.account-content>.section-pad{grid-column:1}.account-side{grid-column:1}}
+/* Discord entry gate */
+.entry-gate{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;padding:28px 18px;background:radial-gradient(ellipse at 50% 42%,#51242155,transparent 43%),linear-gradient(145deg,#111015,#07080b 70%)}
+.entry-gate:before,.entry-gate:after{content:"";position:absolute;inset:8%;border:1px solid #d7a65d12;transform:rotate(8deg);pointer-events:none}
+.entry-gate:after{inset:13%;transform:rotate(-8deg);border-color:#b83c3518}
+.entry-gate-grain{position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:radial-gradient(#fff 0.55px,transparent .55px);background-size:5px 5px}
+.entry-gate-card{position:relative;z-index:1;width:min(100%,560px);padding:clamp(28px,6vw,54px);border:1px solid #b98b5260;background:linear-gradient(145deg,#171419f5,#0c0d11f5);box-shadow:0 25px 90px #0009,0 0 75px #a44a2518;text-align:center}
+.entry-gate-emblem{width:82px;height:82px;margin:0 auto 38px;border:1px solid #d7a65d9c;transform:rotate(45deg);display:grid;place-items:center;background:linear-gradient(145deg,#211916,#08090d);box-shadow:0 0 45px #d7a65d24}
+.entry-gate-emblem span{transform:rotate(-45deg);font:900 38px "Barlow Condensed";letter-spacing:-3px;color:var(--gold)}
+.entry-gate-card>.section-kicker{justify-content:center;font-size:8px}
+.entry-gate-card h1{font:900 clamp(43px,8vw,66px)/.9 "Barlow Condensed";letter-spacing:-.8px;margin:18px 0;color:#f1ece5}
+.entry-gate-card>p{max-width:410px;margin:0 auto 25px;color:#aaa3a0;font-size:12px;line-height:1.9}
+.entry-gate-login{min-height:52px;gap:12px}
+.entry-gate-loader{display:inline-flex;align-items:center;gap:12px;color:#c7a474;font-size:8px;letter-spacing:1.3px}
+.entry-gate-loader span{width:17px;height:17px;border:2px solid #765a3d;border-top-color:var(--gold);border-radius:50%;animation:account-spin .8s linear infinite}
+.entry-gate-privacy{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:23px;color:#827b76;font-size:8px}
+.entry-gate-error{display:block;color:#e2a39a;font-size:9px;margin-top:14px}
+.entry-gate-footer{margin-top:32px;padding-top:18px;border-top:1px solid #ffffff12;color:#786c61;font-size:7px;letter-spacing:3px}
+@media(prefers-reduced-motion:reduce){.entry-gate-loader span{animation:none}}
