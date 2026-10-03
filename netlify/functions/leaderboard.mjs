@@ -34,7 +34,7 @@ export default async request=>{
    const displayName=String(profile.discordGlobalName||discordUser?.global_name||discordUsername||"BD Player").slice(0,64);
    const avatar=profile.discordAvatar?"https://cdn.discordapp.com/avatars/"+id+"/"+String(profile.discordAvatar)+".png?size=96":discordAvatar(discordUser,96);
    return{discordId:id,displayName,discordUsername:discordUsername||null,avatar,profileLinked:Boolean(discordUser||profileHasIdentity),robloxUsername:String(profile.robloxUsername||source.robloxUsername||"").slice(0,32)||null,kills:Math.max(0,Number(source.kills)||0),rank:String(source.rank||"E").toUpperCase()};
-  }).sort((a,b)=>b.kills-a.kills).slice(0,100);
+  }).sort((a,b)=>b.kills-a.kills||a.displayName.localeCompare(b.displayName)).slice(0,10);
   const config=configSnap.exists?configSnap.data()||{}:{};
   const leaderboardConfig=config.leaderboards||config.config?.leaderboards||{};
   const roleIds=leaderboardConfig.rankingRoleIds||{};
