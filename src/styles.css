@@ -391,3 +391,5 @@ a.menu-link:hover{padding-left:7px;color:var(--gold);border-color:#d7a65d45}
 @media(max-width:700px){.monarch-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.monarch-card{min-height:225px;padding:18px 10px}.monarch-card-name{font-size:17px}.kill-featured{min-height:340px;margin-bottom:35px}.kill-roster-grid{gap:12px 9px}.kill-roster-card{min-height:190px;padding:14px 7px}.kill-roster-avatar{width:58px;height:58px}.kill-roster-name{font-size:15px}.kill-roster-kills{font-size:21px}}
 @media(max-width:390px){.monarch-grid{grid-template-columns:1fr 1fr}.monarch-card-title{font-size:10px}.kill-roster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.monarch-card{transition:none}.monarch-card:hover{transform:none}}
+
+.menu-auth-link{margin:22px 0 8px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12)}.menu-auth-link .menu-link{color:#d7b77e}
