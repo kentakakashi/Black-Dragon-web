@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import "./ProfileCard.css";
 
 export type ProfileCardProps = {
@@ -55,7 +55,7 @@ export default function ProfileCard({
   shell.addEventListener("pointerleave",leave);
   return()=>{cancelAnimationFrame(frame);shell.removeEventListener("pointermove",move);shell.removeEventListener("pointerleave",leave);};
  },[enableTilt,enableMobileTilt]);
- return <div ref={wrapRef} className={`profile-card-wrap ${className}`} style={{"--pc-gradient":innerGradient,"--pc-icon":iconUrl?`url("${iconUrl}")`:"none"} as React.CSSProperties}>
+ return <div ref={wrapRef} className={`profile-card-wrap ${className}`} style={{"--pc-gradient":innerGradient,"--pc-icon":iconUrl?`url("${iconUrl}")`:"none"} as CSSProperties}>
   {behindGlowEnabled&&<div className="profile-card-behind-glow"/>}
   <section ref={shellRef} className="profile-card-shell" aria-label={name+" profile card"}>
    <div className="profile-card-art">
