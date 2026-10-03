@@ -20,7 +20,7 @@ export default async()=>{
    const p=playerById.get(id)||{},w=profiles[i]?.exists?profiles[i].data()||{}:{};
    const discord=discordById.get(id)||{},username=String(w.discordUsername||discord.username||"").slice(0,32);if(!username)return null;
    const avatarUrl=w.discordAvatar?"https://cdn.discordapp.com/avatars/"+id+"/"+w.discordAvatar+".png?size=128":avatar(discord,id);
-   return{discordId:id,discordUsername:username,displayName:String(w.discordGlobalName||discord.global_name||username).slice(0,64),avatar:avatarUrl,robloxUsername:String(p.robloxUsername||w.robloxUsername||"").slice(0,32)||null,kills:Math.max(0,Number(p.kills)||0),rank:String(p.rank||"E").toUpperCase()};
+   return{discordId:id,discordUsername:username,displayName:String(w.discordGlobalName||discord.global_name||username).slice(0,64),avatar:avatarUrl,robloxUsername:String(p.robloxUsername||w.robloxUsername||"").slice(0,32)||null,robloxUserId:p.robloxUserId?String(p.robloxUserId):w.robloxUserId?String(w.robloxUserId):null,kills:Math.max(0,Number(p.kills)||0),rank:String(p.rank||"E").toUpperCase()};
   }).filter(Boolean).sort((a,b)=>b.kills-a.kills||a.displayName.localeCompare(b.displayName)).slice(0,300);
   return json({count:members.length,members,updatedAt:new Date().toISOString()});
  }catch(e){console.error("Member directory failed:",e);return json({error:"Unable to load the member directory."},500);}
