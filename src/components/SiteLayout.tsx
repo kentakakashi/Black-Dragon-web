@@ -65,7 +65,7 @@ export function SiteLayout() {
           <div className="menu-aside-bottom"><span>BUILT IN SHADOWS.<br/><b>KNOWN BY ALL.</b></span><a href={invite} target="_blank" rel="noreferrer">ENTER THE DISCORD <ArrowUpRight size={15}/></a></div>
         </div>
         <div className="mega-menu-content">
-          <div className="mega-menu-heading"><div><span className="section-kicker">CHOOSE YOUR PATH</span><h2>THE <em>GATEWAY.</em></h2></div><span className="menu-scroll-note">NAVIGATE THE LEGACY <ChevronRight size={13}/></span></div>
+          <div className="mega-menu-heading"><div><span className="section-kicker">CHOOSE YOUR PATH</span><h2>THE <em>GATEWAY.</em></h2></div><button className="menu-close" onClick={() => setOpen(false)} aria-label="Close navigation"><X size={16}/> CLOSE</button></div>
           <div className="menu-groups">{groups.filter(group => group.number !== "02" || isSignedIn).map(group=><section className="menu-group" key={group.number}>
             <div className="menu-group-heading"><span>{group.number}</span><div><h3>{group.title}</h3><small>{group.subtitle}</small></div></div>
             <div className="menu-group-links">{group.items.map(item=>item.external
