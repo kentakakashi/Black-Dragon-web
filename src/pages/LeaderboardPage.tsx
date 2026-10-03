@@ -2,32 +2,26 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Crown, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ParticleField } from "../components/ParticleField";
-
-type Player = { discordId:string; displayName:string; discordUsername:string|null; avatar:string|null; profileLinked:boolean; robloxUsername:string|null; kills:number; rank:string };
-type State = "loading"|"ready"|"setup"|"error";
-export function LeaderboardPage() {
-  const [players,setPlayers] = useState<Player[]>([]);
-  const [state,setState] = useState<State>("loading");
-  const [updatedAt,setUpdatedAt] = useState("");
-  useEffect(() => {
-    let active = true;
-    fetch("/.netlify/functions/leaderboard").then(async response => {
-      if(response.status===503) throw new Error("setup");
-      if(!response.ok) throw new Error("request");
-      return response.json();
-    }).then((data:{players?:Player[];updatedAt?:string})=>{
-      if(!active)return;
-      setPlayers(data.players||[]);
-      setUpdatedAt(data.updatedAt||"");
-      setState("ready");
-    }).catch((error:Error)=>{if(active)setState(error.message==="setup"?"setup":"error");});
-    return ()=>{active=false;};
-  },[]);
-  return <main className="inner-page"><section className="page-hero leaderboard-hero"><ParticleField/><div className="section-kicker">THE HALL OF FAME</div><h1>LET THE<br/><em>NUMBERS TALK.</em></h1><p>Every name on this board represents time, effort, and a record earned in battle.</p><div className="page-hero-mark"><Trophy size={55}/><span>VERIFIED PLAYER RECORDS</span></div></section>
-    <section className="section-pad leaderboard-page"><div className="leaderboard-heading"><div><div className="section-kicker">01 / CURRENT STANDINGS</div><h2>THE TOP<br/><em>DRAGONS.</em></h2></div><div className="leader-live"><span className={state==="ready"?"status-dot":"status-dot status-wait"}/>{state==="ready"?"LIVE DATA":"DATA STATUS: "+state.toUpperCase()}</div></div>
-      {state==="loading"?<div className="leader-empty large-empty">Fetching verified player records…</div>:state==="setup"?<div className="leader-empty large-empty">The secure Firebase connection needs its Netlify service-account setting before player records can appear.</div>:state==="error"?<div className="leader-empty large-empty">Player rankings could not be loaded. Please check back shortly.</div>:players.length===0?<div className="leader-empty large-empty">No verified player records are available yet. The board will appear here when records are published.</div>:
-      <div className="leaderboard-table"><div className="leader-table-head"><span>RANK</span><span>DISCORD MEMBER</span><span>INSIGNIA</span><span>KILLS</span></div>{players.map((player,index)=><div className={`leader-table-row ${index===0?"first-place":""}`} key={player.discordId}><span className="table-position">{index===0?<Crown size={18}/>:String(index+1).padStart(2,"0")}</span><span className="leader-player-cell">{player.avatar?<img src={player.avatar} alt="" loading="lazy"/>:<span className="leader-avatar-fallback">BD</span>}<span className="leader-player-identity">{player.profileLinked?<Link to={`/members/${player.discordId}`}>{player.displayName}</Link>:<strong>{player.displayName}</strong>}{player.discordUsername&&<small>@{player.discordUsername}</small>}{player.robloxUsername&&<small className="leader-roblox-name">ROBLOX · {player.robloxUsername}</small>}</span></span><span className="table-rank">{player.rank}</span><b>{Number(player.kills||0).toLocaleString("en-US")}</b></div>)}</div>}
-      {updatedAt&&<p className="data-updated">LAST UPDATED · {new Date(updatedAt).toLocaleString()}</p>}
-    </section><section className="clan-bottom section-pad"><div className="section-kicker">YOUR NAME COULD BE NEXT</div><h2>MAKE YOUR<br/><em>MARK.</em></h2><p>Build your record and earn your place among the dragons.</p><Link to="/ranks" className="button button-primary">EXPLORE THE RANKS <ArrowRight size={16}/></Link></section>
-  </main>;
+type Player={discordId:string;displayName:string;discordUsername:string|null;avatar:string|null;profileLinked:boolean;robloxUsername:string|null;kills:number;rank:string};
+type TitleHolder={discordId:string;displayName:string;discordUsername:string;avatar:string|null;profileLinked:boolean;title:string;robloxUsername:string|null};
+type State="loading"|"ready"|"setup"|"error";
+export function LeaderboardPage(){
+ const [players,setPlayers]=useState<Player[]>([]),[titleHolders,setTitleHolders]=useState<TitleHolder[]>([]);
+ const [state,setState]=useState<State>("loading"),[titleState,setTitleState]=useState<"ready"|"empty"|"unavailable">("unavailable"),[updatedAt,setUpdatedAt]=useState("");
+ useEffect(()=>{let active=true;fetch("/.netlify/functions/leaderboard").then(async r=>{if(r.status===503)throw new Error("setup");if(!r.ok)throw new Error("request");return r.json();}).then((d:{players?:Player[];titleHolders?:TitleHolder[];titleStatus?:"ready"|"empty"|"unavailable";updatedAt?:string})=>{if(!active)return;setPlayers(d.players||[]);setTitleHolders(d.titleHolders||[]);setTitleState(d.titleStatus||"unavailable");setUpdatedAt(d.updatedAt||"");setState("ready");}).catch((e:Error)=>{if(active)setState(e.message==="setup"?"setup":"error");});return()=>{active=false;};},[]);
+ const featured=players[0],roster=players.slice(1);
+ return <main className="inner-page">
+  <section className="page-hero leaderboard-hero"><ParticleField/><div className="section-kicker">THE BLACK DRAGONS RECORD</div><h1>LEGENDS ARE<br/><em>NOT GIVEN.</em></h1><p>Titles are claimed through recognition. Kills are recorded through battle. Two boards. Two different legacies.</p><div className="page-hero-mark"><Trophy size={55}/><span>THE ORDER • THE KILLBOARD</span></div></section>
+  <section className="section-pad monarch-section"><div className="leaderboard-heading"><div><div className="section-kicker">01 / THE TITLE HOLDERS</div><h2>THE<br/><em>MONARCHS.</em></h2></div><div className="leader-live"><Crown size={15}/> DISCORD ROLE HOLDERS</div></div><p className="monarch-intro">A title is its own legacy. These positions are assigned by the configured BLACK DRAGONS Discord roles, entirely independent of kill totals.</p>
+   {state==="loading"?<div className="leader-empty large-empty">Checking the configured title roles…</div>:titleState==="unavailable"?<div className="leader-empty large-empty">Title role data is temporarily unavailable. Check the Discord bot connection and member access settings.</div>:titleHolders.length===0?<div className="leader-empty large-empty">No configured title roles currently have members assigned.</div>:<div className="monarch-grid">{titleHolders.map((h,i)=><article className="monarch-card" key={h.discordId+"-"+h.title}><span className="monarch-index">{String(i+1).padStart(2,"0")} / TITLE</span><div className="monarch-card-avatar">{h.avatar?<img src={h.avatar} alt="" loading="lazy"/>:<span>BD</span>}</div><div className="monarch-card-title">{h.title}</div>{h.profileLinked?<Link className="monarch-card-name" to={"/members/"+h.discordId}>{h.displayName}</Link>:<strong className="monarch-card-name">{h.displayName}</strong>}<small className="monarch-card-handle">@{h.discordUsername}</small>{h.robloxUsername&&<small className="monarch-card-roblox">ROBLOX · {h.robloxUsername}</small>}</article>)}</div>}
+  </section>
+  <section className="section-pad leaderboard-page killboard-section"><div className="leaderboard-heading"><div><div className="section-kicker">02 / VERIFIED COMBAT RECORDS</div><h2>THE<br/><em>KILLBOARD.</em></h2></div><div className="leader-live"><span className={state==="ready"?"status-dot":"status-dot status-wait"}/>{state==="ready"?"LIVE DATA":"DATA STATUS: "+state.toUpperCase()}</div></div>
+   {state==="loading"?<div className="leader-empty large-empty">Fetching verified player records…</div>:state==="setup"?<div className="leader-empty large-empty">The secure Firebase connection needs its Netlify service-account setting before player records can appear.</div>:state==="error"?<div className="leader-empty large-empty">Player rankings could not be loaded. Please check back shortly.</div>:players.length===0?<div className="leader-empty large-empty">No verified player records are available yet. The board will appear here when records are published.</div>:<div className="kill-roster">
+    {featured&&<article className="kill-featured"><span className="kill-featured-index">01 / THE CURRENT LEADER</span><div className="kill-featured-avatar">{featured.avatar?<img src={featured.avatar} alt="" loading="lazy"/>:<span>BD</span>}</div><Crown className="kill-featured-crown" size={20}/>{featured.profileLinked?<Link to={"/members/"+featured.discordId} className="kill-featured-name">{featured.displayName}</Link>:<strong className="kill-featured-name">{featured.displayName}</strong>}<span className="kill-featured-rank">{featured.rank} RANK</span><div className="kill-featured-stats"><strong>{Number(featured.kills||0).toLocaleString("en-US")}</strong><span>VERIFIED KILLS</span></div>{featured.discordUsername&&<small className="kill-featured-handle">@{featured.discordUsername}</small>}</article>}
+    {roster.length>0&&<div className="kill-roster-grid">{roster.map((p,i)=><article className="kill-roster-card" key={p.discordId}><span className="kill-roster-index">{String(i+2).padStart(2,"0")}</span><div className="kill-roster-avatar">{p.avatar?<img src={p.avatar} alt="" loading="lazy"/>:<span>BD</span>}</div><div className="kill-roster-name">{p.profileLinked?<Link to={"/members/"+p.discordId}>{p.displayName}</Link>:<strong>{p.displayName}</strong>}</div><small className="kill-roster-rank">{p.rank} • RANK</small><strong className="kill-roster-kills">{Number(p.kills||0).toLocaleString("en-US")}</strong><small className="kill-roster-label">VERIFIED KILLS</small></article>)}</div>}
+   </div>}
+   {updatedAt&&<p className="data-updated">LAST UPDATED · {new Date(updatedAt).toLocaleString()}</p>}
+  </section>
+  <section className="clan-bottom section-pad"><div className="section-kicker">YOUR NAME COULD BE NEXT</div><h2>MAKE YOUR<br/><em>MARK.</em></h2><p>Build your record and earn your place among the dragons.</p><Link to="/ranks" className="button button-primary">EXPLORE THE RANKS <ArrowRight size={16}/></Link></section>
+ </main>;
 }
