@@ -68,7 +68,7 @@ export function AccountPage() {
             {state === "signed-in" && user && <div className="account-state account-signed-in">
               <div className="account-big-icon"><BadgeCheck size={29}/></div><div className="section-kicker">IDENTITY VERIFIED</div>
               <h2>WELCOME BACK,<br/><em>{user.globalName || user.username}.</em></h2>
-              <div className="account-identity"><div className="account-avatar">{avatar ? <img src={avatar} alt="Discord avatar"/> : <UserRound size={30}/>}</div><div><strong>{user.username}</strong><small>DISCORD MEMBER · ID {user.id}</small></div><span className="account-verified"><BadgeCheck size={15}/> VERIFIED</span></div>
+              <div className="account-identity"><div className="account-avatar">{avatar ? <img src={avatar} alt="Discord avatar"/> : <UserRound size={30}/>}</div><div><strong>{user.username}</strong><small>DISCORD ACCOUNT · ID {user.id}</small></div><span className="account-verified"><BadgeCheck size={15}/> VERIFIED</span></div>
               <div className="account-next-grid"><div><span>DISCORD CONNECTION</span><strong>ACTIVE</strong></div><div><span>ROBLOX ID</span><strong>BOT-SYNCED</strong></div></div>
               <p>Your Discord identity is connected. Your Roblox ID is managed through authorised Discord bot commands, while rank and kill records remain synced from the bot database.</p>
               <button className="button button-quiet account-logout" onClick={signOut} disabled={busy}><LogOut size={15}/>{busy?"SIGNING OUT…":"SIGN OUT"}</button>
