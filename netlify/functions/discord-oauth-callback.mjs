@@ -70,7 +70,7 @@ export default async (request) => {
     const signature = createHmac("sha256",process.env.SESSION_SECRET).update(encoded).digest("base64url");
     const session = encoded+"."+signature;
     const sessionCookie = "bd_session="+encodeURIComponent(session)+"; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age="+(60*60*24*7);
-    return redirect(site+"/account?connected=1",sessionCookie);
+    return redirect(site+"/",sessionCookie);
   } catch (error) {
     console.error("Discord OAuth callback failed:",error);
     return fail("callback");
