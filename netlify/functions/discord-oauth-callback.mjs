@@ -16,7 +16,7 @@ const redirect = (url,cookieValue) => new Response(null,{status:302,headers:{
 const fail = code => redirect(process.env.SITE_URL.replace(/\/$/,"")+"/account?auth="+code,expiredState);
 
 export default async (request) => {
-  const required = ["DISCORD_CLIENT_ID","DISCORD_CLIENT_SECRET","DISCORD_REDIRECT_URI","DISCORD_GUILD_ID","DISCORD_BOT_TOKEN","SESSION_SECRET","SITE_URL","FIREBASE_SERVICE_ACCOUNT_JSON"];
+  const required = ["DISCORD_CLIENT_ID","DISCORD_CLIENT_SECRET","DISCORD_REDIRECT_URI","SESSION_SECRET","SITE_URL","FIREBASE_SERVICE_ACCOUNT_JSON"];
   if (required.some(key=>!process.env[key]) || process.env.SESSION_SECRET.length<32) return new Response("Discord sign-in is not configured.",{status:503});
   const site = process.env.SITE_URL.replace(/\/$/,"");
   const url = new URL(request.url);
