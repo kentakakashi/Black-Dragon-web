@@ -1,3 +1,4 @@
+import {initializeApp,getApps,cert} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 import {hasGuildRole} from "./discord-auth.mjs";
 export const WEBSITE_ROLE_OWNER_ID="1105394446230638623";
@@ -5,14 +6,22 @@ export const WEBSITE_PERMISSIONS=[
  "applications.review","events.manage","tryouts.manage","content.manage",
  "announcements.manage","audit.view","members.view","members.manage","moderation.manage"
 ];
+function store(){
+ const raw=process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+ if(!raw)throw new Error("Firebase is not configured.");
+ const credentials=JSON.parse(raw);
+ if(credentials.private_key)credentials.private_key=credentials.private_key.replace(/\\n/g,"\n");
+ if(!getApps().length)initializeApp({credential:cert(credentials)});
+ return getFirestore();
+}
 async function assignedPermissions(user){
- const store=getFirestore();
- const assignment=await store.collection("webStaffAssignments").doc(String(user.id)).get();
+ const database=store();
+ const assignment=await database.collection("webStaffAssignments").doc(String(user.id)).get();
  if(!assignment.exists)return null;
  const ids=Array.isArray(assignment.data().roleIds)?assignment.data().roleIds:[];
- const refs=ids.filter(id=>typeof id==="string"&&/^[A-Za-z0-9_-]{1,80}$/.test(id)).map(id=>store.collection("webStaffRoles").doc(id));
+ const refs=ids.filter(id=>typeof id==="string"&&/^[A-Za-z0-9_-]{1,80}$/.test(id)).map(id=>database.collection("webStaffRoles").doc(id));
  if(!refs.length)return [];
- const docs=await store.getAll(...refs);
+ const docs=await database.getAll(...refs);
  return docs.filter(doc=>doc.exists&&doc.data().active!==false).flatMap(doc=>Array.isArray(doc.data().permissions)?doc.data().permissions:[]);
 }
 export async function hasWebsitePermission(user,permission,legacyPrimary,legacyFallback){
