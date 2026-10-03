@@ -26,6 +26,13 @@ export default async req=>{
   if(!/^[A-Za-z0-9]{15,40}$/.test(id)||!["member","allies","rejected","reviewing","needs_info"].includes(decision))return json({error:"Choose a valid membership decision."},400);
   const ref=apps.doc(id),snap=await ref.get();if(!snap.exists||snap.data().type!=="clan_membership")return json({error:"Member application not found."},404);
   const target=String(snap.data().discordId||"");if(!/^\d{17,20}$/.test(target))return json({error:"The applicant's Discord identity is invalid."},400);
+  if(decision==="member"){
+   const guild=process.env.DISCORD_GUILD_ID,token=process.env.DISCORD_BOT_TOKEN;
+   if(!guild||!token)return json({error:"Discord server membership verification is not configured."},503);
+   const membership=await fetch("https://discord.com/api/v10/guilds/"+encodeURIComponent(guild)+"/members/"+encodeURIComponent(target),{headers:{Authorization:"Bot "+token},signal:AbortSignal.timeout(8000)});
+   if(membership.status===404)return json({error:"This applicant must join the official BLACK DRAGONS Discord before being assigned as a member. You can still assign them as an ally."},409);
+   if(!membership.ok)return json({error:"Discord could not verify this applicant's server membership. Try again shortly."},503);
+  }
   const now=Date.now(),status=decision==="rejected"?"rejected":decision==="reviewing"?"reviewing":decision==="needs_info"?"needs_info":"accepted";
   const batch=store.batch();
   batch.update(ref,{status,staffFeedback:feedback||null,reviewerDiscordId:user.id,reviewedAt:now,updatedAt:now,membershipDecision:decision==="member"||decision==="allies"?decision:null});
