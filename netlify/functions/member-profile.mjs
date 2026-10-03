@@ -20,10 +20,25 @@ export default async req=>{
   const membership=membershipSnap.exists?membershipSnap.data()||{}:{};
   if(membership.membershipType==="allies"||(!playerSnap.exists&&membership.membershipType!=="member"))return json({error:"Member not found."},404);
   const storedProfile=profileSnap.exists?profileSnap.data()||{}:{};
-  const profile={...storedProfile,discordUsername:storedProfile.discordUsername||discordUser?.username||"",discordGlobalName:storedProfile.discordGlobalName||discordUser?.global_name||null};
+  // Prefer current Discord identity and persist it without touching game data.
+  if (discordUser) {
+    await store.collection("webProfiles").doc(id).set({
+      discordId: id,
+      discordUsername: String(discordUser.username || storedProfile.discordUsername || "").slice(0, 32),
+      discordGlobalName: typeof discordUser.global_name === "string" ? discordUser.global_name.slice(0, 64) : null,
+      discordAvatar: typeof discordUser.avatar === "string" ? discordUser.avatar : null,
+      discordProfileSyncedAt: Date.now()
+    }, { merge: true });
+  }
+  const profile = {
+    ...storedProfile,
+    discordUsername: discordUser?.username || storedProfile.discordUsername || "",
+    discordGlobalName: discordUser?.global_name || storedProfile.discordGlobalName || null,
+    discordAvatar: discordUser ? (typeof discordUser.avatar === "string" ? discordUser.avatar : null) : storedProfile.discordAvatar
+  };
   const player=playerSnap.exists?playerSnap.data()||{}:{};
   if(!profile.discordUsername)return json({error:"Member not found."},404);
-  const avatar=profile.discordAvatar?"https://cdn.discordapp.com/avatars/"+id+"/"+profile.discordAvatar+".png?size=256":discordUser?discordAvatar(discordUser,id):null;
+  const avatar=discordUser?discordAvatar(discordUser,id):profile.discordAvatar?"https://cdn.discordapp.com/avatars/"+id+"/"+profile.discordAvatar+".png?size=256":null;
   const history=historySnap.docs.map(doc=>{const x=doc.data()||{};return{rank:String(x.rank||"").toUpperCase().slice(0,8),previousRank:String(x.previousRank||"").toUpperCase().slice(0,8),kills:Math.max(0,Number(x.kills)||0),previousKills:Math.max(0,Number(x.previousKills)||0),action:String(x.action||"rank_update").slice(0,40),reason:"",timestamp:Number(x.timestamp)||0};}).filter(x=>x.timestamp>0).sort((a,b)=>b.timestamp-a.timestamp).slice(0,20);
   const achievements=achievementSnap.docs.map(doc=>{const x=doc.data()||{};return{id:doc.id,title:String(x.displayName||x.title||"Achievement").slice(0,80),category:String(x.category||"Recognition").slice(0,50),reason:String(x.reason||"").slice(0,300),status:String(x.status||""),date:Number(x.inductedAt||x.createdAt)||0};}).filter(x=>x.status==="published").sort((a,b)=>b.date-a.date).slice(0,20);
   return json({profile:{discordId:id,discordUsername:String(profile.discordUsername).slice(0,32),displayName:String(profile.discordGlobalName||profile.discordUsername).slice(0,64),avatar,robloxUsername:String(player.robloxUsername||profile.robloxUsername||"").slice(0,32)||null,robloxUserId:player.robloxUserId?String(player.robloxUserId):profile.robloxUserId?String(profile.robloxUserId):null,rank:String(player.rank||"E").toUpperCase(),kills:Math.max(0,Number(player.kills)||0),history,achievements}});
