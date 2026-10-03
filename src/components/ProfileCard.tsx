@@ -246,6 +246,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       const settled = Math.hypot(tx - x, ty - y) < 0.6;
       if (settled) {
         shell.classList.remove('active');
+        wrapRef.current?.style.setProperty('--card-opacity','0');
         leaveRafRef.current = null;
       } else {
         leaveRafRef.current = requestAnimationFrame(checkSettle);
@@ -464,7 +465,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         <section
           className="pc-card"
           style={{
-            height: '80svh',
+            height: 'auto',
             maxHeight: '540px',
             aspectRatio: '0.718',
             borderRadius: cardRadius,
