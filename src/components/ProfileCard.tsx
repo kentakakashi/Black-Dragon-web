@@ -9,6 +9,7 @@ export type ProfileCardProps = {
   contactText?: string;
   avatarUrl: string;
   showUserInfo?: boolean;
+  showAction?: boolean;
   enableTilt?: boolean;
   enableMobileTilt?: boolean;
   onContactClick?: () => void;
@@ -20,7 +21,7 @@ export type ProfileCardProps = {
 
 export default function ProfileCard({
   name,title,handle="",status="",contactText="VIEW PROFILE",avatarUrl,
-  showUserInfo=true,enableTilt=true,enableMobileTilt=false,onContactClick,
+  showUserInfo=true,showAction=true,enableTilt=true,enableMobileTilt=false,onContactClick,
   iconUrl,behindGlowEnabled=true,innerGradient="linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)",className=""
 }:ProfileCardProps){
  const shellRef=useRef<HTMLElement>(null);
@@ -65,7 +66,7 @@ export default function ProfileCard({
     <div className="profile-card-top-copy"><span className="profile-card-kicker">BLACK DRAGONS [BD]</span><h3>{name}</h3><p>{title}</p></div>
     {showUserInfo&&<div className="profile-card-user-info">
      <div className="profile-card-user-copy"><span className="profile-card-handle">{handle? "@"+handle : "BLACK DRAGONS MEMBER"}</span><span className="profile-card-status">{status}</span></div>
-     <button type="button" className="profile-card-action" onClick={onContactClick}>{contactText}</button>
+     {showAction&&<button type="button" className="profile-card-action" onClick={onContactClick}>{contactText}</button>}
     </div>}
    </div>
   </section>
