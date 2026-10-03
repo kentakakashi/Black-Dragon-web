@@ -17,7 +17,7 @@ function publicTryout(t){
 }
 async function enrichTryout(t,store){
  const safe=publicTryout(t);if(!safe)return null;
- const ids=[...new Set(safe.results.flatMap(r=>[r.winnerId,r.loserId,r.recordedById]).filter(id=>/^\\d{17,20}$/.test(id)))];
+ const ids=[...new Set(safe.results.flatMap(r=>[r.winnerId,r.loserId,r.recordedById]).filter(id=>/^\d{17,20}$/.test(id)))];
  if(!ids.length)return {...safe,results:safe.results.map(r=>({...r,winnerName:"Discord member",loserName:"Discord member",recordedByName:"Staff member",winnerAvatar:null,loserAvatar:null}))};
  const profileSnaps=await store.getAll(...ids.map(id=>store.collection("webProfiles").doc(id)));
  const playerSnaps=await store.getAll(...ids.map(id=>store.collection("players").doc(id)));
@@ -28,12 +28,14 @@ async function enrichTryout(t,store){
   people[id]={name,avatar:profile.discordAvatar?avatarUrl(id,profile.discordAvatar):null,robloxName:String(player.robloxUsername||"")};
  }
  const needsLookup=ids.filter(id=>!people[id].name||!people[id].avatar);
- await Promise.all(needsLookup.map(async id=>{
-  const member=await discordGuildMember(id);if(!member?.user)return;
-  const u=member.user;
-  if(!people[id].name)people[id].name=String(member.nick||u.global_name||u.username||"Discord member");
-  if(!people[id].avatar)people[id].avatar=avatarUrl(id,u.avatar);
- }));
+ for(let i=0;i<needsLookup.length;i+=5){
+  await Promise.all(needsLookup.slice(i,i+5).map(async id=>{
+   const member=await discordGuildMember(id);if(!member?.user)return;
+   const u=member.user;
+   if(!people[id].name)people[id].name=String(member.nick||u.global_name||u.username||"Discord member");
+   if(!people[id].avatar)people[id].avatar=avatarUrl(id,u.avatar);
+  }));
+ }
  const person=id=>people[id]||{name:"Discord member",avatar:null};
  return {...safe,results:safe.results.map(r=>({...r,winnerName:person(r.winnerId).name||"Discord member",loserName:person(r.loserId).name||"Discord member",recordedByName:person(r.recordedById).name||"Staff member",winnerAvatar:person(r.winnerId).avatar,loserAvatar:person(r.loserId).avatar}))};
 }
