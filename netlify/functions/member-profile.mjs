@@ -1,10 +1,12 @@
 import {initializeApp,getApps,cert} from "firebase-admin/app";
+import {getSessionUser} from "./_shared/discord-auth.mjs";
 import {getFirestore} from "firebase-admin/firestore";
 let firestore;
 function db(){if(firestore)return firestore;const raw=process.env.FIREBASE_SERVICE_ACCOUNT_JSON;if(!raw)throw new Error("Firebase is not configured.");const sa=JSON.parse(raw);if(sa.private_key)sa.private_key=sa.private_key.replace(/\\n/g,"\n");if(!getApps().length)initializeApp({credential:cert(sa)});firestore=getFirestore();return firestore;}
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json","Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
 export default async req=>{
  if(req.method!=="GET")return json({error:"Method not allowed."},405);
+ if(!getSessionUser(req))return json({error:"Sign in with Discord to view member profiles."},401);
  const id=new URL(req.url).searchParams.get("id")||"";if(!/^\\d{17,20}$/.test(id))return json({error:"Invalid member id."},400);
  try{
   const store=db(),[profileSnap,playerSnap,historySnap,achievementSnap,membershipSnap]=await Promise.all([
