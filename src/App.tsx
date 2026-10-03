@@ -18,6 +18,10 @@ import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AnnouncementManagementPage } from "./pages/AnnouncementManagementPage";
 import { AuditLogPage } from "./pages/AuditLogPage";
 import { StaffRolesPage } from "./pages/StaffRolesPage";
+import { MemberApplicationsPage } from "./pages/MemberApplicationsPage";
+import { AlliedClansPage } from "./pages/AlliedClansPage";
+import { StaffRoute } from "./components/StaffRoute";
+import { LoginRoute } from "./components/LoginRoute";
 
 function App() {
   return <Routes>
@@ -31,21 +35,23 @@ function App() {
       <Route path="applications" element={<ApplicationsPage />} />
       <Route path="tryouts" element={<TryoutsPage />} />
       <Route path="events" element={<EventsPage />} />
-      <Route path="admin" element={<AdminDashboardPage />} />
-      <Route path="admin/audit" element={<AuditLogPage />} />
-      <Route path="admin/roles" element={<StaffRolesPage />} />
-      <Route path="admin/announcements" element={<AnnouncementManagementPage />} />
-      <Route path="admin/events" element={<EventManagementPage />} />
-      <Route path="admin/content" element={<ContentManagementPage />} />
-      <Route path="admin/applications" element={<ApplicationReviewPage />} />
+      <Route path="admin" element={<StaffRoute><AdminDashboardPage /></StaffRoute>} />
+      <Route path="admin/audit" element={<StaffRoute><AuditLogPage /></StaffRoute>} />
+      <Route path="admin/roles" element={<StaffRoute><StaffRolesPage /></StaffRoute>} />
+      <Route path="admin/announcements" element={<StaffRoute><AnnouncementManagementPage /></StaffRoute>} />
+      <Route path="admin/events" element={<StaffRoute><EventManagementPage /></StaffRoute>} />
+      <Route path="admin/content" element={<StaffRoute><ContentManagementPage /></StaffRoute>} />
+      <Route path="admin/applications" element={<StaffRoute><ApplicationReviewPage /></StaffRoute>} />
+      <Route path="admin/member-applications" element={<StaffRoute><MemberApplicationsPage /></StaffRoute>} />
       <Route path="account" element={<AccountPage />} />
       <Route path="announcements" element={<AnnouncementsPage />} />
       <Route path="news" element={<NewsPage />} />
       <Route path="news/:id" element={<NewsArticlePage />} />
       <Route path="rules" element={<RulesPage />} />
       <Route path="members" element={<MembersPage />} />
-      <Route path="members/:discordId" element={<MemberProfilePage />} />
+      <Route path="members/:discordId" element={<LoginRoute><MemberProfilePage /></LoginRoute>} />
       <Route path="staff" element={<StaffPage />} />
+      <Route path="allies" element={<AlliedClansPage />} />
       <Route path="hall-of-fame" element={<HallOfFamePage />} />
       <Route path="*" element={<HomePage />} />
     </Route>
