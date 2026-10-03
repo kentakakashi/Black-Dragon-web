@@ -45,18 +45,19 @@ export default async req=>{
   const snap=await store.collection("tryouts").doc("server").get();
   const raw=snap.exists?snap.data():{};
   if(req.method==="GET"){
+   const u=user(req);
+   if(!u)return json({error:"Sign in with Discord to view tryout records."},401);
    const [active,history]=await Promise.all([
     enrichTryout(raw.active,store),
     Promise.all((Array.isArray(raw.history)?raw.history:[]).map(t=>enrichTryout(t,store)))
    ]);
    const sortedHistory=history.filter(Boolean).sort((a,b)=>b.createdAt-a.createdAt).slice(0,12);
-   const u=user(req);
    let registration=null;
    if(u&&active){
     const r=await store.collection("webTryoutRegistrations").doc(active.id+"_"+u.id).get();
     if(r.exists){const x=r.data();registration={status:String(x.status||"registered"),registeredAt:Number(x.registeredAt)||0};}
    }
-   return json({active,history:sortedHistory,registration,signedIn:!!u});
+   return json({active,history:sortedHistory,registration,signedIn:true});
   }
   if(req.method!=="POST")return json({error:"Method not allowed."},405);
   const u=user(req);
