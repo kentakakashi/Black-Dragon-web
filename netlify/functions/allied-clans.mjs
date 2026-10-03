@@ -13,8 +13,8 @@ export default async req=>{
   const clans=(Array.isArray(data.clans)?data.clans:[]).slice(0,50).map((c,i)=>{
    const embed=c.embed&&typeof c.embed==="object"?c.embed:{};
    const leaders=Array.isArray(c.leaderIds)?c.leaderIds.filter(id=>/^\d{17,20}$/.test(String(id))).slice(0,10).map(id=>String(id)):[];
-   return{id:clean(c.id,80)||"ally-"+i,name:clean(c.name,100)||"Allied Clan",invite:safeUrl(c.invite),logo:safeUrl(c.logo||embed.thumbnail?.url),imageUrl:safeUrl(c.imageUrl||embed.image?.url),bannerUrl:safeUrl(c.bannerUrl||embed.image?.url),description:clean(embed.description||"",1200),details:Array.isArray(embed.fields)?embed.fields.slice(0,10).map(field=>({name:clean(field.name,80),value:clean(field.value,320)})).filter(field=>field.name&&field.value):[],leaders,createdAt:Number(c.createdAt)||0,updatedAt:Number(c.updatedAt)||0};
+   return{id:clean(c.id,80)||"ally-"+i,name:clean(c.name,100)||"Allied Clan",invite:safeUrl(c.invite),imageUrl:safeUrl(c.imageUrl||embed.image?.url),bannerUrl:safeUrl(c.bannerUrl||c.imageUrl||embed.image?.url),leaders};
   });
-  return json({clans,header:{title:clean(data.headerEmbed?.title||"BLACK DRAGONS ALLIES",120),description:clean(data.headerEmbed?.description||data.headerDescription||"",1200),imageUrl:safeUrl(data.headerEmbed?.image?.url||data.headerImageUrl)}});
+  return json({clans});
  }catch(e){console.error("Allied clans endpoint failed:",e);return json({error:"The alliance network is temporarily unavailable."},500);}
 };
