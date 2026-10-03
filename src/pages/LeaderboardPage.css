@@ -44,4 +44,4 @@
 .kill-feature-tilt{max-width:390px;margin:0 auto 60px}
 .kill-feature-profile .pc-card{height:auto;aspect-ratio:.718;max-height:530px;min-height:440px}
 @media(max-width:800px){.profile-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.monarch-profile-card .pc-card{min-height:250px}}
-@media(max-width:420px){.profile-card-grid{gap:9px}.monarch-profile-card .pc-card{min-height:215px}.monarch-profile-card .profile-card-top-copy h3{font-size:13px}}
+@media(max-width:420px){.profile-card-grid{gap:9px}.monarch-profile-card .pc-card{min-height:215px}.monarch-profile-card .pc-name{font-size:13px}}
