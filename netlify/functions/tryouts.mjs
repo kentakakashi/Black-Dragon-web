@@ -10,6 +10,11 @@ async function discordGuildMember(id){
  if(!guild||!token)return null;
  try{const r=await fetch("https://discord.com/api/v10/guilds/"+encodeURIComponent(guild)+"/members/"+encodeURIComponent(id),{headers:{Authorization:"Bot "+token},signal:AbortSignal.timeout(5000)});if(!r.ok)return null;return await r.json();}catch{return null;}
 }
+async function discordUser(id){
+ const token=process.env.DISCORD_BOT_TOKEN;
+ if(!token)return null;
+ try{const r=await fetch("https://discord.com/api/v10/users/"+encodeURIComponent(id),{headers:{Authorization:"Bot "+token},signal:AbortSignal.timeout(5000)});if(!r.ok)return null;return await r.json();}catch{return null;}
+}
 function publicTryout(t){
  if(!t)return null;
  return{id:String(t.id||""),status:String(t.status||"unknown"),createdAt:Number(t.createdAt)||0,endedAt:Number(t.endedAt)||0,serverLink:typeof t.serverLink==="string"&&t.serverLink.startsWith("https://")?t.serverLink:null,
@@ -24,15 +29,17 @@ async function enrichTryout(t,store){
  const people={};
  for(let i=0;i<ids.length;i++){
   const id=ids[i],profile=profileSnaps[i]?.exists?profileSnaps[i].data()||{}:{},player=playerSnaps[i]?.exists?playerSnaps[i].data()||{}:{};
-  const name=String(profile.discordGlobalName||profile.displayName||profile.discordUsername||player.discordUsername||player.username||player.robloxUsername||"").trim();
-  people[id]={name,avatar:profile.discordAvatar?avatarUrl(id,profile.discordAvatar):null,robloxName:String(player.robloxUsername||"")};
+  const name=String(profile.discordGlobalName||profile.discordUsername||player.discordGlobalName||player.discordUsername||"").trim();
+  people[id]={name,avatar:profile.discordAvatar?avatarUrl(id,profile.discordAvatar):null};
  }
  const needsLookup=ids.filter(id=>!people[id].name||!people[id].avatar);
  for(let i=0;i<needsLookup.length;i+=5){
   await Promise.all(needsLookup.slice(i,i+5).map(async id=>{
-   const member=await discordGuildMember(id);if(!member?.user)return;
-   const u=member.user;
-   if(!people[id].name)people[id].name=String(member.nick||u.global_name||u.username||"Discord member");
+   const member=await discordGuildMember(id);
+   let u=member?.user||null;
+   if(!u)u=await discordUser(id);
+   if(!u)return;
+   if(!people[id].name)people[id].name=String(u.global_name||member?.nick||u.username||"Discord member");
    if(!people[id].avatar)people[id].avatar=avatarUrl(id,u.avatar);
   }));
  }
