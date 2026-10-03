@@ -1,5 +1,5 @@
 import {getSessionUser} from "./_shared/discord-auth.mjs";
-import {hasAnyWebsitePermission} from "./_shared/staff-access.mjs";
+import {hasAnyWebsitePermission,hasWebsitePermission} from "./_shared/staff-access.mjs";
 import {initializeApp,getApps,cert} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 let firestore;
@@ -34,6 +34,7 @@ export default async req=>{
       discordOAuth:{status:oauthKeys.every(key=>Boolean(process.env[key]))?"configured":"missing_config"},
       botTryouts:{status:!tryoutSnap.exists?"not_found":tryoutData.active?"active":"no_active_tryout",historyRecords:Array.isArray(tryoutData.history)?tryoutData.history.length:0}
     };
-    return json({pendingApplications,upcomingEvents,newsDrafts,announcementDrafts,recentActivity,connections,generatedAt:now});
+    const canManageMembers=await hasWebsitePermission(user,"members.manage","APPLICATION_REVIEW_ROLE_IDS");
+    return json({canManageMembers,pendingApplications,upcomingEvents,newsDrafts,announcementDrafts,recentActivity,connections,generatedAt:now});
   }catch(e){console.error("Admin overview failed:",e);return json({error:"The staff overview could not be loaded."},500);}
 };
