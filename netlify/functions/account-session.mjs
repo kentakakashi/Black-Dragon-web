@@ -36,7 +36,31 @@ export default async (request) => {
   if(!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length<32) return json({error:"Account sessions are not configured."},503);
   try {
     const user=readSession(request);
-    return json({user});
+    if (!user) return json({ user: null });
+
+    // Session cookies contain a login-time snapshot. Refresh the account card
+    // from Discord so avatar/name changes do not require signing out again.
+    let current = user;
+    if (process.env.DISCORD_BOT_TOKEN) {
+      try {
+        const response = await fetch("https://discord.com/api/v10/users/" + encodeURIComponent(user.id), {
+          headers: { Authorization: "Bot " + process.env.DISCORD_BOT_TOKEN },
+          signal: AbortSignal.timeout(5000)
+        });
+        if (response.ok) {
+          const discord = await response.json();
+          current = {
+            ...user,
+            username: String(discord.username || user.username).slice(0, 32),
+            globalName: typeof discord.global_name === "string" ? discord.global_name.slice(0, 64) : null,
+            avatar: typeof discord.avatar === "string" ? discord.avatar : null
+          };
+        }
+      } catch (error) {
+        console.error("Account Discord profile refresh failed:", error);
+      }
+    }
+    return json({ user: current });
   } catch (error) {
     console.error("Account session check failed:",error);
     return json({error:"Account session unavailable."},503);
