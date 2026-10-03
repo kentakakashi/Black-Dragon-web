@@ -22,9 +22,10 @@ import { MemberApplicationsPage } from "./pages/MemberApplicationsPage";
 import { AlliedClansPage } from "./pages/AlliedClansPage";
 import { StaffRoute } from "./components/StaffRoute";
 import { LoginRoute } from "./components/LoginRoute";
+import { EntryGate } from "./components/EntryGate";
 
 function App() {
-  return <Routes>
+  return <EntryGate><Routes>
     <Route element={<SiteLayout />}>
       <Route index element={<HomePage />} />
       <Route path="clan" element={<ClanPage />} />
@@ -55,6 +56,6 @@ function App() {
       <Route path="hall-of-fame" element={<HallOfFamePage />} />
       <Route path="*" element={<HomePage />} />
     </Route>
-  </Routes>;
+  </Routes></EntryGate>;
 }
 export default App;
