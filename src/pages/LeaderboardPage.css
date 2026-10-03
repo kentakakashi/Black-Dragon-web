@@ -33,15 +33,51 @@
 @media(prefers-reduced-motion:reduce){.monarch-card-first:after{animation:none}.monarch-tilt,.kill-card-tilt,.kill-feature-tilt{transform:none!important;transition:none}.monarch-card.spotlight-card,.kill-roster-reactbits{transition:none}}
 
 
-/* React Bits ProfileCard placement */
-.profile-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
-.monarch-profile-card{height:100%}
-.monarch-profile-card .pc-card{height:auto;max-height:440px;min-height:300px;aspect-ratio:.718}
-.monarch-profile-card .pc-avatar{object-position:center bottom}
-.monarch-profile-card .pc-name{font-size:clamp(19px,2vw,27px)}
-.monarch-profile-card .pc-title{font-size:11px}
-.monarch-lookup-warning{margin:0 0 18px;border-color:#d7a65d55;color:#e3c28f}
-.kill-feature-tilt{max-width:390px;margin:0 auto 60px}
-.kill-feature-profile .pc-card{height:auto;aspect-ratio:.718;max-height:530px;min-height:440px}
-@media(max-width:800px){.profile-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.monarch-profile-card .pc-card{min-height:250px}}
-@media(max-width:420px){.profile-card-grid{gap:9px}.monarch-profile-card .pc-card{min-height:215px}.monarch-profile-card .pc-name{font-size:13px}}
+
+/* Native BLACK DRAGONS leaderboard cards */
+.monarch-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+.monarch-tilt{width:100%;min-width:0;perspective:900px}
+.monarch-tilt>.spotlight-card{height:100%;min-height:285px;transform-style:preserve-3d}
+.monarch-card.spotlight-card{position:relative;display:flex;min-height:285px;flex-direction:column;align-items:center;justify-content:flex-start;overflow:hidden;padding:24px 18px;background:linear-gradient(145deg,rgba(30,25,25,.98),rgba(9,10,14,.98) 72%);border:1px solid rgba(215,166,93,.2);box-shadow:inset 0 1px rgba(255,255,255,.045),0 18px 45px rgba(0,0,0,.18);transition:border-color .3s,box-shadow .3s,background .3s}
+.monarch-card.spotlight-card:before,.kill-roster-card.spotlight-card:before,.kill-featured.spotlight-card:before{z-index:0;opacity:0;background:radial-gradient(320px circle at var(--spot-x,50%) var(--spot-y,50%),rgba(224,177,105,.22),transparent 68%);transition:opacity .3s}
+.monarch-card.spotlight-card:hover:before,.kill-roster-card.spotlight-card:hover:before,.kill-featured.spotlight-card:hover:before{opacity:1}
+.monarch-card.spotlight-card>* ,.kill-roster-card.spotlight-card>* ,.kill-featured.spotlight-card>*{position:relative;z-index:1}
+.monarch-card.spotlight-card:hover{border-color:#d7a65d99;box-shadow:inset 0 1px rgba(255,255,255,.08),0 20px 50px #0008,0 0 32px #d7a65d12}
+.monarch-card-first{border-color:#d7a65d88!important;background:radial-gradient(ellipse at 50% 0%,rgba(215,166,93,.2),transparent 58%),linear-gradient(145deg,#211a16,#0b0c10 75%)!important;box-shadow:inset 0 0 35px #d7a65d0c,0 0 38px #d7a65d14,0 18px 45px #0007!important}
+.monarch-card-first:after{content:"";position:absolute;inset:7px;border:1px solid #d7a65d35;pointer-events:none;animation:monarch-first-breathe 5s ease-in-out infinite}
+.monarch-card-first .monarch-card-title{font-size:14px;text-shadow:0 0 18px #d7a65d66}
+.monarch-card-first .monarch-index{color:#e2b56e}
+.monarch-index{align-self:flex-start;color:#817b73;font:700 8px "Barlow Condensed",sans-serif;letter-spacing:1.7px}
+.monarch-card-title{order:3;margin-top:15px;color:#d8b47b;font:800 10px "Barlow Condensed",sans-serif;letter-spacing:2px;text-transform:uppercase}
+.monarch-card-avatar{order:2;display:grid;place-items:center;margin:15px 0 8px;width:76px;height:76px;overflow:hidden;border:1px solid #d7a65d55;border-radius:50%;background:#17151a;color:#d7a65d;box-shadow:0 0 24px #d7a65d20}
+.monarch-card-avatar img{width:100%;height:100%;object-fit:cover}
+.monarch-card-name{order:4;color:#f1e8dc;font:600 19px Georgia,serif;text-align:center;overflow-wrap:anywhere}
+.monarch-card-handle{order:5;margin-top:5px;color:#88817b;font-size:10px}
+.monarch-card-profile{order:6;display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:9px 13px;border:1px solid #d7a65d55;background:#d7a65d0c;color:#d8b47b;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background .2s,border-color .2s}
+.monarch-card-profile:hover{background:#d7a65d20;border-color:#d7a65d}
+.monarch-vacant{order:4;position:relative;display:flex;flex:1;width:100%;min-height:150px;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:13px;border-top:1px solid #ffffff0c}
+.monarch-vacant-sigil{width:54px;height:54px;display:grid;place-items:center;border:1px solid #d7a65d55;border-radius:50%;color:#d7a65d;background:radial-gradient(circle,#d7a65d19,transparent 70%);box-shadow:0 0 28px #d7a65d12}
+.monarch-vacant strong{font:800 10px "Barlow Condensed",sans-serif;letter-spacing:1.7px;color:#d9c7ad}
+.monarch-vacant>span{font:900 20px "Barlow Condensed",sans-serif;letter-spacing:1.6px;color:#e5b978;text-shadow:0 0 18px #d7a65d33}
+.monarch-tilt-first{filter:drop-shadow(0 0 15px #d7a65d0d)}
+.kill-feature-tilt{width:100%;max-width:390px;margin:0 auto 60px}
+.kill-featured.spotlight-card{position:relative;display:flex;min-height:400px;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:30px 24px;border:1px solid #d7a65d66;background:radial-gradient(ellipse at 50% 0%,rgba(215,166,93,.2),transparent 60%),linear-gradient(145deg,#211a16,#0b0c10 75%);box-shadow:inset 0 0 35px #d7a65d0c,0 0 38px #d7a65d14,0 18px 45px #0007}
+.kill-featured-kicker{display:flex;align-items:center;gap:8px;color:#d7b77e;font-size:9px;letter-spacing:2px}
+.kill-featured-avatar{width:132px;height:132px;margin:22px 0 15px;overflow:hidden;border:1px solid #d7a65d77;border-radius:50%;background:#17151a;box-shadow:0 0 34px #d7a65d25}
+.kill-featured-avatar img{width:100%;height:100%;object-fit:cover}
+.kill-featured-avatar span{display:grid;width:100%;height:100%;place-items:center;color:#d7a65d;font-size:28px}
+.kill-featured h3{margin:0;color:#f1e8dc;font:600 30px Georgia,serif;text-align:center;overflow-wrap:anywhere}
+.kill-featured h3 a{color:inherit;text-decoration:none}
+.kill-featured-rank{margin-top:8px;color:#b99a70;font-size:9px;letter-spacing:2px}
+.kill-featured-kills{margin-top:20px;color:#e2b56e;font:700 34px "Barlow Condensed",sans-serif}
+.kill-featured .kill-roster-label{margin-top:3px}
+.kill-featured .monarch-card-profile{margin-top:18px}
+.kill-card-tilt{width:100%;min-width:0;height:100%;perspective:900px}
+.kill-roster-reactbits{width:100%;height:100%;transition:border-color .25s,box-shadow .25s,background .25s}
+.kill-roster-reactbits:hover{border-color:#d7a65d66;box-shadow:0 12px 35px #0008,0 0 25px #d7a65d0b}
+@keyframes monarch-first-breathe{0%,100%{opacity:.45;inset:7px}50%{opacity:1;inset:10px}}
+@media(max-width:800px){.monarch-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}}
+@media(max-width:700px){.monarch-card.spotlight-card{min-height:245px;padding:17px 10px}.monarch-card-avatar{width:64px;height:64px}.monarch-vacant{min-height:125px}.monarch-vacant>span{font-size:17px}.kill-feature-tilt{margin-bottom:35px}.kill-featured.spotlight-card{min-height:350px}}
+@media(max-width:420px){.monarch-grid{gap:9px}.monarch-card.spotlight-card{min-height:215px}.monarch-card-name{font-size:15px}.monarch-vacant>span{font-size:16px}}
+@media(hover:hover) and (pointer:fine){.monarch-tilt,.kill-card-tilt{transition:transform .16s ease-out}}
+@media(prefers-reduced-motion:reduce){.monarch-card-first:after{animation:none}.monarch-card.spotlight-card,.kill-roster-reactbits{transition:none}}
