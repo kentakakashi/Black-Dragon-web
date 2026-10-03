@@ -34,13 +34,15 @@ export default async request=>{
    const avatar=profile.discordAvatar?"https://cdn.discordapp.com/avatars/"+id+"/"+String(profile.discordAvatar)+".png?size=96":discordAvatar(discordUser,96);
    return{discordId:id,displayName,discordUsername:discordUsername||null,avatar,profileLinked:Boolean(discordUser||profileHasIdentity),robloxUsername:String(profile.robloxUsername||source.robloxUsername||"").slice(0,32)||null,kills:Math.max(0,Number(source.kills)||0),rank:String(source.rank||"E").toUpperCase()};
   }).sort((a,b)=>b.kills-a.kills).slice(0,100);
-  const config=configSnap.exists?configSnap.data()||{}:{},roleIds=config.leaderboards?.rankingRoleIds||{};
-  const configuredTitles=Object.entries(roleIds).filter(([key,id])=>LABELS[key]&&/^\d{17,20}$/.test(String(id||""))).map(([key,id])=>({key,roleId:String(id),title:LABELS[key]}));
+  const config=configSnap.exists?configSnap.data()||{}:{};
+  const leaderboardConfig=config.leaderboards||config.config?.leaderboards||{};
+  const roleIds=leaderboardConfig.rankingRoleIds||{};
+  const configuredTitles=TITLE_ORDER.map(([key,title],index)=>({key,title,order:index+1,roleId:String(roleIds[key]||"")}));
   const holdersByRole=new Map();
   for(const member of members){const user=member.user;if(!user?.id)continue;for(const role of member.roles||[]){const roleId=String(role);if(!holdersByRole.has(roleId))holdersByRole.set(roleId,[]);holdersByRole.get(roleId).push(user);}}
-  const titleSlots=configuredTitles.map((entry,index)=>{
+  const titleSlots=configuredTitles.map(entry=>{
    const holders=(holdersByRole.get(entry.roleId)||[]).map(user=>({discordId:String(user.id),displayName:String(user.global_name||user.username||"BD Member").slice(0,64),discordUsername:String(user.username||"").slice(0,32),avatar:discordAvatar(user,128)}));
-   return{key:entry.key,order:index+1,title:entry.title,holders};
+   return{key:entry.key,order:entry.order,title:entry.title,holders};
   });
   const titleUserIds=[...new Set(titleSlots.flatMap(slot=>slot.holders.map(holder=>holder.discordId)))];
   const titleRefs=titleUserIds.map(id=>store.collection("webProfiles").doc(id)),titleProfiles=titleRefs.length?await store.getAll(...titleRefs):[];
@@ -49,6 +51,6 @@ export default async request=>{
    const profile=titleProfileById.get(holder.discordId)||{};
    return{...holder,displayName:String(profile.discordGlobalName||holder.displayName).slice(0,64),discordUsername:String(profile.discordUsername||holder.discordUsername).slice(0,32),avatar:profile.discordAvatar?"https://cdn.discordapp.com/avatars/"+holder.discordId+"/"+String(profile.discordAvatar)+".png?size=128":holder.avatar,robloxUsername:String(profile.robloxUsername||"").slice(0,32)||null,profileLinked:true};
   })}));
-  return json({updatedAt:new Date().toISOString(),count:players.length,players,titleSlots:enrichedTitleSlots,titleStatus:configuredTitles.length?"ready":"empty"});
+  return json({updatedAt:new Date().toISOString(),count:players.length,players,titleSlots:enrichedTitleSlots,titleStatus:"ready",holderLookupStatus:"ready"});
  }catch(e){console.error("Leaderboard function failed:",e);return json({error:"Unable to load leaderboard right now."},500);}
 };
