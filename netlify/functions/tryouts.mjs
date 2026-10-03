@@ -39,9 +39,42 @@ async function enrichTryout(t,store){
  const person=id=>people[id]||{name:"Discord member",avatar:null};
  return {...safe,results:safe.results.map(r=>({...r,winnerName:person(r.winnerId).name||"Discord member",loserName:person(r.loserId).name||"Discord member",recordedByName:person(r.recordedById).name||"Staff member",winnerAvatar:person(r.winnerId).avatar,loserAvatar:person(r.loserId).avatar}))};
 }
-export default async req=>{try{const store=db(),snap=await store.collection("tryouts").doc("server").get(),raw=snap.exists?snap.data():{};
-const [active,history]=await Promise.all([enrichTryout(raw.active,store),Promise.all((Array.isArray(raw.history)?raw.history:[]).map(t=>enrichTryout(t,store)))]);
-const sortedHistory=history.filter(Boolean).sort((a,b)=>b.createdAt-a.createdAt).slice(0,12);
-if(req.method==="GET"){const u=user(req);let registration=null;if(u&&active){const r=await store.collection("webTryoutRegistrations").doc(active.id+"_"+u.id).get();if(r.exists){const x=r.data();registration={status:String(x.status||"registered"),registeredAt:Number(x.registeredAt)||0};}}return json({active,history:sortedHistory,registration,signedIn:!!u});}
-if(req.method!=="POST")return json({error:"Method not allowed."},405);const u=user(req);if(!u)return json({error:"Sign in with Discord to register."},401);if(!active||active.status!=="active")return json({error:"There is no active tryout accepting registrations."},409);const profile=await store.collection("webProfiles").doc(u.id).get(),p=profile.exists?profile.data():{};if(!p.robloxUserId||!p.robloxUsername)return json({error:"Link and verify your Roblox account before registering."},400);const ref=store.collection("webTryoutRegistrations").doc(active.id+"_"+u.id);const result=await store.runTransaction(async tx=>{const existing=await tx.get(ref);if(existing.exists)return false;tx.create(ref,{tryoutId:active.id,discordId:u.id,robloxUserId:String(p.robloxUserId),robloxUsername:String(p.robloxUsername).slice(0,32),status:"registered",registeredAt:Date.now()});return true;});return json({ok:true,alreadyRegistered:!result,message:result?"Your place has been registered.":"You're already registered for this tryout."},result?201:200);
-}catch(e){console.error("Tryout portal failed:",e);return json({error:"Tryout information is temporarily unavailable."},500);}};
+export default async req=>{
+ try{
+  const store=db();
+  const snap=await store.collection("tryouts").doc("server").get();
+  const raw=snap.exists?snap.data():{};
+  if(req.method==="GET"){
+   const [active,history]=await Promise.all([
+    enrichTryout(raw.active,store),
+    Promise.all((Array.isArray(raw.history)?raw.history:[]).map(t=>enrichTryout(t,store)))
+   ]);
+   const sortedHistory=history.filter(Boolean).sort((a,b)=>b.createdAt-a.createdAt).slice(0,12);
+   const u=user(req);
+   let registration=null;
+   if(u&&active){
+    const r=await store.collection("webTryoutRegistrations").doc(active.id+"_"+u.id).get();
+    if(r.exists){const x=r.data();registration={status:String(x.status||"registered"),registeredAt:Number(x.registeredAt)||0};}
+   }
+   return json({active,history:sortedHistory,registration,signedIn:!!u});
+  }
+  if(req.method!=="POST")return json({error:"Method not allowed."},405);
+  const u=user(req);
+  if(!u)return json({error:"Sign in with Discord to register."},401);
+  const active=publicTryout(raw.active);
+  if(!active||active.status!=="active")return json({error:"There is no active tryout accepting registrations."},409);
+  const profile=await store.collection("webProfiles").doc(u.id).get(),p=profile.exists?profile.data():{};
+  if(!p.robloxUserId||!p.robloxUsername)return json({error:"Link and verify your Roblox account before registering."},400);
+  const ref=store.collection("webTryoutRegistrations").doc(active.id+"_"+u.id);
+  const result=await store.runTransaction(async tx=>{
+   const existing=await tx.get(ref);
+   if(existing.exists)return false;
+   tx.create(ref,{tryoutId:active.id,discordId:u.id,robloxUserId:String(p.robloxUserId),robloxUsername:String(p.robloxUsername).slice(0,32),status:"registered",registeredAt:Date.now()});
+   return true;
+  });
+  return json({ok:true,alreadyRegistered:!result,message:result?"Your place has been registered.":"You're already registered for this tryout."},result?201:200);
+ }catch(e){
+  console.error("Tryout portal failed:",e);
+  return json({error:"Tryout information is temporarily unavailable."},500);
+ }
+};
