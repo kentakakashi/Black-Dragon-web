@@ -34,7 +34,7 @@ function ScrollReset() {
 export function SiteLayout() {
   const [open, setOpen] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(true);
   const [canManageMembers, setCanManageMembers] = useState(false);
   const location = useLocation();
   useEffect(() => setOpen(false), [location.pathname]);
