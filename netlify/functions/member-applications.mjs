@@ -1,7 +1,7 @@
 import {getSessionUser} from "./_shared/discord-auth.mjs";
 import {hasWebsitePermission} from "./_shared/staff-access.mjs";
 import {initializeApp,getApps,cert} from "firebase-admin/app";
-import {getFirestore,FieldValue} from "firebase-admin/firestore";
+import {getFirestore} from "firebase-admin/firestore";
 let firestore;
 function db(){if(firestore)return firestore;const raw=process.env.FIREBASE_SERVICE_ACCOUNT_JSON;if(!raw)throw new Error("Firebase is not configured.");const sa=JSON.parse(raw);if(sa.private_key)sa.private_key=sa.private_key.replace(/\\n/g,"\n");if(!getApps().length)initializeApp({credential:cert(sa)});firestore=getFirestore();return firestore;}
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json","Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
@@ -11,13 +11,14 @@ export default async req=>{
  try{
   const apps=store.collection("webApplications");
   if(req.method==="GET"){
-   const snap=await apps.where("type","==","clan_membership").orderBy("submittedAt","desc").limit(150).get();
+   const snap=await apps.orderBy("submittedAt","desc").limit(250).get();
+   const membershipApps=snap.docs.filter(d=>d.data()?.type==="clan_membership").slice(0,150);
    const ids=[...new Set(snap.docs.map(d=>String(d.data().discordId||"")).filter(id=>/^\d{17,20}$/.test(id)))];
    const refs=ids.map(id=>store.collection("webProfiles").doc(id)),profiles=refs.length?await store.getAll(...refs):[];
    const byId=new Map(ids.map((id,i)=>[id,profiles[i]?.exists?profiles[i].data()||{}:{}]));
    const memberships=ids.map(id=>store.collection("webMemberships").doc(id)),memberDocs=memberships.length?await store.getAll(...memberships):[];
    const membershipById=new Map(ids.map((id,i)=>[id,memberDocs[i]?.exists?memberDocs[i].data()||{}:{}]));
-   return json({applications:snap.docs.map(d=>{const a=d.data()||{},id=String(a.discordId||""),p=byId.get(id)||{},m=membershipById.get(id)||{};return{id:d.id,discordId:id,discordUsername:String(a.discordUsername||p.discordUsername||"").slice(0,32),displayName:String(a.discordGlobalName||p.discordGlobalName||a.discordUsername||"Applicant").slice(0,64),avatar:p.discordAvatar&&id?"https://cdn.discordapp.com/avatars/"+id+"/"+p.discordAvatar+".png?size=128":null,type:a.type,status:a.status,submittedAt:Number(a.submittedAt)||0,answers:a.answers||{},staffFeedback:a.staffFeedback||null,membershipType:m.membershipType||null};})});
+   return json({applications:membershipApps.map(d=>{const a=d.data()||{},id=String(a.discordId||""),p=byId.get(id)||{},m=membershipById.get(id)||{};return{id:d.id,discordId:id,discordUsername:String(a.discordUsername||p.discordUsername||"").slice(0,32),displayName:String(a.discordGlobalName||p.discordGlobalName||a.discordUsername||"Applicant").slice(0,64),avatar:p.discordAvatar&&id?"https://cdn.discordapp.com/avatars/"+id+"/"+p.discordAvatar+".png?size=128":null,type:a.type,status:a.status,submittedAt:Number(a.submittedAt)||0,answers:a.answers||{},staffFeedback:a.staffFeedback||null,membershipType:m.membershipType||null};})});
   }
   if(req.method!=="PATCH")return json({error:"Method not allowed."},405);
   const body=await req.json().catch(()=>null);if(!body)return json({error:"Invalid request."},400);
