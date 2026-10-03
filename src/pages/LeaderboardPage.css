@@ -11,13 +11,13 @@
 .monarch-card-first:after{content:"";position:absolute;inset:7px;border:1px solid #d7a65d35;pointer-events:none;animation:monarch-first-breathe 5s ease-in-out infinite}
 .monarch-card-first .monarch-card-title{font-size:14px;text-shadow:0 0 18px #d7a65d66}
 .monarch-card-first .monarch-index{color:#e2b56e}
-.monarch-card-title{order:2;margin-top:15px}
-.monarch-card-avatar{order:3;margin:15px 0 8px;width:76px;height:76px;box-shadow:0 0 24px #d7a65d20}
+.monarch-card-title{order:3;margin-top:15px}
+.monarch-card-avatar{order:2;margin:15px 0 8px;width:76px;height:76px;box-shadow:0 0 24px #d7a65d20}
 .monarch-card-name{order:4}
 .monarch-card-handle{order:5}
 .monarch-card-extra{order:6;position:relative;margin-top:8px;color:#c29a69;font-size:7px;letter-spacing:1px}
 .monarch-index{order:1}
-.monarch-vacant{order:3;position:relative;display:flex;flex:1;width:100%;min-height:150px;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:13px;border-top:1px solid #ffffff0c}
+.monarch-vacant{order:4;position:relative;display:flex;flex:1;width:100%;min-height:150px;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:13px;border-top:1px solid #ffffff0c}
 .monarch-vacant-sigil{width:54px;height:54px;display:grid;place-items:center;border:1px solid #d7a65d55;border-radius:50%;color:#d7a65d;background:radial-gradient(circle,#d7a65d19,transparent 70%);box-shadow:0 0 28px #d7a65d12}
 .monarch-vacant strong{font:800 10px "Barlow Condensed",sans-serif;letter-spacing:1.7px;color:#d9c7ad}
 .monarch-vacant>span{font:900 20px "Barlow Condensed",sans-serif;letter-spacing:1.6px;color:#e5b978;text-shadow:0 0 18px #d7a65d33}
