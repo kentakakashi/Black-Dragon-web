@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Crown, Trophy, Sparkles } from "lucide-react";
+import { ArrowRight, Crown, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ParticleField } from "../components/ParticleField";
 import { SpotlightCard } from "../components/SpotlightCard";
