@@ -4,5 +4,7 @@
 /* Desktop: keep the player progression panel full-width instead of trapping it in column two. */
 .account-content>.section-pad{grid-column:1 / -1;width:100%;max-width:none!important;margin:0!important;padding:0!important}
 .account-content .member-progression{width:100%;max-width:none;margin-top:0}
+.account-side{grid-column:2;grid-row:1}
+.account-content>.section-pad{grid-row:2}
 @media(max-width:1050px){.account-content{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4%}}
-@media(max-width:800px){.account-content{grid-template-columns:minmax(0,1fr)}.account-content>.section-pad{grid-column:1}}
+@media(max-width:800px){.account-content{grid-template-columns:minmax(0,1fr)}.account-content>.section-pad{grid-column:1;grid-row:auto}.account-side{grid-column:1;grid-row:auto}}
