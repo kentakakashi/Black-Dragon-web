@@ -1,5 +1,5 @@
 import {useEffect,useState} from "react";
-import {ArrowRight,CheckCircle2,RefreshCw,ShieldCheck,Users} from "lucide-react";
+import {CheckCircle2,RefreshCw,Users} from "lucide-react";
 import "./MemberApplicationsPage.css";
 type Application={id:string;discordId:string;discordUsername:string;displayName:string;avatar:string|null;status:string;submittedAt:number;answers:{robloxUsername?:string;motivation?:string};membershipType:string|null};
 const date=(n:number)=>n?new Date(n).toLocaleString():"DATE UNAVAILABLE";
