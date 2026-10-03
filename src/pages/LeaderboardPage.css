@@ -81,3 +81,18 @@
 @media(max-width:420px){.monarch-grid{gap:9px}.monarch-card.spotlight-card{min-height:215px}.monarch-card-name{font-size:15px}.monarch-vacant>span{font-size:16px}}
 @media(hover:hover) and (pointer:fine){.monarch-tilt,.kill-card-tilt{transition:transform .16s ease-out}}
 @media(prefers-reduced-motion:reduce){.monarch-card-first:after{animation:none}.monarch-card.spotlight-card,.kill-roster-reactbits{transition:none}}
+
+/* The Shadow Monarch is the title board's featured position, matching the top killer. */
+.monarch-tilt-first{grid-column:1/-1;width:100%;max-width:390px;justify-self:center;margin:0 auto 18px;filter:drop-shadow(0 0 22px #d7a65d18)}
+.monarch-card-first.spotlight-card{min-height:400px!important;padding:30px 24px!important;justify-content:center!important;border-color:#d7a65d88!important;background:radial-gradient(ellipse at 50% 0%,rgba(215,166,93,.23),transparent 62%),linear-gradient(145deg,#211a16,#0b0c10 75%)!important;box-shadow:inset 0 0 40px #d7a65d10,0 0 42px #d7a65d18,0 18px 48px #0008!important}
+.monarch-card-first .monarch-index{position:absolute;top:20px;left:22px}
+.monarch-card-first .monarch-card-title{order:1;margin:12px 0 18px;font-size:13px;letter-spacing:2.4px}
+.monarch-card-first .monarch-card-avatar{order:2;width:132px;height:132px;margin:10px 0 15px;box-shadow:0 0 38px #d7a65d2b}
+.monarch-card-first .monarch-card-name{order:3;font-size:27px}
+.monarch-card-first .monarch-card-handle{order:4;font-size:10px}
+.monarch-card-first .monarch-card-profile{order:5;margin-top:20px}
+.monarch-card-first .monarch-vacant{order:3;min-height:170px;margin-top:12px}
+.monarch-card-first .monarch-vacant-sigil{width:68px;height:68px}
+.monarch-card-first .monarch-vacant strong{font-size:11px}
+.monarch-card-first .monarch-vacant>span{font-size:26px}
+@media(max-width:700px){.monarch-tilt-first{margin-bottom:16px}.monarch-card-first.spotlight-card{min-height:355px!important;padding:25px 18px!important}.monarch-card-first .monarch-card-avatar{width:112px;height:112px}.monarch-card-first .monarch-vacant>span{font-size:23px}}
