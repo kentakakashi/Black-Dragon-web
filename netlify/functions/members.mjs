@@ -11,7 +11,7 @@ export default async()=>{
   const ids=new Set();
   for(const d of playersSnap.docs)ids.add(d.id);
   for(const d of membershipsSnap.docs)if(d.data()?.membershipType==="member")ids.add(d.id);
-  const eligible=[...ids].filter(id=>membershipById.get(id)?.membershipType!=="allies"&&/^\\d{17,20}$/.test(id));
+  const eligible=[...ids].filter(id=>membershipById.get(id)?.membershipType!=="allies"&&/^\d{17,20}$/.test(id));
   const refs=eligible.map(id=>store.collection("webProfiles").doc(id)),profiles=refs.length?await store.getAll(...refs):[];
   const members=eligible.map((id,i)=>{
    const p=playerById.get(id)||{},w=profiles[i]?.exists?profiles[i].data()||{}:{};
