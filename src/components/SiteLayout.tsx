@@ -12,7 +12,7 @@ const groups: MenuGroup[] = [
     { label: "Announcements", to: "/announcements", live: true }, { label: "News & Stories", to: "/news", live: true }, { label: "Rules", to: "/rules", live: true },
   ]},
   { number: "02", title: "MY ACCOUNT", subtitle: "YOUR PERSONAL RECORD", items: [
-    { label: "My Profile", to: "/account", live: true }, { label: "Roblox Link", to: "/account", live: true },
+    { label: "My Profile", to: "/account", live: true },
     { label: "My Statistics", to: "/account", live: true }, { label: "My Applications", to: "/applications", live: true }, { label: "Account Settings", to: "/account", live: true },
   ]},
   { number: "03", title: "COMPETITION", subtitle: "EARN YOUR INSIGNIA", items: [
@@ -20,7 +20,7 @@ const groups: MenuGroup[] = [
     { label: "Tryouts", to: "/tryouts", live: true }, { label: "Events", to: "/events", live: true }, { label: "Hall of Fame", to: "/hall-of-fame", live: true },
   ]},
   { number: "04", title: "COMMUNITY", subtitle: "THE PEOPLE BEHIND BD", items: [
-    { label: "Members", to: "/members", live: true }, { label: "Staff Team", to: "/staff", live: true },
+    { label: "Members", to: "/members", live: true }, { label: "Allied Clans", to: "/allies", live: true }, { label: "Staff Team", to: "/staff", live: true },
     { label: "Applications", to: "/applications", live: true }, { label: "Discord Server", external: true, live: true },
   ]},
 ];
@@ -33,8 +33,10 @@ function ScrollReset() {
 
 export function SiteLayout() {
   const [open, setOpen] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
   const location = useLocation();
   useEffect(() => setOpen(false), [location.pathname]);
+  useEffect(() => { let live = true; fetch("/.netlify/functions/staff-status", { cache:"no-store" }).then(r => r.json()).then(d => { if(live) setIsStaff(Boolean(d.isStaff)); }).catch(() => { if(live) setIsStaff(false); }); return () => { live = false; }; }, []);
   useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
@@ -71,7 +73,7 @@ export function SiteLayout() {
                 : <span className="menu-link is-coming" key={item.label}><span>{item.label}</span><small>COMING SOON</small></span>
             )}</div>
           </section>)}</div>
-          <div className="menu-admin-lock"><div className="admin-lock-icon"><LockKeyhole size={18}/></div><div><strong>ADMINISTRATION</strong><span>STAFF CONTROL CENTRE · ROLE RESTRICTED</span></div><Link className="menu-admin-link" to="/admin">COMMAND CENTRE <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/announcements">ANNOUNCEMENT DESK <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/content">CONTENT DESK <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/events">EVENT CONTROL <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/applications">APPLICATION REVIEW <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/audit">AUDIT ARCHIVE <ArrowUpRight size={13}/></Link><span className="admin-lock-status">STAFF ACCESS</span></div>
+          {isStaff && <div className="menu-admin-lock"><div className="admin-lock-icon"><LockKeyhole size={18}/></div><div><strong>ADMINISTRATION</strong><span>STAFF CONTROL CENTRE · ROLE RESTRICTED</span></div><Link className="menu-admin-link" to="/admin">COMMAND CENTRE <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/member-applications">MEMBER APPLICATIONS <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/announcements">ANNOUNCEMENT DESK <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/content">CONTENT DESK <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/events">EVENT CONTROL <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/applications">APPLICATION REVIEW <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/audit">AUDIT ARCHIVE <ArrowUpRight size={13}/></Link><span className="admin-lock-status">STAFF ACCESS</span></div>}
           <div className="mega-menu-footer"><span>© {new Date().getFullYear()} BLACK DRAGONS [BD]</span><span>ONE NAME. ONE LEGACY.</span></div>
         </div>
       </nav>
