@@ -466,7 +466,6 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
           className="pc-card"
           style={{
             height: 'auto',
-            maxHeight: '540px',
             aspectRatio: '0.718',
             borderRadius: cardRadius,
             backgroundBlendMode: 'color-dodge, normal, normal, normal',
