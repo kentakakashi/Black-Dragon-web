@@ -18,10 +18,10 @@ export default async req=>{
    store.collection("webMemberships").doc(id).get(),guildUser(id)
   ]);
   const membership=membershipSnap.exists?membershipSnap.data()||{}:{};
-  if(membership.membershipType==="allies"||(!playerSnap.exists&&membership.membershipType!=="member")||!profileSnap.exists)return json({error:"Member not found."},404);
-  const storedProfile=profileSnap.exists?profileSnap.data()||:{};
+  if(membership.membershipType==="allies"||(!playerSnap.exists&&membership.membershipType!=="member"))return json({error:"Member not found."},404);
+  const storedProfile=profileSnap.exists?profileSnap.data()||{}:{};
   const profile={...storedProfile,discordUsername:storedProfile.discordUsername||discordUser?.username||"",discordGlobalName:storedProfile.discordGlobalName||discordUser?.global_name||null};
-  const player=playerSnap.exists?playerSnap.data()||:{};
+  const player=playerSnap.exists?playerSnap.data()||{}:{};
   if(!profile.discordUsername)return json({error:"Member not found."},404);
   const avatar=profile.discordAvatar?"https://cdn.discordapp.com/avatars/"+id+"/"+profile.discordAvatar+".png?size=256":discordUser?discordAvatar(discordUser,id):null;
   const history=historySnap.docs.map(doc=>{const x=doc.data()||{};return{rank:String(x.rank||"").toUpperCase().slice(0,8),previousRank:String(x.previousRank||"").toUpperCase().slice(0,8),kills:Math.max(0,Number(x.kills)||0),previousKills:Math.max(0,Number(x.previousKills)||0),action:String(x.action||"rank_update").slice(0,40),reason:"",timestamp:Number(x.timestamp)||0};}).filter(x=>x.timestamp>0).sort((a,b)=>b.timestamp-a.timestamp).slice(0,20);
