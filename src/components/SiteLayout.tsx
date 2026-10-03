@@ -34,9 +34,10 @@ function ScrollReset() {
 export function SiteLayout() {
   const [open, setOpen] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const location = useLocation();
   useEffect(() => setOpen(false), [location.pathname]);
-  useEffect(() => { let live = true; fetch("/.netlify/functions/staff-status", { cache:"no-store" }).then(r => r.json()).then(d => { if(live) setIsStaff(Boolean(d.isStaff)); }).catch(() => { if(live) setIsStaff(false); }); return () => { live = false; }; }, []);
+  useEffect(() => { let live = true; fetch("/.netlify/functions/staff-status", { cache:"no-store" }).then(r => r.json()).then(d => { if(live) { setIsStaff(Boolean(d.isStaff)); setIsSignedIn(Boolean(d.signedIn)); } }).catch(() => { if(live) setIsStaff(false); }); return () => { live = false; }; }, []);
   useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
@@ -64,7 +65,7 @@ export function SiteLayout() {
         </div>
         <div className="mega-menu-content">
           <div className="mega-menu-heading"><div><span className="section-kicker">CHOOSE YOUR PATH</span><h2>THE <em>GATEWAY.</em></h2></div><span className="menu-scroll-note">NAVIGATE THE LEGACY <ChevronRight size={13}/></span></div>
-          <div className="menu-groups">{groups.map(group=><section className="menu-group" key={group.number}>
+          <div className="menu-groups">{groups.filter(group => group.number !== "02" || isSignedIn).map(group=><section className="menu-group" key={group.number}>
             <div className="menu-group-heading"><span>{group.number}</span><div><h3>{group.title}</h3><small>{group.subtitle}</small></div></div>
             <div className="menu-group-links">{group.items.map(item=>item.external
               ? <a className="menu-link" key={item.label} href={invite} target="_blank" rel="noreferrer"><span>{item.label}</span><ArrowUpRight size={14}/></a>
@@ -73,6 +74,7 @@ export function SiteLayout() {
                 : <span className="menu-link is-coming" key={item.label}><span>{item.label}</span><small>COMING SOON</small></span>
             )}</div>
           </section>)}</div>
+          {!isSignedIn && <div className="menu-auth-link"><Link className="menu-link" to="/account"><span>SIGN IN WITH DISCORD</span><ArrowUpRight size={14}/></Link></div>}
           {isStaff && <div className="menu-admin-lock"><div className="admin-lock-icon"><LockKeyhole size={18}/></div><div><strong>ADMINISTRATION</strong><span>STAFF CONTROL CENTRE · ROLE RESTRICTED</span></div><Link className="menu-admin-link" to="/admin">COMMAND CENTRE <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/member-applications">MEMBER APPLICATIONS <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/announcements">ANNOUNCEMENT DESK <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/content">CONTENT DESK <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/events">EVENT CONTROL <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/applications">APPLICATION REVIEW <ArrowUpRight size={13}/></Link><Link className="menu-admin-link" to="/admin/audit">AUDIT ARCHIVE <ArrowUpRight size={13}/></Link><span className="admin-lock-status">STAFF ACCESS</span></div>}
           <div className="mega-menu-footer"><span>© {new Date().getFullYear()} BLACK DRAGONS [BD]</span><span>ONE NAME. ONE LEGACY.</span></div>
         </div>
