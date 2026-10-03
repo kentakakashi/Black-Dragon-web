@@ -127,6 +127,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         '--pointer-from-center': `${clamp(Math.hypot(percentY - 50, percentX - 50) / 50, 0, 1)}`,
         '--pointer-from-top': `${percentY / 100}`,
         '--pointer-from-left': `${percentX / 100}`,
+        '--card-opacity': '1',
         '--rotate-x': `${round(-(centerX / 5))}deg`,
         '--rotate-y': `${round(centerY / 4)}deg`
       };
@@ -150,7 +151,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
       const stillFar = Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05;
 
-      if (stillFar || document.hasFocus()) {
+      if (stillFar) {
         rafId = requestAnimationFrame(step);
       } else {
         running = false;
@@ -490,7 +491,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
           }}
         >
           <div
-            className="absolute inset-0"
+            className="pc-card-inner"
             style={{
               backgroundImage: 'var(--inner-gradient)',
               backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -508,7 +509,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
             {/* Avatar content */}
             <div
-              className="overflow-visible"
+              className="pc-avatar-content"
               style={{
                 mixBlendMode: 'luminosity',
                 transform: 'translateZ(2px)',
