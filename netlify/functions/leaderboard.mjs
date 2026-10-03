@@ -24,7 +24,8 @@ export default async request=>{
  if(request.method!=="GET")return json({error:"Method not allowed."},405);
  if(!process.env.FIREBASE_SERVICE_ACCOUNT_JSON)return json({error:"Leaderboard is not configured yet."},503);
  try{
-  const store=getDatabase(),[snapshot,configSnap,members]=await Promise.all([store.collection("players").get(),store.collection("config").doc("server").get(),getGuildMembers()]);
+  const store=getDatabase(),[snapshot,configSnap,membersResult]=await Promise.all([store.collection("players").get(),store.collection("config").doc("server").get(),getGuildMembers().then(members=>({members,error:false})).catch(error=>{console.error("Discord title-holder lookup failed:",error);return{members:[],error:true};})]);
+  const members=membersResult.members;
   const memberById=new Map(members.filter(m=>m.user?.id).map(m=>[String(m.user.id),m.user]));
   const profileRefs=snapshot.docs.map(d=>store.collection("webProfiles").doc(d.id)),profiles=profileRefs.length?await store.getAll(...profileRefs):[];
   const players=snapshot.docs.map((doc,i)=>{
@@ -51,6 +52,6 @@ export default async request=>{
    const profile=titleProfileById.get(holder.discordId)||{};
    return{...holder,displayName:String(profile.discordGlobalName||holder.displayName).slice(0,64),discordUsername:String(profile.discordUsername||holder.discordUsername).slice(0,32),avatar:profile.discordAvatar?"https://cdn.discordapp.com/avatars/"+holder.discordId+"/"+String(profile.discordAvatar)+".png?size=128":holder.avatar,robloxUsername:String(profile.robloxUsername||"").slice(0,32)||null,profileLinked:true};
   })}));
-  return json({updatedAt:new Date().toISOString(),count:players.length,players,titleSlots:enrichedTitleSlots,titleStatus:"ready",holderLookupStatus:"ready"});
+  return json({updatedAt:new Date().toISOString(),count:players.length,players,titleSlots:enrichedTitleSlots,titleStatus:"ready",holderLookupStatus:membersResult.error?"unavailable":"ready"});
  }catch(e){console.error("Leaderboard function failed:",e);return json({error:"Unable to load leaderboard right now."},500);}
 };
