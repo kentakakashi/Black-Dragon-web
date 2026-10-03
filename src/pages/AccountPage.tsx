@@ -37,9 +37,7 @@ export function AccountPage() {
     setBusy(true);
     try {
       await fetch("/.netlify/functions/account-session", { method:"POST", credentials:"same-origin" });
-      setUser(null);
-      setState("signed-out");
-      window.history.replaceState({}, "", "/account");
+      window.location.assign("/");
     } catch {
       setState("error");
     } finally {
