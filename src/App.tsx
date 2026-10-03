@@ -20,6 +20,7 @@ import { AuditLogPage } from "./pages/AuditLogPage";
 import { StaffRolesPage } from "./pages/StaffRolesPage";
 import { MemberApplicationsPage } from "./pages/MemberApplicationsPage";
 import { AlliedClansPage } from "./pages/AlliedClansPage";
+import { ProfileMonitorPage } from "./pages/ProfileMonitorPage";
 import { StaffRoute } from "./components/StaffRoute";
 import { LoginRoute } from "./components/LoginRoute";
 import { EntryGate } from "./components/EntryGate";
@@ -37,6 +38,7 @@ function App() {
       <Route path="tryouts" element={<TryoutsPage />} />
       <Route path="events" element={<EventsPage />} />
       <Route path="admin" element={<StaffRoute><AdminDashboardPage /></StaffRoute>} />
+      <Route path="admin/profiles" element={<StaffRoute><ProfileMonitorPage /></StaffRoute>} />
       <Route path="admin/audit" element={<StaffRoute><AuditLogPage /></StaffRoute>} />
       <Route path="admin/roles" element={<StaffRoute><StaffRolesPage /></StaffRoute>} />
       <Route path="admin/announcements" element={<StaffRoute><AnnouncementManagementPage /></StaffRoute>} />
