@@ -4,7 +4,7 @@ import { ArrowRight, BadgeCheck, LogIn, LogOut, ShieldCheck, UserRound, Wifi } f
 import { GlareHover } from "../components/GlareHover";
 import { ScrollReveal } from "../components/ScrollReveal";
 import "./AccountPage.css";
-import { RobloxLinkPanel } from "./RobloxLinkPanel";
+import { MemberProgressionPanel } from "./MemberProgressionPanel";
 
 type AccountUser = { id:string; username:string; globalName:string|null; avatar:string|null; roles:string[]; };
 type SessionState = "loading"|"signed-out"|"signed-in"|"setup"|"error";
@@ -69,8 +69,8 @@ export function AccountPage() {
               <div className="account-big-icon"><BadgeCheck size={29}/></div><div className="section-kicker">IDENTITY VERIFIED</div>
               <h2>WELCOME BACK,<br/><em>{user.globalName || user.username}.</em></h2>
               <div className="account-identity"><div className="account-avatar">{avatar ? <img src={avatar} alt="Discord avatar"/> : <UserRound size={30}/>}</div><div><strong>{user.username}</strong><small>DISCORD MEMBER · ID {user.id}</small></div><span className="account-verified"><BadgeCheck size={15}/> VERIFIED</span></div>
-              <div className="account-next-grid"><div><span>DISCORD CONNECTION</span><strong>ACTIVE</strong></div><div><span>ROBLOX OWNERSHIP</span><strong>NOT LINKED</strong></div></div>
-              <p>Your Discord identity is connected. Roblox ownership verification and personal progression data are the next account milestone.</p>
+              <div className="account-next-grid"><div><span>DISCORD CONNECTION</span><strong>ACTIVE</strong></div><div><span>ROBLOX ID</span><strong>BOT-SYNCED</strong></div></div>
+              <p>Your Discord identity is connected. Your Roblox ID is managed through authorised Discord bot commands, while rank and kill records remain synced from the bot database.</p>
               <button className="button button-quiet account-logout" onClick={signOut} disabled={busy}><LogOut size={15}/>{busy?"SIGNING OUT…":"SIGN OUT"}</button>
             </div>}
             {state === "setup" && <div className="account-state"><div className="account-big-icon"><ShieldCheck size={29}/></div><h2>GATEWAY<br/><em>PREPARATION.</em></h2><p>Discord sign-in is built, but the secure Netlify environment settings still need to be added before members can authenticate.</p><div className="account-setup-list"><span>DISCORD OAUTH APPLICATION</span><span>SERVER MEMBERSHIP CHECK</span><span>SESSION SIGNING SECRET</span></div></div>}
@@ -79,11 +79,11 @@ export function AccountPage() {
           </div>
         </GlareHover>
       </ScrollReveal>
-      {state === "signed-in" && <RobloxLinkPanel />}
+      {state === "signed-in" && <section className="section-pad" style={{maxWidth:1240,margin:"0 auto"}}><MemberProgressionPanel /></section>}
       <div className="account-side">
         <div className="section-kicker">02 / WHAT COMES NEXT</div>
         <h2>YOUR JOURNEY.<br/><em>YOUR RECORD.</em></h2>
-        <div className="account-feature"><span>01</span><div><strong>ROBLOX LINKING</strong><p>Prove ownership of your Roblox account with a one-time verification challenge.</p></div></div>
+        <div className="account-feature"><span>01</span><div><strong>ROBLOX ID SYNC</strong><p>Your Roblox ID is attached to your Discord identity by authorised staff through the official bot.</p></div></div>
         <div className="account-feature"><span>02</span><div><strong>PLAYER PROFILE</strong><p>Your verified rank, kills, achievements and membership details.</p></div></div>
         <div className="account-feature"><span>03</span><div><strong>PROGRESSION TIMELINE</strong><p>Track rank changes, milestones, events and recognition over time.</p></div></div>
         <div className="account-feature"><span>04</span><div><strong>APPLICATIONS</strong><p>Submit applications and follow their review status from your account.</p></div></div>
