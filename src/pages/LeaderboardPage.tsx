@@ -3,6 +3,8 @@ import { ArrowRight, Crown, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ParticleField } from "../components/ParticleField";
 import ProfileCard from "../components/ProfileCard";
+import { SpotlightCard } from "../components/SpotlightCard";
+import { TiltedCard } from "../components/TiltedCard";
 import "./LeaderboardPage.css";
 type Player={discordId:string;displayName:string;discordUsername:string|null;avatar:string|null;profileLinked:boolean;robloxUsername:string|null;kills:number;rank:string};
 type TitleHolder={discordId:string;displayName:string;discordUsername:string;avatar:string|null;profileLinked:boolean;robloxUsername:string|null};
