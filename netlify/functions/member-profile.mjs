@@ -7,7 +7,7 @@ const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:
 export default async req=>{
  if(req.method!=="GET")return json({error:"Method not allowed."},405);
  if(!getSessionUser(req))return json({error:"Sign in with Discord to view member profiles."},401);
- const id=new URL(req.url).searchParams.get("id")||"";if(!/^\\d{17,20}$/.test(id))return json({error:"Invalid member id."},400);
+ const id=new URL(req.url).searchParams.get("id")||"";if(!/^\d{17,20}$/.test(id))return json({error:"Invalid member id."},400);
  try{
   const store=db(),[profileSnap,playerSnap,historySnap,achievementSnap,membershipSnap]=await Promise.all([
    store.collection("webProfiles").doc(id).get(),store.collection("players").doc(id).get(),
