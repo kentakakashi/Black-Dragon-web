@@ -434,9 +434,10 @@ a.menu-link:hover{padding-left:7px;color:var(--gold);border-color:#d7a65d45}
 .account-content{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
 .account-content> .section-pad{grid-column:1 / -1;width:100%;max-width:none!important;margin:0!important;padding:0!important}
 .account-content .member-progression{width:100%;max-width:none;margin-top:0}
-.account-side{min-width:0}
+.account-side{min-width:0;grid-column:2;grid-row:1}
+.account-content>.section-pad{grid-row:2}
 @media(max-width:1050px){.account-content{gap:4%;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
-@media(max-width:800px){.account-content{grid-template-columns:minmax(0,1fr)}.account-content>.section-pad{grid-column:1}.account-side{grid-column:1}}
+@media(max-width:800px){.account-content{grid-template-columns:minmax(0,1fr)}.account-content>.section-pad{grid-column:1;grid-row:auto}.account-side{grid-column:1;grid-row:auto}}
 /* Discord entry gate */
 .entry-gate{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;padding:28px 18px;background:radial-gradient(ellipse at 50% 42%,#51242155,transparent 43%),linear-gradient(145deg,#111015,#07080b 70%)}
 .entry-gate:before,.entry-gate:after{content:"";position:absolute;inset:8%;border:1px solid #d7a65d12;transform:rotate(8deg);pointer-events:none}
