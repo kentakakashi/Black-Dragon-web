@@ -36,7 +36,8 @@ export function AccountPage() {
   async function signOut() {
     setBusy(true);
     try {
-      await fetch("/.netlify/functions/account-session", { method:"POST", credentials:"same-origin" });
+      const response = await fetch("/.netlify/functions/account-session", { method:"POST", credentials:"same-origin" });
+      if (!response.ok) throw new Error("Sign out failed.");
       window.location.assign("/");
     } catch {
       setState("error");
