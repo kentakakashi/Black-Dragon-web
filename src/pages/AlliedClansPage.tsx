@@ -1,12 +1,86 @@
 import {useEffect,useState} from "react";
-import {ArrowUpRight,Handshake,ShieldCheck,Users} from "lucide-react";
+import {ArrowUpRight,Handshake,ShieldCheck,Users,ExternalLink} from "lucide-react";
 import {ParticleField} from "../components/ParticleField";
 import {GlareHover} from "../components/GlareHover";
 import {ScrollReveal} from "../components/ScrollReveal";
 import "./AlliedClansPage.css";
-type Clan={id:string;name:string;invite:string|null;logo:string|null;imageUrl:string|null;bannerUrl:string|null;description:string;details:{name:string;value:string}[];leaders:string[]};
+
+type Clan={
+ id:string;
+ name:string;
+ invite:string|null;
+ imageUrl:string|null;
+ bannerUrl:string|null;
+ leaders:string[];
+};
+
 export function AlliedClansPage(){
- const [clans,setClans]=useState<Clan[]>([]),[header,setHeader]=useState<any>({}),[state,setState]=useState<"loading"|"ready"|"error">("loading");
- useEffect(()=>{let live=true;fetch("/.netlify/functions/allied-clans",{cache:"no-store"}).then(async r=>{if(!r.ok)throw new Error();return r.json();}).then(d=>{if(live){setClans(d.clans||[]);setHeader(d.header||{});setState("ready");}}).catch(()=>{if(live)setState("error");});return()=>{live=false;};},[]);
- return <main className="inner-page allied-clans-page"><section className="page-hero allied-clans-hero"><ParticleField/><div className="section-kicker">BLACK DRAGONS / ALLIANCE NETWORK</div><h1>STRONGER<br/><em>TOGETHER.</em></h1><p>{header.description||"Different banners. Shared respect. Meet the clans recognised as allies of BLACK DRAGONS."}</p><div className="page-hero-mark"><Handshake size={54}/><span>TRUST · RESPECT · ALLIANCE</span></div></section><section className="section-pad allied-clans-content"><div className="public-listing-head"><div><div className="section-kicker">01 / RECOGNISED ALLIANCES</div><h2>THE ALLIED<br/><em>CLANS.</em></h2></div><span className="public-count">{state==="ready"?clans.length+" ALLIED CLANS":"ALLIANCE "+state.toUpperCase()}</span></div>{state==="loading"?<div className="leader-empty large-empty">Loading the alliance network…</div>:state==="error"?<div className="leader-empty large-empty">The alliance network is temporarily unavailable.</div>:clans.length?<div className="allied-clans-grid">{clans.map((clan,index)=><ScrollReveal key={clan.id}><GlareHover width="100%" height="100%" background="#111115" borderRadius="5px" borderColor="#765a3d" glareColor="#d7a65d" glareOpacity={.15} glareSize={170}><article className="allied-clan-card">{(clan.bannerUrl||clan.imageUrl)?<div className="allied-clan-banner" style={{backgroundImage:"url("+JSON.stringify(clan.bannerUrl||clan.imageUrl)+")"}}/>:<div className="allied-clan-banner allied-clan-banner-empty"><Handshake size={36}/></div>}<div className="allied-clan-body"><span className="section-kicker">ALLIANCE / {String(index+1).padStart(2,"0")}</span><div className="allied-clan-identity">{clan.logo&&<img src={clan.logo} alt=""/>}<h3>{clan.name}</h3></div>{clan.description&&<p>{clan.description}</p>}{clan.details?.length>0&&<div className="allied-clan-details">{clan.details.map((detail,i)=><div key={i}><strong>{detail.name}</strong><span>{detail.value}</span></div>)}</div>}<div className="allied-clan-meta"><span><ShieldCheck size={13}/> VERIFIED BD ALLY</span><span><Users size={13}/> {clan.leaders.length} LEADER{clan.leaders.length===1?"":"S"}</span></div>{clan.leaders.length>0&&<div className="allied-clan-leaders">LEADERS {clan.leaders.map(id=><a key={id} href={"https://discord.com/users/"+id} target="_blank" rel="noreferrer">VIEW PROFILE</a>)}</div>}{clan.invite&&<a className="allied-clan-join" href={clan.invite} target="_blank" rel="noreferrer">VISIT ALLY SERVER <ArrowUpRight size={14}/></a>}</div></article></GlareHover></ScrollReveal>)}</div>:<div className="leader-empty large-empty">No allied clans have been configured in the bot database yet.</div>}</section></main>;
+ const [clans,setClans]=useState<Clan[]>([]);
+ const [state,setState]=useState<"loading"|"ready"|"error">("loading");
+
+ useEffect(()=>{
+  let live=true;
+  fetch("/.netlify/functions/allied-clans",{cache:"no-store"})
+   .then(async response=>{
+    if(!response.ok)throw new Error("Could not load allies");
+    return response.json();
+   })
+   .then(data=>{
+    if(live){
+     setClans(Array.isArray(data.clans)?data.clans:[]);
+     setState("ready");
+    }
+   })
+   .catch(()=>{
+    if(live)setState("error");
+   });
+  return()=>{live=false;};
+ },[]);
+
+ return <main className="inner-page allied-clans-page">
+  <section className="page-hero allied-clans-hero">
+   <ParticleField/>
+   <div className="section-kicker">BLACK DRAGONS / ALLIANCE NETWORK</div>
+   <h1>STRONGER<br/><em>TOGETHER.</em></h1>
+   <p>Different clans. Shared respect. One alliance. Meet the communities recognised by BLACK DRAGONS.</p>
+   <div className="page-hero-mark"><Handshake size={54}/><span>TRUST · RESPECT · ALLIANCE</span></div>
+  </section>
+
+  <section className="section-pad allied-clans-content">
+   <div className="public-listing-head">
+    <div><div className="section-kicker">01 / RECOGNISED ALLIANCES</div><h2>THE ALLIED<br/><em>CLANS.</em></h2></div>
+    <span className="public-count">{state==="ready"?clans.length+" ALLIED CLANS":"ALLIANCE "+state.toUpperCase()}</span>
+   </div>
+
+   {state==="loading"?<div className="leader-empty large-empty">Loading the alliance network…</div>
+   :state==="error"?<div className="leader-empty large-empty">The alliance network is temporarily unavailable.</div>
+   :clans.length?<div className="allied-clans-grid">
+    {clans.map((clan,index)=><ScrollReveal key={clan.id}>
+     <GlareHover width="100%" height="100%" background="#111115" borderRadius="5px" borderColor="#765a3d" glareColor="#d7a65d" glareOpacity={.15} glareSize={170}>
+      <article className="allied-clan-card">
+       {(clan.bannerUrl||clan.imageUrl)
+        ?<div className="allied-clan-banner" style={{backgroundImage:"url("+JSON.stringify(clan.bannerUrl||clan.imageUrl)+")"}}/>
+        :<div className="allied-clan-banner allied-clan-banner-empty"><Handshake size={36}/></div>}
+       <div className="allied-clan-body">
+        <span className="section-kicker">ALLIANCE / {String(index+1).padStart(2,"0")}</span>
+        <h3 className="allied-clan-name">{clan.name}</h3>
+        <div className="allied-clan-meta">
+         <span className="allied-verified"><ShieldCheck size={14}/> VERIFIED BD ALLY</span>
+         <span><Users size={14}/> {clan.leaders.length} LEADER{clan.leaders.length===1?"":"S"}</span>
+        </div>
+        <div className="allied-clan-actions">
+         {clan.leaders.length>0&&<div className="allied-clan-leader-links">
+          {clan.leaders.map((id,leaderIndex)=><a key={id} href={"https://discord.com/users/"+id} target="_blank" rel="noreferrer">
+           <ExternalLink size={13}/>{clan.leaders.length===1?"VIEW LEADER":"VIEW LEADER "+String(leaderIndex+1).padStart(2,"0")}
+          </a>)}
+         </div>}
+         {clan.invite&&<a className="allied-clan-join" href={clan.invite} target="_blank" rel="noreferrer">JOIN {clan.name.toUpperCase()} <ArrowUpRight size={15}/></a>}
+        </div>
+       </div>
+      </article>
+     </GlareHover>
+    </ScrollReveal>)}
+   </div>:<div className="leader-empty large-empty">No allied clans have been configured yet.</div>}
+  </section>
+ </main>;
 }
