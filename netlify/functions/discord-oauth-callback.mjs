@@ -46,12 +46,6 @@ export default async (request) => {
     if (!userResponse.ok) return fail("identity");
     const discordUser = await userResponse.json();
 
-    const memberResponse = await fetch("https://discord.com/api/v10/guilds/"+encodeURIComponent(process.env.DISCORD_GUILD_ID)+"/members/"+encodeURIComponent(discordUser.id),{
-      headers:{Authorization:"Bot "+process.env.DISCORD_BOT_TOKEN}
-    });
-    if (memberResponse.status===404) return fail("not_member");
-    if (!memberResponse.ok) return fail("membership");
-    const member = await memberResponse.json();
     const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
     if (serviceAccount.private_key) serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g,"\n");
     if (!getApps().length) initializeApp({ credential: cert(serviceAccount) });
@@ -68,7 +62,7 @@ export default async (request) => {
       username:String(discordUser.username || "").slice(0,32),
       globalName:typeof discordUser.global_name==="string" ? discordUser.global_name.slice(0,64) : null,
       avatar:typeof discordUser.avatar==="string" ? discordUser.avatar : null,
-      roles:Array.isArray(member.roles) ? member.roles.map(String).slice(0,40) : [],
+      roles:[],
       iat:now,
       exp:now+60*60*24*7
     };
