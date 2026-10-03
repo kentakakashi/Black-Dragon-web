@@ -1,0 +1,21 @@
+.profile-card-wrap{--pc-x:50%;--pc-y:50%;--pc-rotate-x:0deg;--pc-rotate-y:0deg;--pc-glow:0;position:relative;width:100%;min-width:0;perspective:900px;isolation:isolate}
+.profile-card-behind-glow{position:absolute;inset:-8%;z-index:-1;border-radius:34px;background:radial-gradient(circle at var(--pc-x) var(--pc-y),rgba(202,155,91,.6),transparent 58%);filter:blur(35px);opacity:var(--pc-glow);transition:opacity .25s}
+.profile-card-shell{position:relative;width:100%;aspect-ratio:.78;min-height:260px;max-height:510px;overflow:hidden;border-radius:22px;border:1px solid rgba(222,179,111,.35);background:#090a0e;box-shadow:0 20px 50px #0009,inset 0 0 0 1px #ffffff08;transform:rotateX(var(--pc-rotate-x)) rotateY(var(--pc-rotate-y));transform-style:preserve-3d;transition:transform .18s ease,border-color .3s,box-shadow .3s}
+.profile-card-shell:hover{border-color:#dfb36f99;box-shadow:0 25px 60px #000b,0 0 35px #d7a65d18}
+.profile-card-art{position:absolute;inset:0;overflow:hidden;background:var(--pc-gradient);isolation:isolate}
+.profile-card-art:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(7,8,12,.72) 0%,rgba(7,8,12,.08) 42%,rgba(7,8,12,.15) 58%,rgba(7,8,12,.94) 100%)}
+.profile-card-pattern{position:absolute;inset:0;z-index:2;opacity:.18;background-image:var(--pc-icon),linear-gradient(135deg,transparent 48%,#d7a65d22 49%,transparent 50%);background-size:110px,100% 100%;background-repeat:repeat,no-repeat;mix-blend-mode:screen;pointer-events:none}
+.profile-card-glare{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(circle at var(--pc-x) var(--pc-y),#fff3,transparent 42%);mix-blend-mode:screen;opacity:var(--pc-glow);transition:opacity .2s}
+.profile-card-avatar{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 24%;filter:saturate(.78) contrast(1.06);mix-blend-mode:luminosity}
+.profile-card-top-copy{position:absolute;z-index:4;top:24px;left:18px;right:18px;text-align:center;pointer-events:none;text-shadow:0 2px 16px #000}
+.profile-card-kicker{font-size:7px;letter-spacing:2.4px;color:#e2bd82}
+.profile-card-top-copy h3{margin:13px 0 4px;color:#fff;font:800 clamp(18px,2.3vw,27px)/1.05 "Barlow Condensed",sans-serif;letter-spacing:.02em;overflow-wrap:anywhere}
+.profile-card-top-copy p{margin:0;color:#e5c18c;font:700 9px/1.4 "Barlow Condensed",sans-serif;letter-spacing:2px;text-transform:uppercase}
+.profile-card-user-info{position:absolute;z-index:5;bottom:14px;left:14px;right:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 11px;border:1px solid #ffffff24;border-radius:12px;background:#101116bb;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.profile-card-user-copy{display:flex;min-width:0;flex-direction:column;gap:5px}
+.profile-card-handle{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;font-size:10px;font-weight:650}
+.profile-card-status{color:#d2b88f;font-size:8px;letter-spacing:1.1px;text-transform:uppercase}
+.profile-card-action{flex-shrink:0;padding:9px 11px;border:1px solid #d7a65d77;border-radius:8px;background:#d7a65d19;color:#f1d3a3;font-size:8px;font-weight:800;letter-spacing:1px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.profile-card-action:hover{transform:translateY(-1px);background:#d7a65d35;border-color:#e8c184}
+@media(max-width:700px){.profile-card-shell{aspect-ratio:.72;min-height:215px;border-radius:15px}.profile-card-top-copy{top:15px;left:9px;right:9px}.profile-card-top-copy h3{font-size:clamp(13px,3.4vw,18px)}.profile-card-kicker{font-size:6px;letter-spacing:1.6px}.profile-card-user-info{left:8px;right:8px;bottom:8px;padding:7px;gap:5px}.profile-card-action{padding:8px 7px;font-size:7px}.profile-card-handle{font-size:8px}.profile-card-status{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.profile-card-shell,.profile-card-behind-glow,.profile-card-glare{transition:none!important}.profile-card-shell{transform:none!important}}
