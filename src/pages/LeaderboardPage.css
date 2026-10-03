@@ -1,0 +1,33 @@
+/* LEADERBOARD REACT BITS CARD PASS */
+.monarch-tilt,.kill-card-tilt,.kill-feature-tilt{width:100%;min-width:0;perspective:900px;transition:transform .28s ease}
+.monarch-tilt>.spotlight-card,.kill-card-tilt>.spotlight-card,.kill-feature-tilt>.spotlight-card{height:100%;transform-style:preserve-3d}
+.monarch-card.spotlight-card,.kill-roster-card.spotlight-card,.kill-featured.spotlight-card{--spot-x:50%;--spot-y:50%;isolation:isolate}
+.monarch-card.spotlight-card:before,.kill-roster-card.spotlight-card:before,.kill-featured.spotlight-card:before{z-index:0;opacity:0;background:radial-gradient(320px circle at var(--spot-x) var(--spot-y),rgba(224,177,105,.22),transparent 68%);transition:opacity .3s}
+.monarch-card.spotlight-card:hover:before,.kill-roster-card.spotlight-card:hover:before,.kill-featured.spotlight-card:hover:before{opacity:1}
+.monarch-card.spotlight-card>* ,.kill-roster-card.spotlight-card>* ,.kill-featured.spotlight-card>*{z-index:1}
+.monarch-card.spotlight-card{min-height:285px;justify-content:flex-start;background:linear-gradient(145deg,rgba(30,25,25,.98),rgba(9,10,14,.98) 72%);border-color:rgba(215,166,93,.2);box-shadow:inset 0 1px rgba(255,255,255,.045),0 18px 45px rgba(0,0,0,.18);transition:border-color .3s,box-shadow .3s,background .3s}
+.monarch-card.spotlight-card:hover{border-color:#d7a65d99;box-shadow:inset 0 1px rgba(255,255,255,.08),0 20px 50px #0008,0 0 32px #d7a65d12;transform:none}
+.monarch-card-first{border-color:#d7a65d88!important;background:radial-gradient(ellipse at 50% 0%,rgba(215,166,93,.2),transparent 58%),linear-gradient(145deg,#211a16,#0b0c10 75%)!important;box-shadow:inset 0 0 35px #d7a65d0c,0 0 38px #d7a65d14,0 18px 45px #0007!important}
+.monarch-card-first:after{content:"";position:absolute;inset:7px;border:1px solid #d7a65d35;pointer-events:none;animation:monarch-first-breathe 5s ease-in-out infinite}
+.monarch-card-first .monarch-card-title{font-size:14px;text-shadow:0 0 18px #d7a65d66}
+.monarch-card-first .monarch-index{color:#e2b56e}
+.monarch-card-title{order:2;margin-top:15px}
+.monarch-card-avatar{order:3;margin:15px 0 8px;width:76px;height:76px;box-shadow:0 0 24px #d7a65d20}
+.monarch-card-name{order:4}
+.monarch-card-handle{order:5}
+.monarch-card-extra{order:6;position:relative;margin-top:8px;color:#c29a69;font-size:7px;letter-spacing:1px}
+.monarch-index{order:1}
+.monarch-vacant{order:3;position:relative;display:flex;flex:1;width:100%;min-height:150px;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:13px;border-top:1px solid #ffffff0c}
+.monarch-vacant-sigil{width:54px;height:54px;display:grid;place-items:center;border:1px solid #d7a65d55;border-radius:50%;color:#d7a65d;background:radial-gradient(circle,#d7a65d19,transparent 70%);box-shadow:0 0 28px #d7a65d12}
+.monarch-vacant strong{font:800 10px "Barlow Condensed",sans-serif;letter-spacing:1.7px;color:#d9c7ad}
+.monarch-vacant>span{font:900 20px "Barlow Condensed",sans-serif;letter-spacing:1.6px;color:#e5b978;text-shadow:0 0 18px #d7a65d33}
+.monarch-tilt-first{filter:drop-shadow(0 0 15px #d7a65d0d)}
+.kill-feature-tilt{max-width:520px;margin:0 auto 60px}
+.kill-featured-reactbits{width:100%}
+.kill-card-tilt{height:100%}
+.kill-roster-reactbits{width:100%;height:100%;transition:border-color .25s,box-shadow .25s,background .25s}
+.kill-roster-reactbits:hover{border-color:#d7a65d66;box-shadow:0 12px 35px #0008,0 0 25px #d7a65d0b}
+@keyframes monarch-first-breathe{0%,100%{opacity:.45;inset:7px}50%{opacity:1;inset:10px}}
+@media(max-width:700px){.monarch-card.spotlight-card{min-height:245px;padding:17px 10px}.monarch-card-avatar{width:64px;height:64px}.monarch-vacant{min-height:125px}.monarch-vacant>span{font-size:17px}.kill-feature-tilt{margin-bottom:35px}}
+@media(hover:hover) and (pointer:fine){.monarch-tilt,.kill-card-tilt,.kill-feature-tilt{transform:rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform .16s ease-out}}
+@media(prefers-reduced-motion:reduce){.monarch-card-first:after{animation:none}.monarch-tilt,.kill-card-tilt,.kill-feature-tilt{transform:none!important;transition:none}.monarch-card.spotlight-card,.kill-roster-reactbits{transition:none}}
