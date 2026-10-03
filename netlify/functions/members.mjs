@@ -12,7 +12,6 @@ export default async()=>{
   const playerById=new Map(playersSnap.docs.map(d=>[d.id,d.data()||{}]));
   const membershipById=new Map(membershipsSnap.docs.map(d=>[d.id,d.data()||{}]));
   const ids=new Set();
-  for(const d of playersSnap.docs)ids.add(d.id);
   for(const d of membershipsSnap.docs)if(d.data()?.membershipType==="member")ids.add(d.id);
   const eligible=[...ids].filter(id=>membershipById.get(id)?.membershipType!=="allies"&&/^\d{17,20}$/.test(id));
   const refs=eligible.map(id=>store.collection("webProfiles").doc(id)),profiles=refs.length?await store.getAll(...refs):[];
