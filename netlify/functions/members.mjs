@@ -75,7 +75,7 @@ export default async () => {
       guildUsers()
     ]);
 
-    const validId = id => /^\\d{17,20}$/.test(String(id));
+    const validId = id => /^\d{17,20}$/.test(String(id));
     const playerById = new Map(
       playersSnapshot.docs.filter(doc => validId(doc.id)).map(doc => [doc.id, doc.data() || {}])
     );
