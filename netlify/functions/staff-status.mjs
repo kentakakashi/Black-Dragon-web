@@ -5,6 +5,7 @@ export default async req=>{
  if(req.method!=="GET")return json({error:"Method not allowed."},405);
  const user=getSessionUser(req);
  if(!user)return json({signedIn:false,isStaff:false},200);
- const [isStaff,canManageMembers]=await Promise.all([hasAnyWebsitePermission(user,"ADMIN_DASHBOARD_ROLE_IDS"),hasWebsitePermission(user,"members.manage","APPLICATION_REVIEW_ROLE_IDS")]);
+ const isStaff=await hasAnyWebsitePermission(user,"ADMIN_DASHBOARD_ROLE_IDS");
+ const canManageMembers=await hasWebsitePermission(user,"members.manage","APPLICATION_REVIEW_ROLE_IDS");
  return json({signedIn:true,isStaff,canManageMembers,user:{id:user.id,username:user.username,globalName:user.globalName}});
 };
