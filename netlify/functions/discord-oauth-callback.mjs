@@ -49,7 +49,9 @@ export default async (request) => {
     const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
     if (serviceAccount.private_key) serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g,"\n");
     if (!getApps().length) initializeApp({ credential: cert(serviceAccount) });
-    await getFirestore().collection("webProfiles").doc(String(discordUser.id)).set({
+    const store=getFirestore();
+    await store.collection("webAccessRevocations").doc(String(discordUser.id)).delete().catch(()=>{});
+    await store.collection("webProfiles").doc(String(discordUser.id)).set({
       discordId:String(discordUser.id),
       discordUsername:String(discordUser.username || "").slice(0,32),
       discordGlobalName:typeof discordUser.global_name==="string" ? discordUser.global_name.slice(0,64) : null,
