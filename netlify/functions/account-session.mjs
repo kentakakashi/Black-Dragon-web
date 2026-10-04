@@ -37,6 +37,16 @@ export default async (request) => {
   try {
     const user=readSession(request);
     if (!user) return json({ user: null });
+    const serviceAccountRaw=process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+    if(serviceAccountRaw){
+      const serviceAccount=JSON.parse(serviceAccountRaw);
+      if(serviceAccount.private_key)serviceAccount.private_key=serviceAccount.private_key.replace(/\\n/g,"\n");
+      const {getApps,initializeApp,cert}=await import("firebase-admin/app");
+      const {getFirestore}=await import("firebase-admin/firestore");
+      if(!getApps().length)initializeApp({credential:cert(serviceAccount)});
+      const revoked=await getFirestore().collection("webAccessRevocations").doc(user.id).get();
+      if(revoked.exists&&Number(revoked.data()?.revokedAt||0)>Number(readSession(request)?.iat||0)*1000)return json({user:null,revoked:true},200,{"Set-Cookie":clearCookie});
+    }
 
     // Session cookies contain a login-time snapshot. Refresh the account card
     // from Discord so avatar/name changes do not require signing out again.
