@@ -1423,3 +1423,72 @@ tr:hover td{background:rgba(216,172,103,.018)}
  .menu-backdrop{backdrop-filter:none!important}
  .menu-toggle,.menu-link{transition:none!important}
 }
+
+
+/* Center the animated orbit and BD monogram as one single emblem. */
+.mega-menu-aside{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+}
+.menu-dragon-art{
+  position:relative!important;
+  align-self:center!important;
+  flex:0 0 auto!important;
+  width:min( min(62%, 330px), 34vh )!important;
+  height:min( min(62%, 330px), 34vh )!important;
+  min-height:0!important;
+  margin:auto!important;
+  display:grid!important;
+  place-items:center!important;
+  isolation:isolate;
+}
+.menu-dragon-ring{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  aspect-ratio:1!important;
+  margin:0!important;
+  pointer-events:none;
+}
+.menu-dragon-mark{
+  position:relative!important;
+  inset:auto!important;
+  z-index:1;
+  display:block;
+  margin:0!important;
+  line-height:.82!important;
+  transform:translateX(-.06em);
+}
+.menu-dragon-caption{
+  position:absolute!important;
+  left:50%!important;
+  bottom:-13%!important;
+  transform:translateX(-50%);
+  width:max-content;
+  text-align:center;
+}
+@media(max-width:900px){
+  .menu-dragon-art{
+    width:min( min(58%, 250px), 30vh )!important;
+    height:min( min(58%, 250px), 30vh )!important;
+  }
+}
+@media(max-width:600px){
+  .mega-menu-aside{display:flex!important;min-height:230px!important;max-height:34vh!important}
+  .menu-dragon-art{
+    position:absolute!important;
+    top:50%!important;
+    right:7%!important;
+    left:auto!important;
+    width:min(38vw,170px)!important;
+    height:min(38vw,170px)!important;
+    margin:0!important;
+    transform:translateY(-50%);
+    opacity:.72;
+  }
+  .menu-dragon-mark{font-size:clamp(58px,18vw,82px)!important;letter-spacing:-6px!important}
+  .menu-dragon-caption{font-size:5px!important;letter-spacing:2px!important;bottom:-12%!important}
+  .menu-aside-bottom{margin-top:0!important;max-width:58%}
+}
