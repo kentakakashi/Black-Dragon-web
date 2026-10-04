@@ -35,7 +35,7 @@ export default async req=>{
   const decision=String(body.decision||"");
   if(body.action==="random_kid"){
    const target=String(body.targetDiscordId||"");
-   if(!/^\\d{17,20}$/.test(target))return json({error:"Choose a valid Discord account."},400);
+   if(!/^\d{17,20}$/.test(target))return json({error:"Choose a valid Discord account."},400);
    const [profile,membership,applicationSnap]=await Promise.all([store.collection("webProfiles").doc(target).get(),store.collection("webMemberships").doc(target).get(),store.collection("webApplications").where("discordId","==",target).get()]);
    if(!profile.exists&&!membership.exists&&!applicationSnap.size)return json({error:"No stored website data remains for this account."},404);
    const batch=store.batch(),now=Date.now();
