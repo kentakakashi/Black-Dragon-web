@@ -93,11 +93,13 @@ export default async () => {
     // Public directory eligibility comes from actual game records or an explicit
     // staff membership assignment. A Discord OAuth login alone is not clan membership.
     // Discord IDs are the shared key, so users appearing in multiple sources show once.
+    const inServerIds = new Set(discordById.keys());
+    const allyIds = [...membershipById.entries()]
+      .filter(([, membership]) => String(membership.membershipType || "").toLowerCase() === "allies")
+      .map(([id]) => id);
     const ids = [...new Set([
-      ...playerById.keys(),
-      ...[...membershipById.entries()]
-        .filter(([, membership]) => ["member", "allies"].includes(String(membership.membershipType || "").toLowerCase()))
-        .map(([id]) => id)
+      ...[...playerById.keys()].filter(id => inServerIds.has(id)),
+      ...allyIds
     ])];
 
     const members = ids.map(id => {
