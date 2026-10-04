@@ -1208,3 +1208,134 @@ body:after{
   .button:before{display:none}
   .hero-dragon{animation:none!important}
 }
+
+
+/* Forms, account, events and competition surfaces */
+.form-card,.application-card,.application-form,.account-panel,.account-stat-card,.settings-card,.event-card,.tryout-card,.tryout-match-card,.tryout-detail,.registration-card,.stats-card,.stat-card,.allied-clan-card,.staff-roster-card,.admin-panel,.admin-section,.admin-table-wrap{
+  border:1px solid rgba(255,255,255,.08)!important;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.008) 34%,rgba(0,0,0,.08)),
+    linear-gradient(145deg,#11141a,#090c11)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025),0 20px 60px rgba(0,0,0,.22);
+}
+input,textarea,select{
+  color:#ece6dc!important;
+  background:rgba(4,6,9,.72)!important;
+  border:1px solid rgba(255,255,255,.1)!important;
+  border-radius:2px!important;
+  outline:none!important;
+  transition:border-color .2s ease,box-shadow .2s ease,background .2s ease!important;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(216,172,103,.48)!important;
+  box-shadow:0 0 0 3px rgba(216,172,103,.06),0 10px 35px rgba(0,0,0,.18)!important;
+  background:rgba(8,10,14,.92)!important;
+}
+label{color:#8d929b}
+.account-page,.applications-page,.events-page,.tryouts-page,.statistics-page,.allies-page{
+  background:
+    radial-gradient(circle at 82% 6%,rgba(169,53,49,.07),transparent 24%),
+    #080b0f;
+}
+.account-panel,.admin-panel{padding:24px!important}
+.account-panel h2,.application-card h3,.event-card h3,.tryout-card h3,.allied-clan-card h3{
+  color:#eee8df!important;
+  font-family:"Barlow Condensed",sans-serif!important;
+  font-weight:900!important;
+  letter-spacing:.3px;
+}
+.account-stat-card strong,.stats-card strong,.stat-card strong{
+  color:#ecd7b2!important;
+  font-family:"Barlow Condensed",sans-serif!important;
+}
+.account-avatar,.profile-avatar{
+  border:1px solid rgba(216,172,103,.3)!important;
+  box-shadow:0 0 45px rgba(216,172,103,.08)!important;
+}
+.table-wrap,.admin-table-wrap{
+  overflow:auto;
+  border-radius:2px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+th{
+  padding:12px 14px!important;
+  background:rgba(216,172,103,.035)!important;
+  color:#8f8576!important;
+  border-bottom:1px solid rgba(216,172,103,.12)!important;
+  font-size:7px!important;
+  letter-spacing:1.4px!important;
+  text-transform:uppercase;
+}
+td{
+  padding:14px!important;
+  border-bottom:1px solid rgba(255,255,255,.055)!important;
+  color:#adb1b8!important;
+  font-size:9px!important;
+}
+tr:hover td{background:rgba(216,172,103,.018)}
+.badge,.status-badge,.pill,.tag{
+  border:1px solid rgba(216,172,103,.18)!important;
+  background:rgba(216,172,103,.035)!important;
+  color:#c9a56f!important;
+  border-radius:999px!important;
+}
+.event-card,.tryout-card,.tryout-match-card,.application-card{
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+.event-card:hover,.tryout-card:hover,.tryout-match-card:hover,.application-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(216,172,103,.28)!important;
+  box-shadow:0 28px 65px rgba(0,0,0,.38);
+}
+.event-date,.tryout-date{
+  color:#d0a86e!important;
+  font-family:"Barlow Condensed",sans-serif!important;
+}
+.event-card p,.tryout-card p,.tryout-match-card p,.application-card p{
+  color:#90949c!important;
+  line-height:1.85!important;
+}
+.progress-bar,.account-progress,.rank-progress{
+  background:#151920!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+}
+.progress-bar>*,.account-progress>*,.rank-progress>*{
+  background:linear-gradient(90deg,#a96a3d,#e2b76e)!important;
+  box-shadow:0 0 18px rgba(216,172,103,.18);
+}
+.allied-clan-card{
+  overflow:hidden;
+  transition:transform .25s ease,border-color .25s ease;
+}
+.allied-clan-card:hover{transform:translateY(-4px);border-color:rgba(216,172,103,.3)!important}
+.allied-clan-card img{filter:saturate(.85) contrast(1.05)}
+.profile-hero,.member-profile-hero{
+  background:
+    radial-gradient(circle at 75% 0%,rgba(169,53,49,.18),transparent 24%),
+    linear-gradient(135deg,#080a0e,#0d1117);
+  border-bottom:1px solid rgba(255,255,255,.075);
+}
+.profile-hero h1,.member-profile-hero h1{
+  font:900 clamp(50px,8vw,96px)/.82 "Barlow Condensed",sans-serif!important;
+  color:#f0e9de!important;
+}
+.profile-section,.member-profile-section{
+  width:min(1200px,100%);
+  margin:auto;
+}
+.profile-section h2,.member-profile-section h2{
+  font:900 clamp(42px,6vw,68px)/.82 "Barlow Condensed",sans-serif!important;
+  color:#eee7dd!important;
+}
+@media(max-width:700px){
+  .account-panel,.admin-panel{padding:17px!important}
+  table{min-width:580px}
+  .profile-section h2,.member-profile-section h2{font-size:48px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .event-card:hover,.tryout-card:hover,.tryout-match-card:hover,.application-card:hover,.allied-clan-card:hover{transform:none}
+}
