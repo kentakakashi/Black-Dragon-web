@@ -90,13 +90,14 @@ export default async () => {
         .map(member => [String(member.user.id), member.user])
     );
 
-    // The directory is the union of bot leaderboard players, Discord accounts
-    // that signed into the website, and accounts explicitly assigned a membership.
+    // Public directory eligibility comes from actual game records or an explicit
+    // staff membership assignment. A Discord OAuth login alone is not clan membership.
     // Discord IDs are the shared key, so users appearing in multiple sources show once.
     const ids = [...new Set([
       ...playerById.keys(),
-      ...profileById.keys(),
-      ...membershipById.keys()
+      ...[...membershipById.entries()]
+        .filter(([, membership]) => ["member", "allies"].includes(String(membership.membershipType || "").toLowerCase()))
+        .map(([id]) => id)
     ])];
 
     const members = ids.map(id => {
